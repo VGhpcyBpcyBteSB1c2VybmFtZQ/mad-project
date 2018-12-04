@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">project</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="button">Create Account</string>
+    <string name="dispaly">Button</string>
+</resources>
