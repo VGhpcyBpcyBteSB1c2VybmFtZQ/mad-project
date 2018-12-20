@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,6 +26,7 @@ public class Signup extends AppCompatActivity
     EditText Password;
     EditText ConfirmPassword;
     Button CreateAccount;
+    TextView Txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +38,20 @@ public class Signup extends AppCompatActivity
         Password = (EditText) findViewById(R.id.password);
         ConfirmPassword = (EditText) findViewById(R.id.confirm_password);
         CreateAccount = (Button) findViewById(R.id.create_account);
+        Txt = (TextView) findViewById(R.id.txt_already);
 
         UserName.setText("");
         Email.setText("");
         Password.setText("");
         ConfirmPassword.setText("");
+
+        Txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+            }
+        });
 
         CreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,5 +100,6 @@ public class Signup extends AppCompatActivity
 
         prefsEditor.apply();
     }
+
 }
 
