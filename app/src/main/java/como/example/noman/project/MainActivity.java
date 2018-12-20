@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 SaveData(v);
+
+                //goto homepage after this
             }
         });
     }
