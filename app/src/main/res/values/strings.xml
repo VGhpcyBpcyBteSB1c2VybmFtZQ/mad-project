@@ -6,4 +6,9 @@
     <string name="email">Email</string>
     <string name="button">Create Account</string>
     <string name="dispaly">Button</string>
+    <string name="log_in">log_in</string>
+    <string name="e_mail">E mail</string>
+    <string name="Password">password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="logIn">log in</string>
 </resources>
