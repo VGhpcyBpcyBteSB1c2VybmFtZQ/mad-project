@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 
-public class login extends Activity {
+public class Login extends Activity {
 
     TextView emailAddress;
     Button btn;
