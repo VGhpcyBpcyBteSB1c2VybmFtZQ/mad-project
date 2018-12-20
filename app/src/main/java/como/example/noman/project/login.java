@@ -51,8 +51,10 @@ public class login extends Activity {
     {
         Toast.makeText(this, "switching Activity", Toast.LENGTH_LONG).show();
 
-//        Intent homePage = new Intent(this, home.class);
-//        startActivity(homePage);
+        //goto homapage after this
+
+        //Intent homePage = new Intent(this, home.class);
+        //startActivity(homePage);
     }
 
     public void signin() {
