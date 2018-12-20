@@ -34,7 +34,7 @@ public class login extends Activity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent register = new Intent(getApplicationContext(), MainActivity.class);
+                Intent register = new Intent(getApplicationContext(), Signup.class);
                 startActivity(register);
             }
         });

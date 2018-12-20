@@ -18,7 +18,8 @@ import java.io.File;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class Signup extends AppCompatActivity
+{
     EditText UserName;
     EditText Email;
     EditText Password;
@@ -45,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (UserName.getText().length() == 0) {
+                if (UserName.getText().toString().trim().length() == 0) {
                     UserName.setError("Field cannot be left blank.");
                     return;
                 }
 
-                if (Email.getText().length() == 0) {
+                if (Email.getText().toString().trim().length() == 0) {
                     Email.setError("Field cannot be left blank.");
                     return;
                 }
