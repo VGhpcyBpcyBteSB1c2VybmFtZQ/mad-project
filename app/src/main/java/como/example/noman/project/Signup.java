@@ -77,21 +77,29 @@ public class Signup extends AppCompatActivity
                     return;
                 }
 
-                SaveData(v);
+                if(!SaveData(v))
+                {
+                    Email.setError("There is already an account associated with this email.");
+                }
 
                 //goto homepage after this
             }
         });
     }
 
-    public void SaveData(View view) {
-
+    public boolean SaveData(View view)
+    {
         String Name = UserName.getText().toString();
         String email = Email.getText().toString();
         String password = Password.getText().toString();
 
         Person myObject = new Person(Name, email, password);  //creating new person object
         SharedPreferences mPrefs = getSharedPreferences("info", MODE_PRIVATE);
+
+        String mail = mPrefs.getString(email, "");
+        if (!mail.equals(""))
+            return false;
+
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
 
@@ -99,6 +107,8 @@ public class Signup extends AppCompatActivity
         prefsEditor.putString(email, json);
 
         prefsEditor.apply();
+
+        return true;
     }
 
 }

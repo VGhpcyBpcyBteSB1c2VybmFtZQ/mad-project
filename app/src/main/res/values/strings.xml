@@ -8,6 +8,6 @@
     <string name="dispaly">Button</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="logIn">LOGIN</string>
-    <string name="already_have_an_account">Already Have An Account</string>
+    <string name="already_have_an_account">Already Have An Account?</string>
     <string name="logo">LOGO</string>
 </resources>
