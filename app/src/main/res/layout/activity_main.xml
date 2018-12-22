@@ -81,7 +81,7 @@
         android:layout_marginBottom="128dp"
         android:width="150dp"
         android:background="@color/blue"
-        android:text="@string/button"
+        android:text="@string/signup"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
