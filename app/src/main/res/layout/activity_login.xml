@@ -14,12 +14,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-<<<<<<< HEAD
-        android:layout_marginBottom="12dp"
-=======
-
-        android:layout_marginBottom="25dp"
->>>>>>> parent of 8b4ad77... Revert "Merge branch 'master' of https://github.com/NomanAfzal1/mad-project"
+        android:layout_marginBottom="11dp"
         android:width="320dp"
         android:background="#777C82"
         android:drawableLeft="@drawable/email_img"
@@ -32,25 +27,15 @@
         app:layout_constraintBottom_toTopOf="@+id/passText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        app:layout_constraintTop_toBottomOf="@+id/txt_logo" />
-=======
-
-        app:layout_constraintTop_toBottomOf="@+id/logoPic" />
->>>>>>> parent of 8b4ad77... Revert "Merge branch 'master' of https://github.com/NomanAfzal1/mad-project"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/passText"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-<<<<<<< HEAD
+        android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="7dp"
-=======
-        android:layout_marginBottom="25dp"
-
->>>>>>> parent of 8b4ad77... Revert "Merge branch 'master' of https://github.com/NomanAfzal1/mad-project"
         android:width="320dp"
         android:background="#777C82"
         android:drawableLeft="@drawable/pass_img"
@@ -98,22 +83,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signinButton" />
 
-<<<<<<< HEAD
-    <TextView
-        android:id="@+id/txt_logo"
-=======
     <ImageView
-
-        android:id="@+id/logoPic"
->>>>>>> parent of 8b4ad77... Revert "Merge branch 'master' of https://github.com/NomanAfzal1/mad-project"
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="114dp"
-        android:text="@string/logo"
-        android:textColor="#fefefe"
-        android:textSize="22sp"
-        android:textStyle="bold"
+        android:layout_marginTop="43dp"
+        android:layout_marginBottom="41dp"
+        android:src="@drawable/login_img"
+        android:tint="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/emailText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
