@@ -14,6 +14,8 @@ public class AddHostel extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_hostel, container, false);
 
+        v.findViewById(R.id.addHostel_save).setOnClickListener(new ClickListener(getActivity(), getContext()));
+
         return v;
     }
 }

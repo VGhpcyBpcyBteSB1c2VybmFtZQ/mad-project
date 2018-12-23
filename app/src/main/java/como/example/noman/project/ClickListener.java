@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 
@@ -48,6 +50,9 @@ public class ClickListener implements View.OnClickListener {
             case R.id.signup_GoToHome:
             case R.id.goToHome:
                 goToHome();
+                break;
+            case R.id.addHostel_save:
+                addHostelToDatabase();
                 break;
             default:
                 break;
@@ -192,21 +197,21 @@ public class ClickListener implements View.OnClickListener {
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
 
-    //parameters for the function that follows
-    //hostelName from above
-    //hostelAddress from above
-    public String hostelCity;
-    public String hostelFacilities;
-
     private void addHostelToDatabase()
     {
-        SharedPreferences mpref = activity.getSharedPreferences("logged_in", MODE_PRIVATE);
+        String hostelName_local = ((TextView)activity.findViewById(R.id.addHostel_name)).getText().toString();
+        String hostelAddress_local = ((TextView)activity.findViewById(R.id.addHostel_address)).getText().toString();
+        String hostelCity_local = ((Spinner)activity.findViewById(R.id.addHostel_city)).getSelectedItem().toString();
+        String hostelFacilities_local = ((TextView)activity.findViewById(R.id.addHostel_extras)).getText().toString();
+        int img = -1;  //Not Done Yet
+
+        SharedPreferences mpref = activity.getSharedPreferences("info", MODE_PRIVATE);
         String personJson = mpref.getString("logged_in", null);
         Person personObj;
         HostelDataClass hostel;
         if (personJson != null) {
             personObj = (new Gson()).fromJson(personJson, Person.class);
-            hostel = new HostelDataClass(hostelName, hostelAddress, hostelCity, hostelFacilities, 0, 0, personObj.getEmail());
+            hostel = new HostelDataClass(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, 0, 0, personObj.getEmail(), img, "0");
             SharedPreferences hostelPref = activity.getSharedPreferences("hostelInfo", MODE_PRIVATE);
             String hostelListJson = hostelPref.getString("hostels", null);
             if (hostelListJson != null)

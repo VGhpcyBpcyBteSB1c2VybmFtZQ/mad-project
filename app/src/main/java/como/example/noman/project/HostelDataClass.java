@@ -5,11 +5,13 @@ public class HostelDataClass {
     public String hostelAddress;
     public String hostelCity;
     public String hostelExtras;
+    public String rating;
     public int no_rooms;
     public int no_floors;
+    public int image_source;
     public String owner_email;
 
-    HostelDataClass(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner)
+    HostelDataClass(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, int _image, String _rating)
     {
         hostelName = _name;
         hostelAddress = _address;
@@ -18,6 +20,8 @@ public class HostelDataClass {
         no_rooms = _rooms;
         no_floors = _floors;
         owner_email = _owner;
+        image_source = _image;
+        rating = _rating;
     }
 
 }

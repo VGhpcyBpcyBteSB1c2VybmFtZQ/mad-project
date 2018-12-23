@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +34,36 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Creating an initial Database of Hostels if it doesn't exist
+
+        SharedPreferences hostelPref = getSharedPreferences("hostelInfo", MODE_PRIVATE);
+        String h = hostelPref.getString("hostels", null);
+        if (h == null)
+        {
+            String[] hostelNames = {"Paradise Hostel", "Premium Alcazaba Hostel", "El Machico Hostel", "Einstein Hostel"};
+            String[] hostelAddress = {"Muslim Town, Lahore", "Johar Town, Lahore", "Gulshan-e-Ravi, Lahore", "Ferozpur Road, Lahore"};
+            String[] hostelCity = {"Muslim Town, Lahore", "Johar Town, Lahore", "Gulshan-e-Ravi, Lahore", "Ferozpur Road, Lahore"};
+            String[] hostelRatings = {"4.2", "3.5", "2.3", "3.3"};
+            Integer[] hostelImagesId = {R.drawable.img_1, R.drawable.img_2, R.drawable.img_3, R.drawable.img_4};
+            Integer[] hostelRooms = {20, 10, 16, 18};
+            Integer[] hostelFloors = {6, 4, 3, 3};
+            String[] hostelExtras = {"4.2", "3.5", "2.3", "3.3"};
+            String[] hostelOwnerMail = {"test1@test.com", "test2@test.com", "test3@test.com", "test4@test.com"};
+
+            HostelDataList hostelList = new HostelDataList();
+            for (int i = 0; i < 4; i++)
+            {
+                HostelDataClass hClass = new HostelDataClass(hostelNames[0], hostelAddress[0], hostelCity[0], hostelExtras[0], hostelRooms[0], hostelFloors[0], hostelOwnerMail[0], hostelImagesId[0], hostelRatings[0]);
+                hostelList.hostelsStored.add(hClass);
+            }
+
+            String hListJson = (new Gson()).toJson(hostelList);
+            hostelPref.edit().putString("hostels", hListJson).apply();
+        }
+
+        /////////////////////////////////////////////////////////////
+
 
         //check if user is logged in or not
         SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);

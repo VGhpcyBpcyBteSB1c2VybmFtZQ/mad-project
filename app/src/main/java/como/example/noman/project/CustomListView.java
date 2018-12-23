@@ -17,8 +17,13 @@ public class CustomListView extends ArrayAdapter<String> {
     private String[] hostelRatings;
     private Integer[] hostelImages;
     private Activity context;
+    private String[] hostelCity;
+    private Integer[] hostelRooms;
+    private Integer[] hostelFloors;
+    private String[] hostelExtras;
+    private String[] hostelOwnerMail;
 
-    public CustomListView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, Integer[] hostelImages) {
+    CustomListView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Integer[] hostelImages) {
         super(context, R.layout.listview_item, hostelNames);
 
         this.context = context;
@@ -26,6 +31,11 @@ public class CustomListView extends ArrayAdapter<String> {
         this.hostelAddress = hostelAddress;
         this.hostelRatings = hostelRatings;
         this.hostelImages = hostelImages;
+        this.hostelCity = hostelCity;
+        this.hostelRooms = hostelRooms;
+        this.hostelFloors = hostelFloors;
+        this.hostelExtras = hostelExtras;
+        this.hostelOwnerMail = hostelOwnerMail;
 
     }
 
