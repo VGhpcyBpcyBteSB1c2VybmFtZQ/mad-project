@@ -23,6 +23,11 @@ public class Signup extends Activity
 
         findViewById(R.id.txt_already).setOnClickListener(new ClickListener(this, getApplicationContext()));
         findViewById(R.id.create_account).setOnClickListener(new ClickListener(this, getApplicationContext()));
+        findViewById(R.id.signup_GoToHome).setOnClickListener(new ClickListener(this, getApplicationContext()));
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }
 

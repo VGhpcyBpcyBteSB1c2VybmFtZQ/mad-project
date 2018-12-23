@@ -19,5 +19,10 @@ public class Login extends Activity {
 
         findViewById(R.id.NoAccount).setOnClickListener(new ClickListener(this, getApplicationContext()));
         findViewById(R.id.signinButton).setOnClickListener(new ClickListener(this, getApplicationContext()));
+        findViewById(R.id.goToHome).setOnClickListener(new ClickListener(this, getApplicationContext()));
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

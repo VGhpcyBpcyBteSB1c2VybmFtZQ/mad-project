@@ -42,6 +42,10 @@ public class ClickListener implements View.OnClickListener {
             case R.id.item_readmore:
                 readMore();
                 break;
+            case R.id.signup_GoToHome:
+            case R.id.goToHome:
+                goToHome();
+                break;
             default:
                 break;
         }
@@ -51,6 +55,11 @@ public class ClickListener implements View.OnClickListener {
 
     private void goToLogin() {
         Intent intent = new Intent(activity, Login.class);
+        activity.startActivity(intent);
+    }
+
+    private void goToHome() {
+        Intent intent = new Intent(activity, Home.class);
         activity.startActivity(intent);
     }
 
