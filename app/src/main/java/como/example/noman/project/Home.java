@@ -90,8 +90,10 @@ public class Home extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), addhostel.class);
-//                startActivity(intent);
+//                FragmentManager fm = getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//                fragmentTransaction.replace(R.id.frameLayout, new HostelDataFragment());
+//                fragmentTransaction.commit();
             }
         });
         ////////////////////////////////////////////////////////////////////////

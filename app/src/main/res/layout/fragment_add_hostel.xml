@@ -4,67 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     tools:context=".AddHostel">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="Add details about your hostel"
-        android:background="@color/colorWhite"
+        android:textColor="@android:color/white"
         android:textSize="24sp" />
 
 
-    <Spinner
-        android:id="@+id/addHostel_city"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:entries="@array/cities"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Select your City:"
+            android:textColor="@android:color/white" />
+
+        <Spinner
+            android:id="@+id/addHostel_city"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="2"
+            android:entries="@array/cities"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/addHostel_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:hint="Hostel Name" />
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightGray"
+        android:hint="Hostel Name"
+        android:paddingLeft="10dp"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/addHostel_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:hint="Address" />
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightGray"
+        android:hint="Hostel Address"
+        android:paddingLeft="10dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/addHostel_rooms"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightGray"
+        android:ems="10"
+        android:hint="No. of Rooms Availible:"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/addHostel_floors"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightGray"
+        android:ems="10"
+        android:hint="No. of Floors Availible:"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/addHostel_extras"
         android:layout_width="match_parent"
-        android:layout_height="103dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightGray"
         android:ems="10"
         android:hint="Extra Facilities"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:paddingLeft="10dp"
+        android:textSize="14sp" />
 
-    <Button
-        android:id="@+id/addHostel_choose_gal"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginLeft="10dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
-        android:text="choose from gallery" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Upload Images:"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/addHostel_choose_gal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:layout_weight="2"
+            android:text="choose from gallery" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/addHostel_save"
@@ -73,6 +136,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
+        android:background="@color/blue"
         android:text="Save" />
 
 </LinearLayout>
