@@ -18,6 +18,7 @@ public class HostelDataFragment extends Fragment {
     public int hostelFloors = -1;
     public String hostelExtras = null;
     public String hostelAddress = null;
+    public String ownerMail = null;
     public int imageSource = -1;
 
     @Nullable
@@ -48,6 +49,10 @@ public class HostelDataFragment extends Fragment {
         if (hostelAddress != null)
         {
             ((TextView)v.findViewById(R.id.hostelData_hostelAddress)).setText(hostelAddress);
+        }
+        if (ownerMail != null)
+        {
+            ((TextView)v.findViewById(R.id.hostelData_ownerContact)).setText(ownerMail);
         }
         return v;
     }
