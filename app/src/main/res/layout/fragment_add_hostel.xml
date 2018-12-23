@@ -63,7 +63,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@color/lightGray"
-        android:hint="Address"
+        android:hint="Hostel Address"
         android:paddingLeft="10dp"
         android:textSize="14sp" />
 
@@ -80,7 +80,7 @@
         android:textSize="14sp" />
 
     <EditText
-        android:id="@+id/addHostel_floor"
+        android:id="@+id/addHostel_floors"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -115,6 +115,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:text="Upload Images:"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
