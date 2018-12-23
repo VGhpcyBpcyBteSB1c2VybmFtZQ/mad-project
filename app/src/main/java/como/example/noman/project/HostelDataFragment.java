@@ -31,11 +31,11 @@ public class HostelDataFragment extends Fragment {
         }
         if (hostelRooms != -1)
         {
-            ((TextView)v.findViewById(R.id.hostelData_no_rooms)).setText(hostelRooms);
+            ((TextView)v.findViewById(R.id.hostelData_no_rooms)).setText(Integer.toString(hostelRooms));
         }
         if (hostelFloors != -1)
         {
-            ((TextView)v.findViewById(R.id.hostelData_no_floors)).setText(hostelFloors);
+            ((TextView)v.findViewById(R.id.hostelData_no_floors)).setText(Integer.toString(hostelFloors));
         }
         if (hostelExtras != null)
         {

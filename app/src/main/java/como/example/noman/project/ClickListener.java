@@ -54,12 +54,22 @@ public class ClickListener implements View.OnClickListener {
             case R.id.addHostel_save:
                 addHostelToDatabase();
                 break;
+            case R.id.fab:
+                goToAddHostel();
+                break;
             default:
                 break;
         }
     }
 
     //// Implement Click Functions Here ////
+
+    private void goToAddHostel() {
+        Toast.makeText(activity, "Here", Toast.LENGTH_SHORT).show();
+        FragmentManager fm = ((FragmentActivity)activity).getSupportFragmentManager();
+        AddHostel newFragment = new AddHostel();
+        fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
+    }
 
     private void goToLogin() {
         Intent intent = new Intent(activity, Login.class);
@@ -182,27 +192,35 @@ public class ClickListener implements View.OnClickListener {
         }
 
     }
-
     //parameters for the function that follows
-    public int imageSource;
     public String hostelName;
     public String hostelAddress;
+    public String hostelExtras;
+    public int no_rooms;
+    public int no_floors;
+    public int image_source;
+
+    public String owner_email;
 
     private void readMore(){
         HostelDataFragment newFragment = new HostelDataFragment();
         newFragment.hostelAddress = hostelAddress;
         newFragment.hostelName = hostelName;
-        newFragment.imageSource = imageSource;
+        newFragment.imageSource = image_source;
+        newFragment.hostelRooms = no_rooms;
+        newFragment.hostelFloors = no_floors;
+        newFragment.hostelExtras = hostelExtras;
         FragmentManager fm = ((FragmentActivity)activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
 
-    private void addHostelToDatabase()
-    {
+    private void addHostelToDatabase() {
         String hostelName_local = ((TextView)activity.findViewById(R.id.addHostel_name)).getText().toString();
         String hostelAddress_local = ((TextView)activity.findViewById(R.id.addHostel_address)).getText().toString();
         String hostelCity_local = ((Spinner)activity.findViewById(R.id.addHostel_city)).getSelectedItem().toString();
         String hostelFacilities_local = ((TextView)activity.findViewById(R.id.addHostel_extras)).getText().toString();
+        int rooms = Integer.parseInt(((TextView)activity.findViewById(R.id.addHostel_rooms)).getText().toString());
+        int floors = Integer.parseInt(((TextView)activity.findViewById(R.id.addHostel_floors)).getText().toString());
         int img = -1;  //Not Done Yet
 
         SharedPreferences mpref = activity.getSharedPreferences("info", MODE_PRIVATE);
@@ -211,7 +229,7 @@ public class ClickListener implements View.OnClickListener {
         HostelDataClass hostel;
         if (personJson != null) {
             personObj = (new Gson()).fromJson(personJson, Person.class);
-            hostel = new HostelDataClass(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, 0, 0, personObj.getEmail(), img, "0");
+            hostel = new HostelDataClass(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, rooms, floors, personObj.getEmail(), img, "0");
             SharedPreferences hostelPref = activity.getSharedPreferences("hostelInfo", MODE_PRIVATE);
             String hostelListJson = hostelPref.getString("hostels", null);
             if (hostelListJson != null)

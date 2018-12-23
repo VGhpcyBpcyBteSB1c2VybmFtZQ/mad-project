@@ -57,15 +57,22 @@ public class CustomListView extends ArrayAdapter<String> {
         }
         ClickListener cl = new ClickListener(context, context.getApplicationContext());
         // setting parameters for click listener //
-        cl.imageSource = hostelImages[position];
+        cl.image_source = hostelImages[position];
         cl.hostelName = hostelNames[position];
         cl.hostelAddress = hostelAddress[position];
+        cl.hostelExtras = hostelExtras[position];
+        cl.no_rooms = hostelRooms[position];
+        cl.no_floors = hostelFloors[position];
+        cl.owner_email = hostelOwnerMail[position];
         /////////////////////////////////////////
         holder.findViewById(R.id.item_readmore).setOnClickListener(cl);  //setting onclick listener
         viewHolder.name.setText(hostelNames[position]);
         viewHolder.address.setText(hostelAddress[position]);
         viewHolder.rating.setText(hostelRatings[position]);
-        viewHolder.image.setImageResource(hostelImages[position]);
+        if (hostelImages[position] == -1)
+            viewHolder.image.setImageResource(R.drawable.img_1);
+        else
+            viewHolder.image.setImageResource(hostelImages[position]);
         return holder;
     }
 

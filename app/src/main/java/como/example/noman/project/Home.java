@@ -48,13 +48,13 @@ public class Home extends AppCompatActivity
             Integer[] hostelImagesId = {R.drawable.img_1, R.drawable.img_2, R.drawable.img_3, R.drawable.img_4};
             Integer[] hostelRooms = {20, 10, 16, 18};
             Integer[] hostelFloors = {6, 4, 3, 3};
-            String[] hostelExtras = {"4.2", "3.5", "2.3", "3.3"};
+            String[] hostelExtras = {"AC, Heater, Refrigerator", "AC, Heater, Refrigerator", "AC, Heater, Refrigerator", "AC, Heater, Refrigerator"};
             String[] hostelOwnerMail = {"test1@test.com", "test2@test.com", "test3@test.com", "test4@test.com"};
 
             HostelDataList hostelList = new HostelDataList();
             for (int i = 0; i < 4; i++)
             {
-                HostelDataClass hClass = new HostelDataClass(hostelNames[0], hostelAddress[0], hostelCity[0], hostelExtras[0], hostelRooms[0], hostelFloors[0], hostelOwnerMail[0], hostelImagesId[0], hostelRatings[0]);
+                HostelDataClass hClass = new HostelDataClass(hostelNames[i], hostelAddress[i], hostelCity[i], hostelExtras[i], hostelRooms[i], hostelFloors[i], hostelOwnerMail[i], hostelImagesId[i], hostelRatings[i]);
                 hostelList.hostelsStored.add(hClass);
             }
 
@@ -83,6 +83,15 @@ public class Home extends AppCompatActivity
         ///////////////////////// Add Product Button ////////////////////////////
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide(); //hiding it temporarily
+
+        //fab.setOnClickListener(new ClickListener(this, getApplicationContext()));
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Here", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         if(isLoggedIn)  //checking if user logged_in or not
             fab.show();
