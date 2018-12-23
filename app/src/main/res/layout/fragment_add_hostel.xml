@@ -80,6 +80,7 @@
         android:hint="No. of Rooms Availible:"
         android:inputType="number"
         android:paddingLeft="10dp"
+        android:textColor="@android:color/white"
         android:textSize="14sp" />
 
     <EditText
