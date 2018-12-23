@@ -5,11 +5,11 @@
         android:id="@+id/action_logout"
         android:title="@string/menuLogout" />
     <item
-        android:id="@+id/action_signup"
-        android:title="@string/actionSignup" />
-    <item
         android:id="@+id/action_login"
         android:orderInCategory="100"
         android:title="@string/menuLogin"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_signup"
+        android:title="@string/actionSignup" />
 </menu>
