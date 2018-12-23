@@ -216,12 +216,45 @@ public class ClickListener implements View.OnClickListener {
     }
 
     private void addHostelToDatabase() {
-        String hostelName_local = ((TextView)activity.findViewById(R.id.addHostel_name)).getText().toString();
-        String hostelAddress_local = ((TextView)activity.findViewById(R.id.addHostel_address)).getText().toString();
+
+        EditText name = ((EditText)activity.findViewById(R.id.addHostel_name));
+        EditText address = ((EditText)activity.findViewById(R.id.addHostel_address));
+        EditText roomsE = ((EditText)activity.findViewById(R.id.addHostel_rooms));
+        EditText floorsE = ((EditText)activity.findViewById(R.id.addHostel_floors));
+        EditText extras = ((EditText)activity.findViewById(R.id.addHostel_extras));
+
+        if (name.getText().toString().trim().length() == 0)
+        {
+            name.setError("Field Empty");
+            return;
+        }
+        if (address.getText().toString().trim().length() == 0)
+        {
+            address.setError("Field Empty");
+            return;
+        }
+        if (roomsE.getText().toString().trim().length() == 0)
+        {
+            roomsE.setError("Field Empty");
+            return;
+        }
+        if (floorsE.getText().toString().trim().length() == 0)
+        {
+            floorsE.setError("Field Empty");
+            return;
+        }
+        if (extras.getText().toString().trim().length() == 0)
+        {
+            extras.setError("Field Empty");
+            return;
+        }
+
+        String hostelName_local = name.getText().toString();
+        String hostelAddress_local = address.getText().toString();
         String hostelCity_local = ((Spinner)activity.findViewById(R.id.addHostel_city)).getSelectedItem().toString();
-        String hostelFacilities_local = ((TextView)activity.findViewById(R.id.addHostel_extras)).getText().toString();
-        int rooms = Integer.parseInt(((TextView)activity.findViewById(R.id.addHostel_rooms)).getText().toString());
-        int floors = Integer.parseInt(((TextView)activity.findViewById(R.id.addHostel_floors)).getText().toString());
+        String hostelFacilities_local = extras.getText().toString();
+        int rooms = Integer.parseInt(roomsE.getText().toString());
+        int floors = Integer.parseInt(floorsE.getText().toString());
         int img = -1;  //Not Done Yet
 
         SharedPreferences mpref = activity.getSharedPreferences("info", MODE_PRIVATE);
@@ -250,6 +283,7 @@ public class ClickListener implements View.OnClickListener {
 
         }
 
+        Toast.makeText(activity, "Hostel Added", Toast.LENGTH_SHORT).show();
         goToHome();
 
     }
