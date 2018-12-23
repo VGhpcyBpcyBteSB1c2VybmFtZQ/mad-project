@@ -3,6 +3,7 @@ package como.example.noman.project;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,22 @@ public class Home extends AppCompatActivity
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
 
+        ///////////////////////// Add Product Button ////////////////////////////
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.hide(); //hiding it temporarily
+
+        if(isLoggedIn)  //checking if user logged_in or not
+            fab.show();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), addhostel.class);
+//                startActivity(intent);
+            }
+        });
+        ////////////////////////////////////////////////////////////////////////
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -54,6 +71,7 @@ public class Home extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setVisibility(View.GONE);    //hiding nav temporarily
         navigationView.setNavigationItemSelectedListener(this);
     }
 
