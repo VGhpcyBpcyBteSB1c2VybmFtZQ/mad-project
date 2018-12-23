@@ -23,6 +23,8 @@ import android.widget.Toast;
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private boolean isLoggedIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +33,11 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //check if user is logged in or not
-
         SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
         if (mpef.getString("logged_in", null) == null)
-        {
-            Intent i = new Intent(this, Login.class);
-            startActivity(i);
-        }
+            isLoggedIn = false;
+        else
+            isLoggedIn  = true;
         ///////////////////////////////////
 
         Fragment fragment = new HomeFragment();
@@ -77,6 +77,17 @@ public class Home extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+
+        if (!isLoggedIn)
+        {
+            menu.removeItem(R.id.action_logout);
+        }
+        else
+        {
+            menu.removeItem(R.id.action_login);
+            menu.removeItem(R.id.action_signup);
+        }
+
         return true;
     }
 
@@ -91,7 +102,18 @@ public class Home extends AppCompatActivity
         if (id == R.id.action_logout) {
             SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
             mpef.edit().putString("logged_in", null).apply();
+            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(), Home.class);
+            startActivity(i);
+            return true;
+        }
+        else if (id == R.id.action_login) {
             Intent i = new Intent(getApplicationContext(), Login.class);
+            startActivity(i);
+            return true;
+        }
+        else if (id == R.id.action_signup) {
+            Intent i = new Intent(getApplicationContext(), Signup.class);
             startActivity(i);
             return true;
         }

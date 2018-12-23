@@ -92,6 +92,8 @@ public class ClickListener implements View.OnClickListener {
         else
         {
             Toast.makeText(activity, "Account Created!", Toast.LENGTH_SHORT).show();
+            Intent homePage = new Intent(activity, Home.class);
+            activity.startActivity(homePage);
         }
     }
 
@@ -117,6 +119,8 @@ public class ClickListener implements View.OnClickListener {
         prefsEditor.putString(email, json);
 
         prefsEditor.apply();
+
+        mPrefs.edit().putString("logged_in", json).apply();  //add entry in database
 
         return true;
     }
