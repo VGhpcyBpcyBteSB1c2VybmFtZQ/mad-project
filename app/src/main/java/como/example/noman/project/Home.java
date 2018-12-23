@@ -1,6 +1,7 @@
 package como.example.noman.project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,11 +30,21 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //check if user is logged in or not
+
+        SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
+        if (mpef.getString("logged_in", null) == null)
+        {
+            Intent i = new Intent(this, Login.class);
+            startActivity(i);
+        }
+        ///////////////////////////////////
+
         Fragment fragment = new HomeFragment();
+        //Fragment fragment = new HostelDataFragment();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -48,6 +59,12 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+        {
+            getSupportFragmentManager().popBackStackImmediate();
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -71,13 +88,10 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_login) {
+        if (id == R.id.action_logout) {
+            SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
+            mpef.edit().putString("logged_in", null).apply();
             Intent i = new Intent(getApplicationContext(), Login.class);
-            startActivity(i);
-            return true;
-        }
-        else if (id == R.id.action_signup) {
-            Intent i = new Intent(getApplicationContext(), Signup.class);
             startActivity(i);
             return true;
         }

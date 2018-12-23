@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,7 +17,7 @@ public class ClickListener implements View.OnClickListener {
     private Activity activity;  //use this activity or context when needed
     private Context context;
 
-    ClickListener(Activity _activity, Context _context) //constructor
+    ClickListener(Activity _activity, Context _context) //first constructor
     {
         activity = _activity;
         context = _context;
@@ -36,6 +38,9 @@ public class ClickListener implements View.OnClickListener {
                 break;
             case R.id.signinButton:
                 signin();
+                break;
+            case R.id.item_readmore:
+                readMore();
                 break;
             default:
                 break;
@@ -141,14 +146,11 @@ public class ClickListener implements View.OnClickListener {
                 Person obj = gson.fromJson(json, Person.class);
                 String password = obj.getPassword();
 
-                if (password.equals(p))
+                if (password.equals(p))   //Login if credentials are correct
                 {
-                    Toast.makeText(activity, "switching Activity", Toast.LENGTH_LONG).show();
-
-                    //goto homapage after this
-
-                    //Intent homePage = new Intent(this, home.class);
-                    //startActivity(homePage);
+                    mPrefs.edit().putString("logged_in", json).apply();  //add entry in database
+                    Intent homePage = new Intent(activity, Home.class);
+                    activity.startActivity(homePage);
                 }
                 else
                 {
@@ -158,5 +160,19 @@ public class ClickListener implements View.OnClickListener {
 
         }
 
+    }
+
+    //parameters for the function that follows
+    public int imageSource;
+    public String hostelName;
+    public String hostelAddress;
+
+    private void readMore(){
+        HostelDataFragment newFragment = new HostelDataFragment();
+        newFragment.hostelAddress = hostelAddress;
+        newFragment.hostelName = hostelName;
+        newFragment.imageSource = imageSource;
+        FragmentManager fm = ((FragmentActivity)activity).getSupportFragmentManager();
+        fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
 }

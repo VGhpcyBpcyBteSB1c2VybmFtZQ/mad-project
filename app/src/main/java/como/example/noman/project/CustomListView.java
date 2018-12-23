@@ -45,7 +45,13 @@ public class CustomListView extends ArrayAdapter<String> {
         else {
             viewHolder = (ViewHolder) holder.getTag();
         }
-
+        ClickListener cl = new ClickListener(context, context.getApplicationContext());
+        // setting parameters for click listener //
+        cl.imageSource = hostelImages[position];
+        cl.hostelName = hostelNames[position];
+        cl.hostelAddress = hostelAddress[position];
+        /////////////////////////////////////////
+        holder.findViewById(R.id.item_readmore).setOnClickListener(cl);  //setting onclick listener
         viewHolder.name.setText(hostelNames[position]);
         viewHolder.address.setText(hostelAddress[position]);
         viewHolder.rating.setText(hostelRatings[position]);
