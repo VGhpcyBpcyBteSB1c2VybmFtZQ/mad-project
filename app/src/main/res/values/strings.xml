@@ -37,4 +37,9 @@
     <string name="hosteldata_extra_details">hostelData_extra_details</string>
     <string name="actionSignup">Signup</string>
     <string name="go_to_home">Go to Home</string>
+    <string name="hosteldata_details">Details</string>
+    <string name="hosteldata_rooms_availble">Rooms Availble</string>
+    <string name="hosteldata_owner_contact_nummber">Owner Contact Nummber:</string>
+    <string name="hosteldata_contact">xxxx-xxxxxxx</string>
+    <string name="hosteldata_address">Address:</string>
 </resources>
