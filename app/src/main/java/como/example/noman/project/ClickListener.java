@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.google.gson.Gson;
+
+import java.util.List;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class ClickListener implements View.OnClickListener {
@@ -187,5 +190,41 @@ public class ClickListener implements View.OnClickListener {
         newFragment.imageSource = imageSource;
         FragmentManager fm = ((FragmentActivity)activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
+    }
+
+    //parameters for the function that follows
+    //hostelName from above
+    //hostelAddress from above
+    public String hostelCity;
+    public String hostelFacilities;
+
+    private void addHostelToDatabase()
+    {
+        SharedPreferences mpref = activity.getSharedPreferences("logged_in", MODE_PRIVATE);
+        String personJson = mpref.getString("logged_in", null);
+        Person personObj;
+        HostelDataClass hostel;
+        if (personJson != null) {
+            personObj = (new Gson()).fromJson(personJson, Person.class);
+            hostel = new HostelDataClass(hostelName, hostelAddress, hostelCity, hostelFacilities, 0, 0, personObj.getEmail());
+            SharedPreferences hostelPref = activity.getSharedPreferences("hostelInfo", MODE_PRIVATE);
+            String hostelListJson = hostelPref.getString("hostels", null);
+            if (hostelListJson != null)
+            {
+                HostelDataList hostelListObj = (new Gson()).fromJson(hostelListJson, HostelDataList.class);
+                hostelListObj.hostelsStored.add(hostel);
+                hostelListJson = (new Gson()).toJson(hostelListObj);
+                hostelPref.edit().putString("hostels", hostelListJson).apply();
+            }
+            else
+            {
+                HostelDataList hostelListObj = new HostelDataList();
+                hostelListObj.hostelsStored.add(hostel);
+                hostelListJson = (new Gson()).toJson(hostelListObj);
+                hostelPref.edit().putString("hostels", hostelListJson).apply();
+            }
+
+        }
+
     }
 }

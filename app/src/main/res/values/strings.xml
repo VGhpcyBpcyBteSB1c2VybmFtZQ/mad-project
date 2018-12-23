@@ -42,4 +42,11 @@
     <string name="hosteldata_owner_contact_nummber">Owner Contact Nummber:</string>
     <string name="hosteldata_contact">xxxx-xxxxxxx</string>
     <string name="hosteldata_address">Address:</string>
+    <string-array name="cities">
+        <item>Lahore</item>
+        <item>Islamabad</item>
+        <item>Faisalabad</item>
+        <item>Sialkot</item>
+        <item>Multan</item>
+    </string-array>
 </resources>
