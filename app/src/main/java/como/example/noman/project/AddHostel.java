@@ -18,4 +18,6 @@ public class AddHostel extends Fragment {
 
         return v;
     }
+
+
 }

@@ -74,7 +74,7 @@ public class Home extends AppCompatActivity
         ///////////////////////////////////
 
         Fragment fragment = new HomeFragment();
-        //Fragment fragment = new HostelDataFragment();
+        //Fragment fragment = new AddHostel();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
@@ -84,27 +84,11 @@ public class Home extends AppCompatActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide(); //hiding it temporarily
 
-        //fab.setOnClickListener(new ClickListener(this, getApplicationContext()));
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Here", Toast.LENGTH_SHORT).show();
-            }
-        });
+        fab.setOnClickListener(new ClickListener(this, getApplicationContext()));
 
         if(isLoggedIn)  //checking if user logged_in or not
             fab.show();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                FragmentManager fm = getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//                fragmentTransaction.replace(R.id.frameLayout, new HostelDataFragment());
-//                fragmentTransaction.commit();
-            }
-        });
         ////////////////////////////////////////////////////////////////////////
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,6 +112,10 @@ public class Home extends AppCompatActivity
         else if (getSupportFragmentManager().getBackStackEntryCount() > 0)
         {
             getSupportFragmentManager().popBackStackImmediate();
+        }
+        if (isLoggedIn)
+        {
+            ((FloatingActionButton)findViewById(R.id.fab)).show();
         }
     }
 

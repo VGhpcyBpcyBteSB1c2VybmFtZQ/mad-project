@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -65,7 +66,7 @@ public class ClickListener implements View.OnClickListener {
     //// Implement Click Functions Here ////
 
     private void goToAddHostel() {
-        Toast.makeText(activity, "Here", Toast.LENGTH_SHORT).show();
+        ((FloatingActionButton) activity.findViewById(R.id.fab)).hide();
         FragmentManager fm = ((FragmentActivity)activity).getSupportFragmentManager();
         AddHostel newFragment = new AddHostel();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
@@ -248,6 +249,8 @@ public class ClickListener implements View.OnClickListener {
             }
 
         }
+
+        goToHome();
 
     }
 }
