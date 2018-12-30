@@ -1,5 +1,7 @@
 package como.example.noman.project;
 
+import android.graphics.Bitmap;
+
 public class HostelDataClass {
     public String hostelName;
     public String hostelAddress;
@@ -10,8 +12,9 @@ public class HostelDataClass {
     public int no_floors;
     public int image_source;
     public String owner_email;
+    public int hostel_id;
 
-    HostelDataClass(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, int _image, String _rating)
+    HostelDataClass(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, int _image, String _rating, int _id)
     {
         hostelName = _name;
         hostelAddress = _address;
@@ -22,6 +25,7 @@ public class HostelDataClass {
         owner_email = _owner;
         image_source = _image;
         rating = _rating;
+        hostel_id = _id;
     }
 
 }

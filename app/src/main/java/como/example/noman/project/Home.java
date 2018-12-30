@@ -50,16 +50,17 @@ public class Home extends AppCompatActivity
             Integer[] hostelFloors = {6, 4, 3, 3};
             String[] hostelExtras = {"AC, Heater, Refrigerator", "AC, Heater, Refrigerator", "AC, Heater, Refrigerator", "AC, Heater, Refrigerator"};
             String[] hostelOwnerMail = {"test1@test.com", "test2@test.com", "test3@test.com", "test4@test.com"};
+            int[] hostelIds = {0, 1, 2, 3};
 
             HostelDataList hostelList = new HostelDataList();
             for (int i = 0; i < 4; i++)
             {
-                HostelDataClass hClass = new HostelDataClass(hostelNames[i], hostelAddress[i], hostelCity[i], hostelExtras[i], hostelRooms[i], hostelFloors[i], hostelOwnerMail[i], hostelImagesId[i], hostelRatings[i]);
+                HostelDataClass hClass = new HostelDataClass(hostelNames[i], hostelAddress[i], hostelCity[i], hostelExtras[i], hostelRooms[i], hostelFloors[i], hostelOwnerMail[i], hostelImagesId[i], hostelRatings[i], hostelIds[i]);
                 hostelList.hostelsStored.add(hClass);
             }
 
             String hListJson = (new Gson()).toJson(hostelList);
-            hostelPref.edit().putString("hostels", hListJson).apply();
+            hostelPref.edit().putString("hostels", hListJson).putInt("lastKey", 3).apply();
         }
 
         /////////////////////////////////////////////////////////////

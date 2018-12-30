@@ -1,6 +1,7 @@
 package como.example.noman.project;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -22,8 +23,9 @@ public class CustomListView extends ArrayAdapter<String> {
     private Integer[] hostelFloors;
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
+    private Bitmap[] hostelBitmaps;
 
-    CustomListView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Integer[] hostelImages) {
+    CustomListView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Integer[] hostelImages, Bitmap[] hostelBitmaps) {
         super(context, R.layout.listview_item, hostelNames);
 
         this.context = context;
@@ -36,6 +38,7 @@ public class CustomListView extends ArrayAdapter<String> {
         this.hostelFloors = hostelFloors;
         this.hostelExtras = hostelExtras;
         this.hostelOwnerMail = hostelOwnerMail;
+        this.hostelBitmaps = hostelBitmaps;
 
     }
 
@@ -55,6 +58,7 @@ public class CustomListView extends ArrayAdapter<String> {
         cl.no_rooms = hostelRooms[position];
         cl.no_floors = hostelFloors[position];
         cl.owner_email = hostelOwnerMail[position];
+        cl.image_bitmap = hostelBitmaps[position];
         /////////////////////////////////////////
 
         view.findViewById(R.id.item_readmore).setOnClickListener(cl);  //setting onclick listener to read more textview
@@ -68,10 +72,12 @@ public class CustomListView extends ArrayAdapter<String> {
         address.setText(hostelAddress[position]);
         rating.setText(hostelRatings[position]);
 
-        if (hostelImages[position] == -1)
-            image.setImageResource(R.drawable.img_1);
-        else
+        if (hostelImages[position] == -1 && hostelBitmaps[position] != null)
+            image.setImageBitmap(hostelBitmaps[position]);
+        else if (hostelImages[position] != -1)
             image.setImageResource(hostelImages[position]);
+        else
+            image.setImageResource(R.drawable.img_1);
 
         return view;
     }

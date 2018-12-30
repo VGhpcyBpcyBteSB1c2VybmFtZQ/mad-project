@@ -2,7 +2,10 @@ package como.example.noman.project;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +18,10 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 
 public class HomeFragment extends Fragment {
 
@@ -25,12 +32,12 @@ public class HomeFragment extends Fragment {
     private String[] hostelAddress;
     private String[] hostelRatings;
     private Integer[] hostelImages;
-    private Activity context;
     private String[] hostelCity;
     private Integer[] hostelRooms;
     private Integer[] hostelFloors;
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
+    private Bitmap[] hostelBitmaps;
 
     ////////////////////////////////////////////////////////////
 
@@ -54,6 +61,7 @@ public class HomeFragment extends Fragment {
         hostelFloors = new Integer[hl.hostelsStored.size()];
         hostelExtras = new String[hl.hostelsStored.size()];
         hostelOwnerMail = new String[hl.hostelsStored.size()];
+        hostelBitmaps = new Bitmap[hl.hostelsStored.size()];
 
         for (int i = 0; i < hl.hostelsStored.size(); i++)
         {
@@ -66,11 +74,25 @@ public class HomeFragment extends Fragment {
             hostelFloors[i] = hl.hostelsStored.get(i).no_floors;
             hostelExtras[i] = hl.hostelsStored.get(i).hostelExtras;
             hostelOwnerMail[i] = hl.hostelsStored.get(i).owner_email;
+            int id = hl.hostelsStored.get(i).hostel_id;
+            /////// getting the image bitmap /////////////
+            try {
+                ContextWrapper cw = new ContextWrapper(getContext());
+                File path = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                File f = new File(path, Integer.toString(id)+".jpg");
+                hostelBitmaps[i] = BitmapFactory.decodeStream(new FileInputStream(f));
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+                hostelBitmaps[i] = null;
+            }
+            ///////////////////////////////////////////////
         }
 
         /////////////////// setting adapter here ////////////////////
         mylist = view.findViewById(R.id.listview_my_custom_listview);
-        CustomListView clv = new CustomListView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelImages);
+        CustomListView clv = new CustomListView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelImages, hostelBitmaps);
         mylist.setAdapter(clv);
         /////////////////////////////////////////////////////////////
 

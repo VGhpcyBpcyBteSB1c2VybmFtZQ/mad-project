@@ -1,5 +1,6 @@
 package como.example.noman.project;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ public class HostelDataFragment extends Fragment {
     public String hostelAddress = null;
     public String ownerMail = null;
     public int imageSource = -1;
+    public Bitmap image_bitmap = null;
 
     @Nullable
     @Override
@@ -45,6 +47,10 @@ public class HostelDataFragment extends Fragment {
         if (imageSource != -1)
         {
             ((ImageView)v.findViewById(R.id.hostelData_image)).setImageResource(imageSource);
+        }
+        else if (image_bitmap != null)
+        {
+            ((ImageView)v.findViewById(R.id.hostelData_image)).setImageBitmap(image_bitmap);
         }
         if (hostelAddress != null)
         {

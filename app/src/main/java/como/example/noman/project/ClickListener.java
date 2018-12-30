@@ -3,9 +3,12 @@ package como.example.noman.project;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -20,6 +23,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -199,6 +207,7 @@ public class ClickListener implements  View.OnClickListener {
     public int no_rooms;
     public int no_floors;
     public int image_source;
+    public Bitmap image_bitmap;
     public String owner_email;
 
     private void readMore() {
@@ -210,6 +219,7 @@ public class ClickListener implements  View.OnClickListener {
         newFragment.hostelFloors = no_floors;
         newFragment.hostelExtras = hostelExtras;
         newFragment.ownerMail = owner_email;
+        newFragment.image_bitmap = image_bitmap;
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
@@ -242,6 +252,10 @@ public class ClickListener implements  View.OnClickListener {
             extras.setError("Field Empty");
             return;
         }
+        if (AddHostel._bitmap == null) {
+            Toast.makeText(activity, "Please Select an Image", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         String hostelName_local = name.getText().toString();
         String hostelAddress_local = address.getText().toString();
@@ -249,7 +263,7 @@ public class ClickListener implements  View.OnClickListener {
         String hostelFacilities_local = extras.getText().toString();
         int rooms = Integer.parseInt(roomsE.getText().toString());
         int floors = Integer.parseInt(floorsE.getText().toString());
-        int img = -1;  //Not Done Yet
+        int img = -1;
 
         SharedPreferences mpref = activity.getSharedPreferences("info", MODE_PRIVATE);
         String personJson = mpref.getString("logged_in", null);
@@ -257,8 +271,33 @@ public class ClickListener implements  View.OnClickListener {
         HostelDataClass hostel;
         if (personJson != null) {
             personObj = (new Gson()).fromJson(personJson, Person.class);
-            hostel = new HostelDataClass(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, rooms, floors, personObj.getEmail(), img, "0");
             SharedPreferences hostelPref = activity.getSharedPreferences("hostelInfo", MODE_PRIVATE);
+            int id = 1 + hostelPref.getInt("lastKey", 0);
+            hostelPref.edit().putInt("lastKey", id).apply();
+
+            /////// compressing the bitmap by a factor of 50 and storing in file//////////
+            ContextWrapper cw = new ContextWrapper(context);
+            // path to /data/data/yourapp/app_data/imageDir
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+            File mypath=new File(directory,Integer.toString(id)+".jpg");
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(mypath);
+                // Use the compress method on the BitMap object to write image to the OutputStream
+                AddHostel._bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+            /////////////////////////////////////////////////////////////
+
+            hostel = new HostelDataClass(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, rooms, floors, personObj.getEmail(), img, "0", id);
             String hostelListJson = hostelPref.getString("hostels", null);
             if (hostelListJson != null) {
                 HostelDataList hostelListObj = (new Gson()).fromJson(hostelListJson, HostelDataList.class);
@@ -278,5 +317,4 @@ public class ClickListener implements  View.OnClickListener {
         goToHome();
 
     }
-
 }
