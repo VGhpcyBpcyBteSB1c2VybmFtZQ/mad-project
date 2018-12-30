@@ -11,11 +11,10 @@
     <EditText
         android:id="@+id/user_name"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:width="320dp"
         android:background="@color/lightGray"
         android:drawableLeft="@drawable/user_img"
@@ -29,17 +28,16 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/email_id"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:width="320dp"
         android:background="@color/lightGray"
         android:drawableLeft="@drawable/pass_img"
@@ -60,10 +58,10 @@
     <EditText
         android:id="@+id/email_id"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="9dp"
         android:width="320dp"
         android:background="@color/lightGray"
         android:drawableLeft="@drawable/email_img"
@@ -84,27 +82,26 @@
     <Button
         android:id="@+id/create_account"
         android:layout_width="0dp"
-        android:layout_height="42dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="24dp"
         android:width="150dp"
         android:background="@color/blue"
         android:text="@string/signup"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/txt_already"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_password" />
 
     <EditText
         android:id="@+id/confirm_password"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:width="320dp"
         android:background="@color/lightGray"
         android:drawableLeft="@drawable/pass_img"
@@ -119,7 +116,6 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/create_account"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
@@ -127,14 +123,13 @@
         android:id="@+id/txt_already"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center"
         android:text="@string/already_have_an_account"
         android:textColor="#ffffff"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/signup_GoToHome"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/create_account" />
 
@@ -142,7 +137,7 @@
         android:id="@+id/signup_GoToHome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="19dp"
         android:gravity="center"
         android:text="@string/go_to_home"
         android:textColor="#ffffff"
@@ -155,14 +150,14 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp"
-        android:src="@drawable/login_img"
+        android:layout_height="110dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="23dp"
         android:tint="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/user_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/login_img" />
 
 </android.support.constraint.ConstraintLayout>
