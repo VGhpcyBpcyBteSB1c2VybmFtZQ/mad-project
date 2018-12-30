@@ -1,24 +1,29 @@
 package como.example.noman.project;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 
-import java.util.List;
-
 import static android.content.Context.MODE_PRIVATE;
 
-public class ClickListener implements View.OnClickListener {
+public class ClickListener implements  View.OnClickListener {
 
     private Activity activity;  //use this activity or context when needed
     private Context context;
@@ -31,7 +36,7 @@ public class ClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch(v.getId())              // add click function in this switch against the view id
+        switch (v.getId())              // add click function in this switch against the view id
         {
             case R.id.txt_already:
                 goToLogin();
@@ -67,7 +72,7 @@ public class ClickListener implements View.OnClickListener {
 
     private void goToAddHostel() {
         ((FloatingActionButton) activity.findViewById(R.id.fab)).hide();
-        FragmentManager fm = ((FragmentActivity)activity).getSupportFragmentManager();
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         AddHostel newFragment = new AddHostel();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
@@ -113,12 +118,9 @@ public class ClickListener implements View.OnClickListener {
             return;
         }
 
-        if(!SaveData(UserName, Email, Password))
-        {
+        if (!SaveData(UserName, Email, Password)) {
             Email.setError("There is already an account associated with this email.");
-        }
-        else
-        {
+        } else {
             Toast.makeText(activity, "Account Created!", Toast.LENGTH_SHORT).show();
             Intent homePage = new Intent(activity, Home.class);
             activity.startActivity(homePage);
@@ -129,8 +131,7 @@ public class ClickListener implements View.OnClickListener {
         String email = Email.getText().toString().trim();
         SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
         String mail = mPrefs.getString(email, "");
-        if (mail != null && !mail.equals(""))
-        {
+        if (mail != null && !mail.equals("")) {
             return false;
         }
 
@@ -165,16 +166,15 @@ public class ClickListener implements View.OnClickListener {
         else if (p.isEmpty())
             passwordText.setError("Enter your password!");
 
-        else
-        {
+        else {
             SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
             Gson gson = new Gson();
             String json = mPrefs.getString(mail, "none");
-            if(json != null && json.equals("none")) {
+            if (json != null && json.equals("none")) {
                 emailAddress.setError("Incorrect email!");
                 return;
             }
-            if(json != null && !json.isEmpty()) {
+            if (json != null && !json.isEmpty()) {
                 Person obj = gson.fromJson(json, Person.class);
                 String password = obj.getPassword();
 
@@ -183,9 +183,7 @@ public class ClickListener implements View.OnClickListener {
                     mPrefs.edit().putString("logged_in", json).apply();  //add entry in database
                     Intent homePage = new Intent(activity, Home.class);
                     activity.startActivity(homePage);
-                }
-                else
-                {
+                } else {
                     passwordText.setError("Incorrect Password!");
                 }
             }
@@ -193,6 +191,7 @@ public class ClickListener implements View.OnClickListener {
         }
 
     }
+
     //parameters for the function that follows
     public String hostelName;
     public String hostelAddress;
@@ -202,7 +201,7 @@ public class ClickListener implements View.OnClickListener {
     public int image_source;
     public String owner_email;
 
-    private void readMore(){
+    private void readMore() {
         HostelDataFragment newFragment = new HostelDataFragment();
         newFragment.hostelAddress = hostelAddress;
         newFragment.hostelName = hostelName;
@@ -211,47 +210,42 @@ public class ClickListener implements View.OnClickListener {
         newFragment.hostelFloors = no_floors;
         newFragment.hostelExtras = hostelExtras;
         newFragment.ownerMail = owner_email;
-        FragmentManager fm = ((FragmentActivity)activity).getSupportFragmentManager();
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
 
     private void addHostelToDatabase() {
 
-        EditText name = ((EditText)activity.findViewById(R.id.addHostel_name));
-        EditText address = ((EditText)activity.findViewById(R.id.addHostel_address));
-        EditText roomsE = ((EditText)activity.findViewById(R.id.addHostel_rooms));
-        EditText floorsE = ((EditText)activity.findViewById(R.id.addHostel_floors));
-        EditText extras = ((EditText)activity.findViewById(R.id.addHostel_extras));
+        EditText name = ((EditText) activity.findViewById(R.id.addHostel_name));
+        EditText address = ((EditText) activity.findViewById(R.id.addHostel_address));
+        EditText roomsE = ((EditText) activity.findViewById(R.id.addHostel_rooms));
+        EditText floorsE = ((EditText) activity.findViewById(R.id.addHostel_floors));
+        EditText extras = ((EditText) activity.findViewById(R.id.addHostel_extras));
 
-        if (name.getText().toString().trim().length() == 0)
-        {
+        if (name.getText().toString().trim().length() == 0) {
             name.setError("Field Empty");
             return;
         }
-        if (address.getText().toString().trim().length() == 0)
-        {
+        if (address.getText().toString().trim().length() == 0) {
             address.setError("Field Empty");
             return;
         }
-        if (roomsE.getText().toString().trim().length() == 0)
-        {
+        if (roomsE.getText().toString().trim().length() == 0) {
             roomsE.setError("Field Empty");
             return;
         }
-        if (floorsE.getText().toString().trim().length() == 0)
-        {
+        if (floorsE.getText().toString().trim().length() == 0) {
             floorsE.setError("Field Empty");
             return;
         }
-        if (extras.getText().toString().trim().length() == 0)
-        {
+        if (extras.getText().toString().trim().length() == 0) {
             extras.setError("Field Empty");
             return;
         }
 
         String hostelName_local = name.getText().toString();
         String hostelAddress_local = address.getText().toString();
-        String hostelCity_local = ((Spinner)activity.findViewById(R.id.addHostel_city)).getSelectedItem().toString();
+        String hostelCity_local = ((Spinner) activity.findViewById(R.id.addHostel_city)).getSelectedItem().toString();
         String hostelFacilities_local = extras.getText().toString();
         int rooms = Integer.parseInt(roomsE.getText().toString());
         int floors = Integer.parseInt(floorsE.getText().toString());
@@ -266,15 +260,12 @@ public class ClickListener implements View.OnClickListener {
             hostel = new HostelDataClass(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, rooms, floors, personObj.getEmail(), img, "0");
             SharedPreferences hostelPref = activity.getSharedPreferences("hostelInfo", MODE_PRIVATE);
             String hostelListJson = hostelPref.getString("hostels", null);
-            if (hostelListJson != null)
-            {
+            if (hostelListJson != null) {
                 HostelDataList hostelListObj = (new Gson()).fromJson(hostelListJson, HostelDataList.class);
                 hostelListObj.hostelsStored.add(hostel);
                 hostelListJson = (new Gson()).toJson(hostelListObj);
                 hostelPref.edit().putString("hostels", hostelListJson).apply();
-            }
-            else
-            {
+            } else {
                 HostelDataList hostelListObj = new HostelDataList();
                 hostelListObj.hostelsStored.add(hostel);
                 hostelListJson = (new Gson()).toJson(hostelListObj);
@@ -287,4 +278,5 @@ public class ClickListener implements View.OnClickListener {
         goToHome();
 
     }
+
 }

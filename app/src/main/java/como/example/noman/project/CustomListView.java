@@ -43,18 +43,9 @@ public class CustomListView extends ArrayAdapter<String> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        View holder = convertView;
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.listview_item, null, false);
 
-        ViewHolder viewHolder = null;
-        if(holder == null){
-            LayoutInflater layoutInflater = context.getLayoutInflater();
-            holder = layoutInflater.inflate(R.layout.listview_item, null, false);
-            viewHolder = new ViewHolder(holder);
-            holder.setTag(viewHolder);
-        }
-        else {
-            viewHolder = (ViewHolder) holder.getTag();
-        }
         ClickListener cl = new ClickListener(context, context.getApplicationContext());
         // setting parameters for click listener //
         cl.image_source = hostelImages[position];
@@ -65,30 +56,24 @@ public class CustomListView extends ArrayAdapter<String> {
         cl.no_floors = hostelFloors[position];
         cl.owner_email = hostelOwnerMail[position];
         /////////////////////////////////////////
-        holder.findViewById(R.id.item_readmore).setOnClickListener(cl);  //setting onclick listener
-        viewHolder.name.setText(hostelNames[position]);
-        viewHolder.address.setText(hostelAddress[position]);
-        viewHolder.rating.setText(hostelRatings[position]);
+
+        view.findViewById(R.id.item_readmore).setOnClickListener(cl);  //setting onclick listener to read more textview
+        TextView name = (TextView) view.findViewById(R.id.item_hname);
+        TextView address = (TextView) view.findViewById(R.id.item_address);
+        TextView rating = (TextView) view.findViewById(R.id.item_rating);
+        ImageView image = (ImageView) view.findViewById(R.id.item_image);
+
+        //setting data to textviews
+        name.setText(hostelNames[position]);
+        address.setText(hostelAddress[position]);
+        rating.setText(hostelRatings[position]);
+
         if (hostelImages[position] == -1)
-            viewHolder.image.setImageResource(R.drawable.img_1);
+            image.setImageResource(R.drawable.img_1);
         else
-            viewHolder.image.setImageResource(hostelImages[position]);
-        return holder;
+            image.setImageResource(hostelImages[position]);
+
+        return view;
     }
 
-    class ViewHolder
-    {
-        TextView name;
-        TextView address;
-        TextView rating;
-        ImageView image;
-
-        ViewHolder(View v)
-        {
-            name = (TextView) v.findViewById(R.id.item_hname);
-            address = (TextView) v.findViewById(R.id.item_address);
-            rating = (TextView) v.findViewById(R.id.item_rating);
-            image = (ImageView) v.findViewById(R.id.item_image);
-        }
-    }
 }
