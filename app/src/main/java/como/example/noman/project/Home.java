@@ -1,6 +1,5 @@
 package como.example.noman.project;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -37,17 +36,28 @@ public class Home extends AppCompatActivity
         /*server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {   //getting hostel data
             @Override
             public void callbackFunction(WebService.HostelObjectList result) {
-                Toast.makeText(getApplicationContext(), Float.toString(result.hostelsStored.get(3).rating), Toast.LENGTH_LONG).show();
+                if (result.hostelsStored.size() == 0)
+                    Toast.makeText(getApplicationContext(), "No Hostels", Toast.LENGTH_LONG).show();
             }
         });*/
 
-        server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
+        /*server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
             @Override
             public void callbackFunction(Boolean result) {
                 if (result)
                     Toast.makeText(getApplicationContext(), "Verified", Toast.LENGTH_LONG).show();
                 else
                     Toast.makeText(getApplicationContext(), "Not Verified", Toast.LENGTH_LONG).show();
+            }
+        });*/
+
+        server.getUserData("test@test.com", "1234", new WebService.Callback<WebService.userObject>() {
+            @Override
+            public void callbackFunction(WebService.userObject result) {
+                if (result.userName != null)
+                    Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
             }
         });
 

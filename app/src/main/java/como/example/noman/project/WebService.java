@@ -113,6 +113,34 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public void getUserData(final String _email, final String _password, final Callback<userObject> _callback) //returns user data
+    {
+        String url = domain+"/retrieve_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                userObject result = (new Gson()).fromJson(response, userObject.class);
+                _callback.callbackFunction(result);   //if no user was found or incorrect credentials were given then all fields of result will contain 'null'
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("get_user_data", "");
+                parameter.put("email", _email);
+                parameter.put("pwd", _password);
+                return parameter;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
     // this is the Callback interface (abstract class) which is required by certain methods from the WebService class
     // you will override the callbackFunction which tells the WebService class what to do after the data is finally
     // fetched from the server. It takes as input the object containing retrieved data which will be different for each method
@@ -158,6 +186,21 @@ public class WebService {
         HostelObjectList()
         {
             hostelsStored = new ArrayList<>();
+        }
+    }
+
+    class userObject   //object to store the user data
+    {
+        public String userName;
+        public String email;
+        public String password;
+        public boolean accountType; // 0 for customer 1 for admin
+
+        public userObject(String _userName, String _email, String _password, boolean _accountType) {
+            userName = _userName;
+            email = _email;
+            password = _password;
+            accountType = _accountType;
         }
     }
 }
