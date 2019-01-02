@@ -32,16 +32,18 @@ public class WebService {
 
     private Activity context;
     private RequestQueue queue;
+    private String domain;
 
     public WebService(Activity _context)   //class constructor, requires activity context
     {
         context = _context;
         queue = Volley.newRequestQueue(context);
+        domain = "http://192.168.10.6/mad-proj";
     }
 
     public void initialize_server()   //should be called once in the beginning, initializes the server database if needed
     {
-        String url = "http://192.168.10.6/mad-proj/init.php";
+        String url = domain+"/init.php";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -59,7 +61,7 @@ public class WebService {
 
     public void getAllHostels(final Callback<HostelObjectList> _callback)
     {
-        String url = "http://192.168.10.6/mad-proj/retrieve_data.php";
+        String url = domain+"/retrieve_data.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -76,6 +78,34 @@ public class WebService {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parameter = new HashMap<String, String>();
                 parameter.put("get_all_hostel_data", "");
+                return parameter;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
+    public void verifyUser(final String _email, final String _password, final Callback<Boolean> _callback) //returns true/false in the callback function after verifying
+    {
+        String url = domain+"/retrieve_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunction(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("verify_user_data", "");
+                parameter.put("email", _email);
+                parameter.put("pwd", _password);
                 return parameter;
             }
         };

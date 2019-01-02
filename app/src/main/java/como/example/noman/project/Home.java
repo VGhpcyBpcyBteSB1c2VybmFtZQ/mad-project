@@ -33,11 +33,21 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         WebService server = new WebService(this);
-        server.initialize_server();
-        server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
+        server.initialize_server();                                   //initializing the server
+        /*server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {   //getting hostel data
             @Override
             public void callbackFunction(WebService.HostelObjectList result) {
                 Toast.makeText(getApplicationContext(), Float.toString(result.hostelsStored.get(3).rating), Toast.LENGTH_LONG).show();
+            }
+        });*/
+
+        server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunction(Boolean result) {
+                if (result)
+                    Toast.makeText(getApplicationContext(), "Verified", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Not Verified", Toast.LENGTH_LONG).show();
             }
         });
 
