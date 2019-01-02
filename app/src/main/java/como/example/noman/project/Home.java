@@ -1,11 +1,10 @@
 package como.example.noman.project;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,9 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 
 public class Home extends AppCompatActivity
@@ -34,6 +31,15 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        WebService server = new WebService(this);
+        server.initialize_server();
+        server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
+            @Override
+            public void callbackFunction(WebService.HostelObjectList result) {
+                Toast.makeText(getApplicationContext(), Float.toString(result.hostelsStored.get(3).rating), Toast.LENGTH_LONG).show();
+            }
+        });
 
         //Creating an initial Database of Hostels if it doesn't exist
 
@@ -191,5 +197,10 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    class MyClass
+    {
+        String mName, mSem;
     }
 }
