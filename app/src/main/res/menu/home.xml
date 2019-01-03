@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_logout"
-        android:title="@string/menuLogout" />
+        android:title="Logout" />
+
     <item
         android:id="@+id/action_login"
         android:orderInCategory="100"
-        android:title="@string/menuLogin"
+        android:title="Login"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/action_signup"
-        android:title="@string/actionSignup" />
+        android:title="Signup" />
+
+    <item
+        android:id="@+id/menu_toolbarsearch"
+        android:title="Search"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+
 </menu>

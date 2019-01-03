@@ -41,6 +41,11 @@
     <string name="hosteldata_rooms_availble">Rooms Availble</string>
     <string name="hosteldata_owner_contact_email">Owner Contact Email:</string>
     <string name="hosteldata_address">Address:</string>
+    <string name="item_image">Item Image</string>
+    <string name="item_name">Item Name</string>
+    <string name="item_rating">Item Rating</string>
+    <string name="list_heading">List Heading</string>
+    <string name="item_rating_star">TODO</string>
     <string-array name="cities">
         <item>Lahore</item>
         <item>Islamabad</item>

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +26,6 @@ import java.io.FileNotFoundException;
 
 
 public class HomeFragment extends Fragment {
-
-    ListView mylist;    //listView Object
 
     ////////////// Getting Data of Hostels //////////////////
     private String[] hostelNames;
@@ -91,9 +91,11 @@ public class HomeFragment extends Fragment {
         }
 
         /////////////////// setting adapter here ////////////////////
-        mylist = view.findViewById(R.id.listview_my_custom_listview);
-        CustomListView clv = new CustomListView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelImages, hostelBitmaps);
-        mylist.setAdapter(clv);
+        RecyclerView mylist = (RecyclerView) view.findViewById(R.id.fragment_home_recycler_view);
+        CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelImages, hostelBitmaps);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        mylist.setLayoutManager(horizontalLayoutManager);
+        mylist.setAdapter(adapter);
         /////////////////////////////////////////////////////////////
 
         return view;
