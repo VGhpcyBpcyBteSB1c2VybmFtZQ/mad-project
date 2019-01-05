@@ -45,7 +45,6 @@ public class HomeFragment extends Fragment {
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
     private Bitmap[] hostelBitmaps;
-
     ////////////////////////////////////////////////////////////
 
     @Override
@@ -70,8 +69,7 @@ public class HomeFragment extends Fragment {
         hostelOwnerMail = new String[hl.hostelsStored.size()];
         hostelBitmaps = new Bitmap[hl.hostelsStored.size()];
 
-        for (int i = 0; i < hl.hostelsStored.size(); i++)
-        {
+        for (int i = 0; i < hl.hostelsStored.size(); i++) {
             hostelNames[i] = hl.hostelsStored.get(i).hostelName;
             hostelAddress[i] = hl.hostelsStored.get(i).hostelAddress;
             hostelRatings[i] = hl.hostelsStored.get(i).rating;
@@ -86,20 +84,17 @@ public class HomeFragment extends Fragment {
             try {
                 ContextWrapper cw = new ContextWrapper(getContext());
                 File path = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                File f = new File(path, Integer.toString(id)+".jpg");
+                File f = new File(path, Integer.toString(id) + ".jpg");
                 hostelBitmaps[i] = BitmapFactory.decodeStream(new FileInputStream(f));
-            }
-            catch (FileNotFoundException e)
-            {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 hostelBitmaps[i] = null;
             }
             ///////////////////////////////////////////////
         }
 
-        for(int i = 0; i < 7; i++)
-        {
-            ViewGroup parent = (ViewGroup)view.findViewById(R.id.home_fragment_table);
+        for (int i = 0; i < 2; i++) {
+            ViewGroup parent = (ViewGroup) view.findViewById(R.id.home_fragment_table);
             LinearLayout v = (LinearLayout) inflater.inflate(R.layout.table_row_home_category, parent);
             v.getChildAt(i).setId(View.generateViewId());
 
@@ -107,11 +102,16 @@ public class HomeFragment extends Fragment {
             RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_home_recycler_view);
 
             //randomly setting ids to views
-            textView.setId(View.generateViewId());
-            listView.setId(View.generateViewId());
+            int id1 = View.generateViewId();
+            int id2 = View.generateViewId();
+
+            textView.setId(id1);
+            listView.setId(id2);
+
+            listView = (RecyclerView) view.findViewById(id2);
 
             //Change heading text here
-            textView.setText("Heading "+i);
+            textView.setText("Heading " + i);
 
             /////////////////// setting adapter here ////////////////////
             CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelImages, hostelBitmaps);
@@ -123,4 +123,4 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-    }
+}

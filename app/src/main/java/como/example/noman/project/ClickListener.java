@@ -58,6 +58,9 @@ public class ClickListener implements  View.OnClickListener {
             case R.id.signinButton:
                 signin();
                 break;
+            case R.id.item_image:
+                readMore();
+                break;
             case R.id.signup_GoToHome:
             case R.id.goToHome:
                 goToHome();

@@ -58,6 +58,20 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         holder.name.setText(hostelNames[position]);
         holder.rating.setText(hostelRatings[position]);
         holder.image.setImageResource(hostelImages[position]);
+
+        ClickListener cl = new ClickListener(context, context.getApplicationContext());
+        // setting parameters for click listener //
+        cl.image_source = hostelImages[position];
+        cl.hostelName = hostelNames[position];
+        cl.hostelAddress = hostelAddress[position];
+        cl.hostelExtras = hostelExtras[position];
+        cl.no_rooms = hostelRooms[position];
+        cl.no_floors = hostelFloors[position];
+        cl.owner_email = hostelOwnerMail[position];
+        cl.image_bitmap = hostelBitmaps[position];
+        /////////////////////////////////////////
+
+        holder.image.setOnClickListener(cl);  //setting onclick listener to read more textview
     }
 
     @Override
