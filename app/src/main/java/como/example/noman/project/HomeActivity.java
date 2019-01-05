@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         server = WebService.getInstance(this);
-        server.initialize_server();                                   //initializing the server
+        //server.initialize_server();                                   //initializing the server
         /*server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {   //getting hostel data
             @Override
             public void callbackFunction(WebService.HostelObjectList result) {
