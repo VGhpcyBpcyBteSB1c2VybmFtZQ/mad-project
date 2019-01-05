@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,14 +20,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import com.google.gson.Gson;
-
 import java.io.ByteArrayOutputStream;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean isLoggedIn;
+    static WebService server; // Global server variable should be used everywhere
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        WebService server = new WebService(this);
+        server = WebService.getInstance(this);
         server.initialize_server();                                   //initializing the server
         /*server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {   //getting hostel data
             @Override
@@ -69,7 +69,7 @@ public class Home extends AppCompatActivity
 
         //SharedPreferences hostelPref = getSharedPreferences("hostelInfo", MODE_PRIVATE);
         //String h = hostelPref.getString("hostels", null);
-        if (false)
+        if (false)  //set this to true to add test data to the server
         {
             String[] hostelNames = {"Paradise Hostel", "Premium Alcazaba Hostel", "El Machico Hostel", "Einstein Hostel"};
             String[] hostelAddress = {"Muslim Town, Lahore", "Johar Town, Lahore", "Gulshan-e-Ravi, Lahore", "Ferozpur Road, Lahore"};
@@ -84,8 +84,19 @@ public class Home extends AppCompatActivity
             for (int i = 0; i < 4; i++)
             {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), hostelImagesId[i]);
-                bm.compress(Bitmap.CompressFormat.JPEG, 50, os);
+
+                BitmapFactory.Options boundOptions = new BitmapFactory.Options(); //options to get image data without loading bitmap into memory
+                boundOptions.inJustDecodeBounds = true;
+                BitmapFactory.decodeResource(getResources(), hostelImagesId[i], boundOptions);
+                int sampleSize = WebService.getSampleSize(boundOptions, 500, 500);  //get the sample factor
+
+                Log.i("myInfoSample", Integer.toString(sampleSize));
+
+                BitmapFactory.Options finalOptions = new BitmapFactory.Options();  //final options to get the bitmap
+                finalOptions.inSampleSize = sampleSize;
+                Bitmap bm = BitmapFactory.decodeResource(getResources(), hostelImagesId[i], finalOptions);
+
+                bm.compress(Bitmap.CompressFormat.JPEG, 50, os); //compressing the final bitmap to store in byteArrayStream
                 byte[] bObj = os.toByteArray();
                 WebService.HostelObject hClass = new WebService.HostelObject(hostelNames[i], hostelAddress[i], hostelCity[i], hostelExtras[i], hostelRooms[i], hostelFloors[i], hostelOwnerMail[i], hostelRatings[i], bObj);
 

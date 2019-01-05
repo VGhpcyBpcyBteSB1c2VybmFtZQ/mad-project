@@ -1,4 +1,4 @@
-// This class acts as an interface to interact with the server
+// This singleton class acts as an interface to interact with the server
 // Different services can be requested from the remote server
 // Like retrieving and submitting data to the database etc.
 
@@ -14,6 +14,7 @@ package como.example.noman.project;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,8 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-
-import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +37,20 @@ public class WebService {
     private Activity context;
     private RequestQueue queue;
     private String domain;
+    private static WebService instance = null;
 
-    public WebService(Activity _context)   //class constructor, requires activity context
+    private WebService(Activity _context)   //class constructor, requires activity context
     {
         context = _context;
         queue = Volley.newRequestQueue(context);
         domain = "http://192.168.10.6/mad-proj";
+    }
+
+    public static WebService getInstance(Activity _context)
+    {
+        if (instance == null)
+            instance = new WebService(_context);
+        return instance;
     }
 
     public void initialize_server()   //should be called once in the beginning, initializes the server database if needed
@@ -178,6 +186,26 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public static int getSampleSize(BitmapFactory.Options _options, int _reqHeight, int _reqWidth)  //static method for getting info fir image resizing and compression
+    {
+        // Raw height and width of image
+        final int height = _options.outHeight;
+        final int width = _options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > _reqHeight || width > _reqWidth) {
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((height / inSampleSize) >= _reqHeight
+                    && (width / inSampleSize) >= _reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
     // this is the Callback interface (abstract class) which is required by certain methods from the WebService class
     // you will override the callbackFunction which tells the WebService class what to do after the data is finally
     // fetched from the server. It takes as input the object containing retrieved data which will be different for each method
@@ -202,7 +230,7 @@ public class WebService {
         public int no_floors;
         public String owner_email;
         public int hostel_id;
-        public byte[] hostel_img;
+        private byte[] hostel_img;
 
         HostelObject(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, float _rating, byte[] _img) {
             hostelName = _name;
@@ -215,6 +243,14 @@ public class WebService {
             rating = _rating;
             hostel_id = -1;
             hostel_img = _img;
+        }
+
+        public Bitmap getBitmap()
+        {
+            Bitmap b = BitmapFactory.decodeStream(new ByteArrayInputStream(hostel_img));
+            if (b == null)
+                Log.i("myInfo", "It is null");
+            return b;
         }
     }
 

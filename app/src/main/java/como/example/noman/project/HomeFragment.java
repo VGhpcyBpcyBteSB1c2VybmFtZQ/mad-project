@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +52,11 @@ public class HomeFragment extends Fragment {
 
         /////////////// Getting Data for Hotels //////////////////////////////
 
-        (new WebService(getActivity())).getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
+        WebService.getInstance(getActivity()).getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunction(WebService.HostelObjectList hl) {
+
+                Toast.makeText(getActivity(), "Page Loaded", Toast.LENGTH_LONG).show();
 
                 hostelNames = new String[hl.hostelsStored.size()];
                 hostelAddress = new String[hl.hostelsStored.size()];
@@ -75,9 +78,7 @@ public class HomeFragment extends Fragment {
                     hostelFloors[i] = hl.hostelsStored.get(i).no_floors;
                     hostelExtras[i] = hl.hostelsStored.get(i).hostelExtras;
                     hostelOwnerMail[i] = hl.hostelsStored.get(i).owner_email;
-                    /////// getting the image bitmap /////////////
-                    byte[] arr = hl.hostelsStored.get(i).hostel_img;
-                    hostelBitmaps[i] = BitmapFactory.decodeStream(new ByteArrayInputStream(arr));
+                    hostelBitmaps[i] = hl.hostelsStored.get(i).getBitmap();
 
                     ///////////////////////////////////////////////
                 }
