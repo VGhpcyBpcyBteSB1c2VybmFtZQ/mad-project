@@ -38,14 +38,12 @@ public class HomeFragment extends Fragment {
     private String[] hostelNames;
     private String[] hostelAddress;
     private String[] hostelRatings;
-    private Integer[] hostelImages;
     private String[] hostelCity;
     private Integer[] hostelRooms;
     private Integer[] hostelFloors;
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
     private Bitmap[] hostelBitmaps;
-
     ////////////////////////////////////////////////////////////
 
     @Override
@@ -96,14 +94,19 @@ public class HomeFragment extends Fragment {
                     RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_home_recycler_view);
 
                     //randomly setting ids to views
-                    textView.setId(View.generateViewId());
-                    listView.setId(View.generateViewId());
+                    int id1 = View.generateViewId();
+                    int id2 = View.generateViewId();
+
+                    textView.setId(id1);
+                    listView.setId(id2);
+
+                    listView = (RecyclerView) view.findViewById(id2);
 
                     //Change heading text here
                     textView.setText("Heading " + i);
 
                     /////////////////// setting adapter here ////////////////////
-                    CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelImages, hostelBitmaps);
+                    CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelBitmaps);
                     LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
                     listView.setLayoutManager(horizontalLayoutManager);
                     listView.setAdapter(adapter);

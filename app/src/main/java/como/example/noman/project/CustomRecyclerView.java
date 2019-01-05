@@ -16,7 +16,6 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
     private String[] hostelNames;
     private String[] hostelAddress;
     private String[] hostelRatings;
-    private Integer[] hostelImages;
     private Activity context;
     private String[] hostelCity;
     private Integer[] hostelRooms;
@@ -25,13 +24,12 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
     private String[] hostelOwnerMail;
     private Bitmap[] hostelBitmaps;
 
-    public CustomRecyclerView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Integer[] hostelImages, Bitmap[] hostelBitmaps) {
+    public CustomRecyclerView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Bitmap[] hostelBitmaps) {
 
         this.context = context;
         this.hostelNames = hostelNames;
         this.hostelAddress = hostelAddress;
         this.hostelRatings = hostelRatings;
-        this.hostelImages = hostelImages;
         this.hostelCity = hostelCity;
         this.hostelRooms = hostelRooms;
         this.hostelFloors = hostelFloors;
@@ -58,6 +56,19 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         holder.name.setText(hostelNames[position]);
         holder.rating.setText(hostelRatings[position]);
         holder.image.setImageBitmap(hostelBitmaps[position]);
+
+        ClickListener cl = new ClickListener(context, context.getApplicationContext());
+        // setting parameters for click listener //
+        cl.hostelName = hostelNames[position];
+        cl.hostelAddress = hostelAddress[position];
+        cl.hostelExtras = hostelExtras[position];
+        cl.no_rooms = hostelRooms[position];
+        cl.no_floors = hostelFloors[position];
+        cl.owner_email = hostelOwnerMail[position];
+        cl.image_bitmap = hostelBitmaps[position];
+        /////////////////////////////////////////
+
+        holder.image.setOnClickListener(cl);  //setting onclick listener to read more textview
     }
 
     @Override
