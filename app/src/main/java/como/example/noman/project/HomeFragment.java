@@ -98,9 +98,9 @@ public class HomeFragment extends Fragment {
         }
 
         LayoutInflater in = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewGroup parent = (ViewGroup)view.findViewById(R.id.home_fragment_table);
         for(int i = 0; i < 7; i++)
         {
+            ViewGroup parent = (ViewGroup)view.findViewById(R.id.home_fragment_table);
             LinearLayout v = (LinearLayout) inflater.inflate(R.layout.table_row_home_category, parent);
             v.getChildAt(i).setId(View.generateViewId());
 
