@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.MyViewHolder> {
+public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView.MyViewHolder> {
 
     private String[] hostelNames;
     private String[] hostelAddress;
