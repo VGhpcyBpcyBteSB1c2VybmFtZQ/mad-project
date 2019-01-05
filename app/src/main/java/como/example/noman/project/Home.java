@@ -2,6 +2,8 @@ package como.example.noman.project;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,7 +55,7 @@ public class Home extends AppCompatActivity
             }
         });*/
 
-        server.getUserData("test@test.com", "1234", new WebService.Callback<WebService.userObject>() {
+        /*server.getUserData("test@test.com", "1234", new WebService.Callback<WebService.userObject>() {
             @Override
             public void callbackFunction(WebService.userObject result) {
                 if (result.userName != null)
@@ -59,34 +63,42 @@ public class Home extends AppCompatActivity
                 else
                     Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
         //Creating an initial Database of Hostels if it doesn't exist
 
-        SharedPreferences hostelPref = getSharedPreferences("hostelInfo", MODE_PRIVATE);
-        String h = hostelPref.getString("hostels", null);
-        if (h == null)
+        //SharedPreferences hostelPref = getSharedPreferences("hostelInfo", MODE_PRIVATE);
+        //String h = hostelPref.getString("hostels", null);
+        if (false)
         {
             String[] hostelNames = {"Paradise Hostel", "Premium Alcazaba Hostel", "El Machico Hostel", "Einstein Hostel"};
             String[] hostelAddress = {"Muslim Town, Lahore", "Johar Town, Lahore", "Gulshan-e-Ravi, Lahore", "Ferozpur Road, Lahore"};
             String[] hostelCity = {"Muslim Town, Lahore", "Johar Town, Lahore", "Gulshan-e-Ravi, Lahore", "Ferozpur Road, Lahore"};
-            String[] hostelRatings = {"4.2", "3.5", "2.3", "3.3"};
+            float[] hostelRatings = {4.2f, 3.5f, 2.3f, 3.3f};
             Integer[] hostelImagesId = {R.drawable.img_1, R.drawable.img_2, R.drawable.img_3, R.drawable.img_4};
             Integer[] hostelRooms = {20, 10, 16, 18};
             Integer[] hostelFloors = {6, 4, 3, 3};
             String[] hostelExtras = {"AC, Heater, Refrigerator", "AC, Heater, Refrigerator", "AC, Heater, Refrigerator", "AC, Heater, Refrigerator"};
-            String[] hostelOwnerMail = {"test1@test.com", "test2@test.com", "test3@test.com", "test4@test.com"};
-            int[] hostelIds = {0, 1, 2, 3};
+            String[] hostelOwnerMail = {"test@test.com", "test@test.com", "test@test.com", "test@test.com"};
 
-            HostelDataList hostelList = new HostelDataList();
             for (int i = 0; i < 4; i++)
             {
-                HostelDataClass hClass = new HostelDataClass(hostelNames[i], hostelAddress[i], hostelCity[i], hostelExtras[i], hostelRooms[i], hostelFloors[i], hostelOwnerMail[i], hostelImagesId[i], hostelRatings[i], hostelIds[i]);
-                hostelList.hostelsStored.add(hClass);
-            }
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                Bitmap bm = BitmapFactory.decodeResource(getResources(), hostelImagesId[i]);
+                bm.compress(Bitmap.CompressFormat.JPEG, 50, os);
+                byte[] bObj = os.toByteArray();
+                WebService.HostelObject hClass = new WebService.HostelObject(hostelNames[i], hostelAddress[i], hostelCity[i], hostelExtras[i], hostelRooms[i], hostelFloors[i], hostelOwnerMail[i], hostelRatings[i], bObj);
 
-            String hListJson = (new Gson()).toJson(hostelList);
-            hostelPref.edit().putString("hostels", hListJson).putInt("lastKey", 3).apply();
+                server.addHostel(hClass, new WebService.Callback<Boolean>() {
+                    @Override
+                    public void callbackFunction(Boolean result) {
+                        if (result)
+                            Toast.makeText(getApplicationContext(), "Successfully Uploaded Hostel", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "Failed to Uploaded Hostel", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         }
 
         /////////////////////////////////////////////////////////////

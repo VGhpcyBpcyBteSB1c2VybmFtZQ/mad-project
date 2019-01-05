@@ -12,6 +12,9 @@
 package como.example.noman.project;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +70,7 @@ public class WebService {
             @Override
             public void onResponse(String response) {
                 HostelObjectList result = (new Gson()).fromJson(response, HostelObjectList.class);
+                Log.i("myInfo", "Got Result");
                 _callback.callbackFunction(result);
             }
         }, new Response.ErrorListener() {
@@ -113,13 +118,13 @@ public class WebService {
         queue.add(stringRequest);
     }
 
-    public void getUserData(final String _email, final String _password, final Callback<userObject> _callback) //returns user data
+    public void getUserData(final String _email, final String _password, final Callback<UserObject> _callback) //returns user data
     {
         String url = domain+"/retrieve_data.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                userObject result = (new Gson()).fromJson(response, userObject.class);
+                UserObject result = (new Gson()).fromJson(response, UserObject.class);
                 _callback.callbackFunction(result);   //if no user was found or incorrect credentials were given then all fields of result will contain 'null'
             }
         }, new Response.ErrorListener() {
@@ -141,20 +146,52 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public void addHostel(HostelObject _hostel, final Callback<Boolean> _callback)
+    {
+        String url = domain+"/push_data.php";
+        final String hostelObjJson = (new Gson()).toJson(_hostel);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("myInfo", response);
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunction(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Log.i("myInfo", hostelObjJson);
+                //SharedPreferences spref = context.getSharedPreferences("test", Activity.MODE_PRIVATE);
+                //spref.edit().putString("json", hostelObjJson).apply();
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("add_hostel_data", "");
+                parameter.put("hostel_data", hostelObjJson);
+                return parameter;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
     // this is the Callback interface (abstract class) which is required by certain methods from the WebService class
     // you will override the callbackFunction which tells the WebService class what to do after the data is finally
     // fetched from the server. It takes as input the object containing retrieved data which will be different for each method
 
     interface Callback<T>
     {
-        public void callbackFunction(T result);
+        void callbackFunction(T result);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // below are different types of objects that the WebService will return/take as input
 
-    class HostelObject   //Object containing the hostel data
+    static class HostelObject   //Object containing the hostel data
     {
         public String hostelName;
         public String hostelAddress;
@@ -165,8 +202,9 @@ public class WebService {
         public int no_floors;
         public String owner_email;
         public int hostel_id;
+        public byte[] hostel_img;
 
-        HostelObject(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, float _rating, int _id) {
+        HostelObject(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, float _rating, byte[] _img) {
             hostelName = _name;
             hostelAddress = _address;
             hostelCity = _city;
@@ -175,11 +213,12 @@ public class WebService {
             no_floors = _floors;
             owner_email = _owner;
             rating = _rating;
-            hostel_id = _id;
+            hostel_id = -1;
+            hostel_img = _img;
         }
     }
 
-    class HostelObjectList  //Object containing the data of multiple hostels (this one is used if multiple hostels are returned from the webservice)
+    static class HostelObjectList  //Object containing the data of multiple hostels (this one is used if multiple hostels are returned from the webservice)
     {
         public List<HostelObject> hostelsStored;
 
@@ -189,14 +228,14 @@ public class WebService {
         }
     }
 
-    class userObject   //object to store the user data
+    static class UserObject   //object to store the user data
     {
         public String userName;
         public String email;
         public String password;
         public boolean accountType; // 0 for customer 1 for admin
 
-        public userObject(String _userName, String _email, String _password, boolean _accountType) {
+        public UserObject(String _userName, String _email, String _password, boolean _accountType) {
             userName = _userName;
             email = _email;
             password = _password;

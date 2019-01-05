@@ -206,7 +206,6 @@ public class ClickListener implements  View.OnClickListener {
     public String hostelExtras;
     public int no_rooms;
     public int no_floors;
-    public int image_source;
     public Bitmap image_bitmap;
     public String owner_email;
 
@@ -214,7 +213,6 @@ public class ClickListener implements  View.OnClickListener {
         HostelDataFragment newFragment = new HostelDataFragment();
         newFragment.hostelAddress = hostelAddress;
         newFragment.hostelName = hostelName;
-        newFragment.imageSource = image_source;
         newFragment.hostelRooms = no_rooms;
         newFragment.hostelFloors = no_floors;
         newFragment.hostelExtras = hostelExtras;

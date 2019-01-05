@@ -20,7 +20,6 @@ public class HostelDataFragment extends Fragment {
     public String hostelExtras = null;
     public String hostelAddress = null;
     public String ownerMail = null;
-    public int imageSource = -1;
     public Bitmap image_bitmap = null;
 
     @Nullable
@@ -43,10 +42,6 @@ public class HostelDataFragment extends Fragment {
         if (hostelExtras != null)
         {
             ((TextView)v.findViewById(R.id.hostelData_extras)).setText(hostelExtras);
-        }
-        if (imageSource != -1)
-        {
-            ((ImageView)v.findViewById(R.id.hostelData_image)).setImageResource(imageSource);
         }
         else if (image_bitmap != null)
         {

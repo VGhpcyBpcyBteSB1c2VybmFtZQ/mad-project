@@ -16,7 +16,6 @@ public class CustomListView extends ArrayAdapter<String> {
     private String[] hostelNames;
     private String[] hostelAddress;
     private String[] hostelRatings;
-    private Integer[] hostelImages;
     private Activity context;
     private String[] hostelCity;
     private Integer[] hostelRooms;
@@ -25,14 +24,13 @@ public class CustomListView extends ArrayAdapter<String> {
     private String[] hostelOwnerMail;
     private Bitmap[] hostelBitmaps;
 
-    CustomListView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Integer[] hostelImages, Bitmap[] hostelBitmaps) {
+    CustomListView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Bitmap[] hostelBitmaps) {
         super(context, R.layout.listview_item, hostelNames);
 
         this.context = context;
         this.hostelNames = hostelNames;
         this.hostelAddress = hostelAddress;
         this.hostelRatings = hostelRatings;
-        this.hostelImages = hostelImages;
         this.hostelCity = hostelCity;
         this.hostelRooms = hostelRooms;
         this.hostelFloors = hostelFloors;
@@ -51,7 +49,6 @@ public class CustomListView extends ArrayAdapter<String> {
 
         ClickListener cl = new ClickListener(context, context.getApplicationContext());
         // setting parameters for click listener //
-        cl.image_source = hostelImages[position];
         cl.hostelName = hostelNames[position];
         cl.hostelAddress = hostelAddress[position];
         cl.hostelExtras = hostelExtras[position];
@@ -71,13 +68,7 @@ public class CustomListView extends ArrayAdapter<String> {
         name.setText(hostelNames[position]);
         address.setText(hostelAddress[position]);
         rating.setText(hostelRatings[position]);
-
-        if (hostelImages[position] == -1 && hostelBitmaps[position] != null)
-            image.setImageBitmap(hostelBitmaps[position]);
-        else if (hostelImages[position] != -1)
-            image.setImageResource(hostelImages[position]);
-        else
-            image.setImageResource(R.drawable.img_1);
+        image.setImageBitmap(hostelBitmaps[position]);
 
         return view;
     }

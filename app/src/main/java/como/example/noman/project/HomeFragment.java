@@ -15,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,56 +47,48 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         /////////////// Getting Data for Hotels //////////////////////////////
 
-        SharedPreferences hPref = getActivity().getSharedPreferences("hostelInfo", Context.MODE_PRIVATE);
-        String json = hPref.getString("hostels", null);
-        HostelDataList hl = (new Gson()).fromJson(json, HostelDataList.class);
-        hostelNames = new String[hl.hostelsStored.size()];
-        hostelAddress = new String[hl.hostelsStored.size()];
-        hostelRatings = new String[hl.hostelsStored.size()];
-        hostelImages = new Integer[hl.hostelsStored.size()];
-        hostelCity = new String[hl.hostelsStored.size()];
-        hostelRooms = new Integer[hl.hostelsStored.size()];
-        hostelFloors = new Integer[hl.hostelsStored.size()];
-        hostelExtras = new String[hl.hostelsStored.size()];
-        hostelOwnerMail = new String[hl.hostelsStored.size()];
-        hostelBitmaps = new Bitmap[hl.hostelsStored.size()];
+        (new WebService(getActivity())).getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
+            @Override
+            public void callbackFunction(WebService.HostelObjectList hl) {
 
-        for (int i = 0; i < hl.hostelsStored.size(); i++)
-        {
-            hostelNames[i] = hl.hostelsStored.get(i).hostelName;
-            hostelAddress[i] = hl.hostelsStored.get(i).hostelAddress;
-            hostelRatings[i] = hl.hostelsStored.get(i).rating;
-            hostelImages[i] = hl.hostelsStored.get(i).image_source;
-            hostelCity[i] = hl.hostelsStored.get(i).hostelCity;
-            hostelRooms[i] = hl.hostelsStored.get(i).no_rooms;
-            hostelFloors[i] = hl.hostelsStored.get(i).no_floors;
-            hostelExtras[i] = hl.hostelsStored.get(i).hostelExtras;
-            hostelOwnerMail[i] = hl.hostelsStored.get(i).owner_email;
-            int id = hl.hostelsStored.get(i).hostel_id;
-            /////// getting the image bitmap /////////////
-            try {
-                ContextWrapper cw = new ContextWrapper(getContext());
-                File path = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                File f = new File(path, Integer.toString(id)+".jpg");
-                hostelBitmaps[i] = BitmapFactory.decodeStream(new FileInputStream(f));
-            }
-            catch (FileNotFoundException e)
-            {
-                e.printStackTrace();
-                hostelBitmaps[i] = null;
-            }
-            ///////////////////////////////////////////////
-        }
+                hostelNames = new String[hl.hostelsStored.size()];
+                hostelAddress = new String[hl.hostelsStored.size()];
+                hostelRatings = new String[hl.hostelsStored.size()];
+                hostelCity = new String[hl.hostelsStored.size()];
+                hostelRooms = new Integer[hl.hostelsStored.size()];
+                hostelFloors = new Integer[hl.hostelsStored.size()];
+                hostelExtras = new String[hl.hostelsStored.size()];
+                hostelOwnerMail = new String[hl.hostelsStored.size()];
+                hostelBitmaps = new Bitmap[hl.hostelsStored.size()];
 
-        /////////////////// setting adapter here ////////////////////
-        mylist = view.findViewById(R.id.listview_my_custom_listview);
-        CustomListView clv = new CustomListView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelImages, hostelBitmaps);
-        mylist.setAdapter(clv);
-        /////////////////////////////////////////////////////////////
+                for (int i = 0; i < hl.hostelsStored.size(); i++)
+                {
+                    hostelNames[i] = hl.hostelsStored.get(i).hostelName;
+                    hostelAddress[i] = hl.hostelsStored.get(i).hostelAddress;
+                    hostelRatings[i] = Float.toString(hl.hostelsStored.get(i).rating);
+                    hostelCity[i] = hl.hostelsStored.get(i).hostelCity;
+                    hostelRooms[i] = hl.hostelsStored.get(i).no_rooms;
+                    hostelFloors[i] = hl.hostelsStored.get(i).no_floors;
+                    hostelExtras[i] = hl.hostelsStored.get(i).hostelExtras;
+                    hostelOwnerMail[i] = hl.hostelsStored.get(i).owner_email;
+                    /////// getting the image bitmap /////////////
+                    byte[] arr = hl.hostelsStored.get(i).hostel_img;
+                    hostelBitmaps[i] = BitmapFactory.decodeStream(new ByteArrayInputStream(arr));
+
+                    ///////////////////////////////////////////////
+                }
+
+                /////////////////// setting adapter here ////////////////////
+                mylist = view.findViewById(R.id.listview_my_custom_listview);
+                CustomListView clv = new CustomListView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelBitmaps);
+                mylist.setAdapter(clv);
+                /////////////////////////////////////////////////////////////
+            }
+        });
 
         return view;
     }
