@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView.MyViewHolder> {
