@@ -12,13 +12,12 @@
 package como.example.noman.project;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -43,7 +42,8 @@ public class WebService {
     {
         context = _context;
         queue = Volley.newRequestQueue(context);
-        domain = "http://192.168.10.6/mad-proj";
+        domain = "https://zoning-partitions.000webhostapp.com";
+        //domain = "http://192.168.10.6/mad-proj";
     }
 
     public static WebService getInstance(Activity _context)
@@ -68,6 +68,11 @@ public class WebService {
             }
         });
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(stringRequest);
     }
 
@@ -77,6 +82,7 @@ public class WebService {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.i("myInfo", response);
                 HostelObjectList result = (new Gson()).fromJson(response, HostelObjectList.class);
                 Log.i("myInfo", "Got Result");
                 _callback.callbackFunction(result);
@@ -94,6 +100,11 @@ public class WebService {
                 return parameter;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
     }
@@ -123,6 +134,11 @@ public class WebService {
             }
         };
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(stringRequest);
     }
 
@@ -151,11 +167,17 @@ public class WebService {
             }
         };
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(stringRequest);
     }
 
     public void addHostel(HostelObject _hostel, final Callback<Boolean> _callback)
     {
+        Log.i("myInfo", "addHostel Called");
         String url = domain+"/push_data.php";
         final String hostelObjJson = (new Gson()).toJson(_hostel);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -168,6 +190,7 @@ public class WebService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.i("myInfo", "Error Occurred");
                 Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
             }
         }){
@@ -182,7 +205,10 @@ public class WebService {
                 return parameter;
             }
         };
-
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 

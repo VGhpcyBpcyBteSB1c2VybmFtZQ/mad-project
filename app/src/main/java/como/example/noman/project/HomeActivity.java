@@ -81,8 +81,6 @@ public class HomeActivity extends AppCompatActivity {
                 BitmapFactory.decodeResource(getResources(), hostelImagesId[i], boundOptions);
                 int sampleSize = WebService.getSampleSize(boundOptions, 500, 500);  //get the sample factor
 
-                Log.i("myInfoSample", Integer.toString(sampleSize));
-
                 BitmapFactory.Options finalOptions = new BitmapFactory.Options();  //final options to get the bitmap
                 finalOptions.inSampleSize = sampleSize;
                 Bitmap bm = BitmapFactory.decodeResource(getResources(), hostelImagesId[i], finalOptions);
@@ -97,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
                         if (result)
                             Toast.makeText(getApplicationContext(), "Successfully Uploaded Hostel", Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(getApplicationContext(), "Failed to Uploaded Hostel", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Failed to Upload Hostel", Toast.LENGTH_LONG).show();
                     }
                 });
             }
