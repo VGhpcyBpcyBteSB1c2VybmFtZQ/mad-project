@@ -58,9 +58,6 @@ public class ClickListener implements  View.OnClickListener {
             case R.id.signinButton:
                 signin();
                 break;
-            case R.id.item_readmore:
-                readMore();
-                break;
             case R.id.signup_GoToHome:
             case R.id.goToHome:
                 goToHome();
@@ -68,9 +65,7 @@ public class ClickListener implements  View.OnClickListener {
             case R.id.addHostel_save:
                 addHostelToDatabase();
                 break;
-            case R.id.fab:
-                goToAddHostel();
-                break;
+
             default:
                 break;
         }
@@ -79,7 +74,6 @@ public class ClickListener implements  View.OnClickListener {
     //// Implement Click Functions Here ////
 
     private void goToAddHostel() {
-        ((FloatingActionButton) activity.findViewById(R.id.fab)).hide();
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         AddHostel newFragment = new AddHostel();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
@@ -91,7 +85,7 @@ public class ClickListener implements  View.OnClickListener {
     }
 
     private void goToHome() {
-        Intent intent = new Intent(activity, Home.class);
+        Intent intent = new Intent(activity, HomeActivity.class);
         activity.startActivity(intent);
     }
 
@@ -130,7 +124,7 @@ public class ClickListener implements  View.OnClickListener {
             Email.setError("There is already an account associated with this email.");
         } else {
             Toast.makeText(activity, "Account Created!", Toast.LENGTH_SHORT).show();
-            Intent homePage = new Intent(activity, Home.class);
+            Intent homePage = new Intent(activity, HomeActivity.class);
             activity.startActivity(homePage);
         }
     }
@@ -189,7 +183,7 @@ public class ClickListener implements  View.OnClickListener {
                 if (password.equals(p))   //Login if credentials are correct
                 {
                     mPrefs.edit().putString("logged_in", json).apply();  //add entry in database
-                    Intent homePage = new Intent(activity, Home.class);
+                    Intent homePage = new Intent(activity, HomeActivity.class);
                     activity.startActivity(homePage);
                 } else {
                     passwordText.setError("Incorrect Password!");
