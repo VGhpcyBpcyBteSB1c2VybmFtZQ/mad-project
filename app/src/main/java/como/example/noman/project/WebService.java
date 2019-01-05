@@ -33,6 +33,8 @@ import java.util.Map;
 
 public class WebService {
 
+    private static final int TIMEOUT = 10000;
+
     private Activity context;
     private RequestQueue queue;
     private String domain;
@@ -69,7 +71,7 @@ public class WebService {
         });
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
+                TIMEOUT,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -102,7 +104,7 @@ public class WebService {
         };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
+                TIMEOUT,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -135,7 +137,7 @@ public class WebService {
         };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
+                TIMEOUT,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -168,7 +170,7 @@ public class WebService {
         };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
+                TIMEOUT,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -206,7 +208,7 @@ public class WebService {
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
+                TIMEOUT,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
