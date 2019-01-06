@@ -1,30 +1,18 @@
 package como.example.noman.project;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.gson.Gson;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,7 +46,7 @@ public class ClickListener implements  View.OnClickListener {
             case R.id.signinButton:
                 signin();
                 break;
-            case R.id.item_readmore:
+            case R.id.item_image:
                 readMore();
                 break;
             case R.id.signup_GoToHome:
@@ -68,9 +56,7 @@ public class ClickListener implements  View.OnClickListener {
             case R.id.addHostel_save:
                 addHostelToDatabase();
                 break;
-            case R.id.fab:
-                goToAddHostel();
-                break;
+
             default:
                 break;
         }
@@ -79,7 +65,6 @@ public class ClickListener implements  View.OnClickListener {
     //// Implement Click Functions Here ////
 
     private void goToAddHostel() {
-        ((FloatingActionButton) activity.findViewById(R.id.fab)).hide();
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         AddHostel newFragment = new AddHostel();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
@@ -91,7 +76,7 @@ public class ClickListener implements  View.OnClickListener {
     }
 
     private void goToHome() {
-        Intent intent = new Intent(activity, Home.class);
+        Intent intent = new Intent(activity, HomeActivity.class);
         activity.startActivity(intent);
     }
 
@@ -130,7 +115,7 @@ public class ClickListener implements  View.OnClickListener {
             Email.setError("There is already an account associated with this email.");
         } else {
             Toast.makeText(activity, "Account Created!", Toast.LENGTH_SHORT).show();
-            Intent homePage = new Intent(activity, Home.class);
+            Intent homePage = new Intent(activity, HomeActivity.class);
             activity.startActivity(homePage);
         }
     }
@@ -189,7 +174,7 @@ public class ClickListener implements  View.OnClickListener {
                 if (password.equals(p))   //Login if credentials are correct
                 {
                     mPrefs.edit().putString("logged_in", json).apply();  //add entry in database
-                    Intent homePage = new Intent(activity, Home.class);
+                    Intent homePage = new Intent(activity, HomeActivity.class);
                     activity.startActivity(homePage);
                 } else {
                     passwordText.setError("Incorrect Password!");
@@ -206,7 +191,6 @@ public class ClickListener implements  View.OnClickListener {
     public String hostelExtras;
     public int no_rooms;
     public int no_floors;
-    public int image_source;
     public Bitmap image_bitmap;
     public String owner_email;
 
@@ -214,7 +198,6 @@ public class ClickListener implements  View.OnClickListener {
         HostelDataFragment newFragment = new HostelDataFragment();
         newFragment.hostelAddress = hostelAddress;
         newFragment.hostelName = hostelName;
-        newFragment.imageSource = image_source;
         newFragment.hostelRooms = no_rooms;
         newFragment.hostelFloors = no_floors;
         newFragment.hostelExtras = hostelExtras;
