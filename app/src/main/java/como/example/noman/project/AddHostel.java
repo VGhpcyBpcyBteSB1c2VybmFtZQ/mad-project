@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class AddHostel extends Fragment {
 
-    static public Bitmap _bitmap;
+    static public Bitmap _bitmap;//testing
 
     @Nullable
     @Override
