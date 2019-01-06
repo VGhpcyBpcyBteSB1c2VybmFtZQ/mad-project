@@ -80,7 +80,7 @@ public class WebService {
 
     public void getAllHostels(final Callback<HostelObjectList> _callback)
     {
-        //Log.i("myInfoMaxRetry", Integer.toString(DefaultRetryPolicy.DEFAULT_MAX_RETRIES));
+        Log.i("myInfoMaxRetry", Integer.toString(DefaultRetryPolicy.DEFAULT_MAX_RETRIES));
         String url = domain+"/retrieve_data.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
