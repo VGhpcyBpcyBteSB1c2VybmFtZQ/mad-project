@@ -105,7 +105,7 @@ public class WebService {
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 TIMEOUT,
-                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
@@ -138,7 +138,7 @@ public class WebService {
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 TIMEOUT,
-                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
@@ -171,7 +171,7 @@ public class WebService {
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 TIMEOUT,
-                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
