@@ -1,5 +1,7 @@
 package como.example.noman.project;
 
+import android.graphics.Bitmap;
+
 public class HostelDataClass {
     public String hostelName;
     public String hostelAddress;
