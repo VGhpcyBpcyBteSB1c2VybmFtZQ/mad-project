@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,6 @@ public class HostelDataFragment extends Fragment {
     public String hostelExtras = null;
     public String hostelAddress = null;
     public String ownerMail = null;
-    public int imageSource = -1;
     public Bitmap image_bitmap = null;
 
     @Nullable
@@ -44,12 +43,9 @@ public class HostelDataFragment extends Fragment {
         {
             ((TextView)v.findViewById(R.id.hostelData_extras)).setText(hostelExtras);
         }
-        if (imageSource != -1)
+        if (image_bitmap != null)
         {
-            ((ImageView)v.findViewById(R.id.hostelData_image)).setImageResource(imageSource);
-        }
-        else if (image_bitmap != null)
-        {
+            Log.i("myInfo", "It is not null");
             ((ImageView)v.findViewById(R.id.hostelData_image)).setImageBitmap(image_bitmap);
         }
         if (hostelAddress != null)

@@ -1,5 +1,6 @@
 package como.example.noman.project;
 
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 
 import static android.support.constraint.Constraints.TAG;
 
-public class Fragment_rating extends Fragment {
+public class ReviewFragment extends Fragment {
 
     RatingBar ratingBar;
     TextView comment_field;
@@ -29,7 +30,7 @@ public class Fragment_rating extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.fragment_rating, container, false);
+        View view = inflater.inflate(R.layout.fragment_review, container, false);
         // Inflate the layout for this fragment
 
         ratingBar = view.findViewById(R.id.ratingBar);
@@ -46,7 +47,7 @@ public class Fragment_rating extends Fragment {
 
     public void addComment(String Name, int Image, float Rating, String Coment, LinearLayout parent)
     {
-        View comment_field = getLayoutInflater().inflate(R.layout.comment_field, null);
+        View comment_field = getLayoutInflater().inflate(R.layout.comment_block, null);
         TextView user_name = comment_field.findViewById(R.id.name);
         TextView user_rating = comment_field.findViewById(R.id.user_rated);
         TextView user_comments = comment_field.findViewById(R.id.user_comment);
@@ -74,6 +75,7 @@ public class Fragment_rating extends Fragment {
                     //added to database
                     already_rated = true;
                     addComment("jon", R.drawable.login_img, rated, added_comment, layout);
+                    comment_field.setText("");
                 }
                 else  if (rated == 0)
                     Toast.makeText(getActivity(),"Rate it",Toast.LENGTH_SHORT).show();
@@ -89,6 +91,8 @@ public class Fragment_rating extends Fragment {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 rated = rating;
+                ratingBar.setIsIndicator(true);
+                ratingBar.setRating(rating);
             }
         });
     }

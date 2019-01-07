@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -40,21 +40,12 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="@string/hosteldata_details"
-                android:textColor="@color/colorWhite"
-                android:textSize="24sp" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
                 android:orientation="horizontal">
 
                 <TableLayout
@@ -62,35 +53,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
+
+
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/lable_adress"
-                            android:layout_width="161dp"
-                            android:layout_height="30dp"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="15dp"
-                            android:text="@string/hosteldata_address"
-                            android:textColor="@color/colorWhite" />
-
-                        <TextView
-                            android:id="@+id/hostelData_hostelAddress"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:layout_weight="2"
-                            android:gravity="center_vertical"
-                            android:text="@string/hosteldata_hostel_address"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="14sp" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
 
                         <TextView
                             android:id="@+id/lable_roomsAvailible"
@@ -172,6 +140,31 @@
                         android:layout_height="match_parent" >
 
                         <TextView
+                            android:id="@+id/lable_adress"
+                            android:layout_width="161dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:text="@string/hosteldata_address"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:id="@+id/hostelData_hostelAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="@string/hosteldata_hostel_address"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="14sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
                             android:id="@+id/lable_ownerPhone"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -196,13 +189,12 @@
             </LinearLayout>
             <fragment
                 android:id="@+id/coommentFragment"
-                android:layout_marginTop="2dp"
-                android:name="como.example.noman.project.Fragment_rating"
+                android:layout_marginTop="10dp"
+                android:name="como.example.noman.project.ReviewFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:layout="@layout/fragment_rating"/>
+                tools:layout="@layout/fragment_review"/>
         </LinearLayout>
-
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

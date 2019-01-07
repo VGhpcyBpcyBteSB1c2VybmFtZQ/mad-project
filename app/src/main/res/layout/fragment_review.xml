@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".Fragment_rating">
+    tools:context=".ReviewFragment">
 
 
     <RatingBar
@@ -35,13 +35,14 @@
             android:id="@+id/commentButton"
             android:background="@color/blue"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:textColor="@android:color/black"
             android:text="@string/submit" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/cmt"
+        android:padding="10dp"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
