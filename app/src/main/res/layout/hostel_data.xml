@@ -188,7 +188,7 @@
 
             </LinearLayout>
             <fragment
-                android:id="@+id/coommentFragment"
+                android:id="@+id/commentFragment"
                 android:layout_marginTop="10dp"
                 android:name="como.example.noman.project.ReviewFragment"
                 android:layout_width="match_parent"
