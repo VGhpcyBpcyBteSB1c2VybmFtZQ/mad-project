@@ -25,16 +25,16 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         server = WebService.getInstance(this);
-        //server.initialize_server();                                   //initializing the server
-        /*server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {   //getting hostel data
+        server.initialize_server();                                   //initializing the server
+        server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {   //getting hostel data
             @Override
             public void callbackFunction(WebService.HostelObjectList result) {
                 if (result.hostelsStored.size() == 0)
                     Toast.makeText(getApplicationContext(), "No Hostels", Toast.LENGTH_LONG).show();
             }
-        });*/
+        });
 
-        /*server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
+        server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
             @Override
             public void callbackFunction(Boolean result) {
                 if (result)
@@ -42,23 +42,23 @@ public class HomeActivity extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(), "Not Verified", Toast.LENGTH_LONG).show();
             }
-        });*/
+        });
 
-        /*server.getUserData("test@test.com", "1234", new WebService.Callback<WebService.userObject>() {
+        server.getUserData("test@test.com", "1234", new WebService.Callback<WebService.UserObject>() {
             @Override
-            public void callbackFunction(WebService.userObject result) {
+            public void callbackFunction(WebService.UserObject result) {
                 if (result.userName != null)
                     Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
                 else
                     Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
             }
-        });*/
+        });
 
         //Creating an initial Database of Hostels if it doesn't exist
 
         //SharedPreferences hostelPref = getSharedPreferences("hostelInfo", MODE_PRIVATE);
         //String h = hostelPref.getString("hostels", null);
-        if (false)  //set this to true to add test data to the server
+        if (true)  //set this to true to add test data to the server
         {
             String[] hostelNames = {"Paradise Hostel", "Premium Alcazaba Hostel", "El Machico Hostel", "Einstein Hostel"};
             String[] hostelAddress = {"Muslim Town, Lahore", "Johar Town, Lahore", "Gulshan-e-Ravi, Lahore", "Ferozpur Road, Lahore"};
