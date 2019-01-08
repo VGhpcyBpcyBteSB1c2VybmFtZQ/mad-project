@@ -51,6 +51,7 @@
     <string name="submit">submit</string>
     <string name="name">name</string>
     <string name="rate">Rate</string>
+    <string name="comment_here">Comment here</string>
     <string-array name="cities">
         <item>Lahore</item>
         <item>Islamabad</item>

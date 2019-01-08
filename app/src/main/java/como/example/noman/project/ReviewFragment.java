@@ -1,11 +1,7 @@
 package como.example.noman.project;
 
-
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class ReviewFragment extends Fragment {
 
@@ -28,15 +22,18 @@ public class ReviewFragment extends Fragment {
     boolean already_rated = false;
     public static float rated =0;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_review, container, false);
-        // Inflate the layout for this fragment
 
         ratingBar = view.findViewById(R.id.ratingBar);
 
         comment_field = view.findViewById(R.id.commentBar);
         comment_button = view.findViewById(R.id.commentButton);
+
+        comment_field.setVisibility(View.INVISIBLE);
+        comment_button.setVisibility(View.INVISIBLE);
+
+
 
         layout = (LinearLayout) view.findViewById(R.id.cmt);
         rating();
@@ -75,7 +72,9 @@ public class ReviewFragment extends Fragment {
                     //added to database
                     already_rated = true;
                     addComment("jon", R.drawable.login_img, rated, added_comment, layout);
-                    comment_field.setText("");
+//                    comment_field.setText("");
+                    comment_field.setVisibility(View.INVISIBLE);
+                    comment_button.setVisibility(View.INVISIBLE);
                 }
                 else  if (rated == 0)
                     Toast.makeText(getActivity(),"Rate it",Toast.LENGTH_SHORT).show();
@@ -93,6 +92,8 @@ public class ReviewFragment extends Fragment {
                 rated = rating;
                 ratingBar.setIsIndicator(true);
                 ratingBar.setRating(rating);
+                comment_field.setVisibility(View.VISIBLE);
+                comment_button.setVisibility(View.VISIBLE);
             }
         });
     }

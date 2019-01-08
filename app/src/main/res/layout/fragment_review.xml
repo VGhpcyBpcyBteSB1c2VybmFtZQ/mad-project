@@ -9,11 +9,12 @@
 
     <RatingBar
         android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:isIndicator="false"
         android:layout_gravity="top|center"
         android:numStars="5"
-        android:stepSize="1"/>
+        android:stepSize="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,13 +25,13 @@
             android:id="@+id/commentBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:width="270dp"
             android:layout_marginLeft="10dp"
-            android:textColorHint="@color/colorWhite"
-            android:textColor="@color/colorWhite"
+            android:width="270dp"
             android:ems="10"
-            android:hint="@string/comment"
-            android:inputType="textPersonName" />
+            android:hint="@string/comment_here"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
         <Button
             android:id="@+id/commentButton"
             android:background="@color/blue"
@@ -38,6 +39,9 @@
             android:layout_height="30dp"
             android:textColor="@android:color/black"
             android:text="@string/submit" />
+
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -49,3 +53,6 @@
     </LinearLayout>
 
 </LinearLayout>
+
+
+    <!--style="?android:attr/ratingBarStyleSmall"-->
