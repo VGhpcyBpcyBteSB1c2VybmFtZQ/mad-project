@@ -32,7 +32,7 @@
 			  `hostel_extras` varchar(255) NOT NULL,
 			  `hostel_owner_email` varchar(30) NOT NULL,
 			  `hostel_rating` float NOT NULL,
-			  `hostel_img` MEDIUMTEXT NOT NULL,
+			  `hostel_img` int(11) DEFAULT NULL,
 			  	PRIMARY KEY (`hostel_id`),
 			  	FOREIGN KEY (`hostel_owner_email`) REFERENCES `user_table` (`user_email`)
 			);';
@@ -84,8 +84,11 @@
 	// table to store the pictures of the hostels
 
 	$sql = 'CREATE TABLE IF NOT EXISTS `hostel_pic` (
+			  `pic_id` int(11) NOT NULL,
+			  `pic_res_level` TINYINT NOT NULL,
 			  `hostel_id` int(11) NOT NULL,
 			  `hostel_pic` MEDIUMTEXT NOT NULL,
+			    PRIMARY KEY (`pic_id`,`pic_res_level`,`hostel_id`),
 			  	FOREIGN KEY (`hostel_id`) REFERENCES `hostel_table` (`hostel_id`)
 			);';
 	mysqli_query($conn, $sql);

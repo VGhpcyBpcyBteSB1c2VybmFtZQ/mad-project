@@ -20,7 +20,6 @@ public class HostelDataFragment extends Fragment {
     public String hostelExtras = null;
     public String hostelAddress = null;
     public String ownerMail = null;
-    public Bitmap image_bitmap = null;
 
     @Nullable
     @Override
@@ -43,11 +42,11 @@ public class HostelDataFragment extends Fragment {
         {
             ((TextView)v.findViewById(R.id.hostelData_extras)).setText(hostelExtras);
         }
-        if (image_bitmap != null)
+        /*if (image_bitmap != null)
         {
             Log.i("myInfo", "It is not null");
             ((ImageView)v.findViewById(R.id.hostelData_image)).setImageBitmap(image_bitmap);
-        }
+        }*/
         if (hostelAddress != null)
         {
             ((TextView)v.findViewById(R.id.hostelData_hostelAddress)).setText(hostelAddress);

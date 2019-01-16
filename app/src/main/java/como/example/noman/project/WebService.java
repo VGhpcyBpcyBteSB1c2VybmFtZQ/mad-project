@@ -14,6 +14,7 @@ package como.example.noman.project;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -25,11 +26,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import android.net.Uri;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+enum SET_DEFAULT_IMAGE
+{
+    TRUE, FALSE
+}
 
 public class WebService {
 
@@ -44,8 +52,8 @@ public class WebService {
     {
         context = _context;
         queue = Volley.newRequestQueue(context);
-        domain = "https://zoning-partitions.000webhostapp.com";
-        //domain = "http://192.168.10.6/mad-proj";
+        //domain = "https://zoning-partitions.000webhostapp.com";
+        domain = "http://192.168.10.4/mad-proj";
     }
 
     public static WebService getInstance(Activity _context)
@@ -80,20 +88,17 @@ public class WebService {
 
     public void getAllHostels(final Callback<HostelObjectList> _callback)
     {
-        Log.i("myInfoMaxRetry", Integer.toString(DefaultRetryPolicy.DEFAULT_MAX_RETRIES));
         String url = domain+"/retrieve_data.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("myInfo", response);
                 HostelObjectList result = (new Gson()).fromJson(response, HostelObjectList.class);
-                Log.i("myInfo", "Got Result");
-                _callback.callbackFunction(result);
+                _callback.callbackFunctionSuccess(result);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
+                _callback.callbackFunctionFailure();
             }
         }){
             @Override
@@ -119,12 +124,12 @@ public class WebService {
             @Override
             public void onResponse(String response) {
                 boolean result = Boolean.parseBoolean(response);
-                _callback.callbackFunction(result);
+                _callback.callbackFunctionSuccess(result);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
+                _callback.callbackFunctionFailure();
             }
         }){
             @Override
@@ -152,12 +157,12 @@ public class WebService {
             @Override
             public void onResponse(String response) {
                 UserObject result = (new Gson()).fromJson(response, UserObject.class);
-                _callback.callbackFunction(result);   //if no user was found or incorrect credentials were given then all fields of result will contain 'null'
+                _callback.callbackFunctionSuccess(result);   //if no user was found or incorrect credentials were given then all fields of result will contain 'null'
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
+                _callback.callbackFunctionFailure();
             }
         }){
             @Override
@@ -178,7 +183,7 @@ public class WebService {
         queue.add(stringRequest);
     }
 
-    public void addHostel(HostelObject _hostel, final Callback<Boolean> _callback)
+    public void addHostel(HostelObject _hostel, final Callback<Integer> _callback)
     {
         Log.i("myInfo", "addHostel Called");
         String url = domain+"/push_data.php";
@@ -187,24 +192,95 @@ public class WebService {
             @Override
             public void onResponse(String response) {
                 Log.i("myInfo", response);
-                boolean result = Boolean.parseBoolean(response);
-                _callback.callbackFunction(result);
+                int result = Integer.parseInt(response);
+                _callback.callbackFunctionSuccess(result);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("myInfo", "Error Occurred");
-                Toast.makeText(context, "Unable to connect",Toast.LENGTH_LONG).show();
+                _callback.callbackFunctionFailure();
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Log.i("myInfo", hostelObjJson);
                 //SharedPreferences spref = context.getSharedPreferences("test", Activity.MODE_PRIVATE);
                 //spref.edit().putString("json", hostelObjJson).apply();
                 Map<String, String> parameter = new HashMap<String, String>();
                 parameter.put("add_hostel_data", "");
                 parameter.put("hostel_data", hostelObjJson);
+                return parameter;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(stringRequest);
+    }
+
+    public void addHostelImage(final int _hostelID, Uri _image, final SET_DEFAULT_IMAGE flag, final Callback<Boolean> _callback)
+    {
+        Log.i("myInfoImageResult", "addImageCalled");
+        String url = domain+"/push_data.php";
+
+        //////////////////// creating different resolution images /////////////////
+        InputStream inp, inp1, inp2;                                    //for opening input streams
+        ByteArrayOutputStream os;                                       //outputstream to write compressed image to
+        final byte[] res1B;                                                   //byte arrays to store the compressed image
+        final byte[] res2B;
+        try
+        {
+            inp = context.getContentResolver().openInputStream(_image);
+            inp1 = context.getContentResolver().openInputStream(_image);
+            inp2 = context.getContentResolver().openInputStream(_image);
+        }
+        catch(Exception e) {
+            Toast.makeText(context, "Image file not found", Toast.LENGTH_LONG).show();
+            return;
+        }
+        BitmapFactory.Options bitOptions = new BitmapFactory.Options();
+        bitOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(inp, null, bitOptions);
+        int res1 = getSampleSize(bitOptions, 200, 200);
+        int res2 = getSampleSize(bitOptions, 500, 500);
+        BitmapFactory.Options finalOptions = new BitmapFactory.Options();
+
+                //////// RES1 ///////////////////
+        finalOptions.inSampleSize = res1;
+        os = new ByteArrayOutputStream();
+        BitmapFactory.decodeStream(inp1, null, finalOptions).compress(Bitmap.CompressFormat.JPEG, 50, os);
+        res1B = os.toByteArray();
+
+                /////////// RES2 //////////////////
+        finalOptions.inSampleSize = res2;
+        os = new ByteArrayOutputStream();
+        BitmapFactory.decodeStream(inp2, null, finalOptions).compress(Bitmap.CompressFormat.JPEG, 50, os);
+        res2B = os.toByteArray();
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("myInfoImageResult", response);
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("add_hostel_image", Integer.toString(_hostelID));
+                parameter.put("image_res1", Base64.encodeToString(res1B, Base64.DEFAULT));
+                parameter.put("image_res2", Base64.encodeToString(res2B, Base64.DEFAULT));
+                if (flag == SET_DEFAULT_IMAGE.TRUE)
+                    parameter.put("set_default", "1");
+                else
+                    parameter.put("set_default", "0");
                 return parameter;
             }
         };
@@ -227,7 +303,7 @@ public class WebService {
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
             while ((height / inSampleSize) >= _reqHeight
-                    && (width / inSampleSize) >= _reqWidth) {
+                    || (width / inSampleSize) >= _reqWidth) {
                 inSampleSize *= 2;
             }
         }
@@ -241,7 +317,8 @@ public class WebService {
 
     interface Callback<T>
     {
-        void callbackFunction(T result);
+        void callbackFunctionSuccess(T result);
+        void callbackFunctionFailure();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,9 +336,9 @@ public class WebService {
         public int no_floors;
         public String owner_email;
         public int hostel_id;
-        private byte[] hostel_img;
+        public int hostel_img;
 
-        HostelObject(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, float _rating, byte[] _img) {
+        HostelObject(String _name, String _address, String _city, String _extras, int _rooms, int _floors, String _owner, float _rating) {
             hostelName = _name;
             hostelAddress = _address;
             hostelCity = _city;
@@ -271,15 +348,7 @@ public class WebService {
             owner_email = _owner;
             rating = _rating;
             hostel_id = -1;
-            hostel_img = _img;
-        }
-
-        public Bitmap getBitmap()
-        {
-            Bitmap b = BitmapFactory.decodeStream(new ByteArrayInputStream(hostel_img));
-            if (b == null)
-                Log.i("myInfo", "It is null");
-            return b;
+            hostel_img = -1;
         }
     }
 

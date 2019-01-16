@@ -21,9 +21,8 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
     private Integer[] hostelFloors;
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
-    private Bitmap[] hostelBitmaps;
 
-    public CustomRecyclerView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Bitmap[] hostelBitmaps) {
+    public CustomRecyclerView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail) {
 
         this.context = context;
         this.hostelNames = hostelNames;
@@ -34,7 +33,6 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         this.hostelFloors = hostelFloors;
         this.hostelExtras = hostelExtras;
         this.hostelOwnerMail = hostelOwnerMail;
-        this.hostelBitmaps = hostelBitmaps;
 
     }
 
@@ -54,7 +52,7 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.name.setText(hostelNames[position]);
         holder.rating.setText(hostelRatings[position]);
-        holder.image.setImageBitmap(hostelBitmaps[position]);
+        //holder.image.setImageBitmap(hostelBitmaps[position]);
 
         ClickListener cl = new ClickListener(context, context.getApplicationContext());
         // setting parameters for click listener //
@@ -64,7 +62,6 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         cl.no_rooms = hostelRooms[position];
         cl.no_floors = hostelFloors[position];
         cl.owner_email = hostelOwnerMail[position];
-        cl.image_bitmap = hostelBitmaps[position];
         /////////////////////////////////////////
 
         holder.image.setOnClickListener(cl);  //setting onclick listener to read more textview

@@ -30,7 +30,7 @@
 				"no_floors" => $row["hostel_floors"],
 				"owner_email" => $row["hostel_owner_email"],
 				"hostel_id" => $row["hostel_id"],
-				"hostel_img" => json_decode($row["hostel_img"])
+				"hostel_img" => $row["hostel_img"]
 			);
 
 			array_push($final_result["hostelsStored"], $hostel_obj);
