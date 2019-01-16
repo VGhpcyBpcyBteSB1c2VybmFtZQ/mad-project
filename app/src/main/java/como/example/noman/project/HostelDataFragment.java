@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HostelDataFragment extends Fragment {
 
     public String hostelName = null;
     public int hostelRooms = -1;
     public int hostelFloors = -1;
+    public int hostel_id = -1;
     public String hostelExtras = null;
     public String hostelAddress = null;
     public String ownerMail = null;
@@ -24,7 +26,7 @@ public class HostelDataFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.hostel_data, container, false);
+        final View v = inflater.inflate(R.layout.hostel_data, container, false);
 
         if (hostelName != null)
         {
@@ -42,11 +44,20 @@ public class HostelDataFragment extends Fragment {
         {
             ((TextView)v.findViewById(R.id.hostelData_extras)).setText(hostelExtras);
         }
-        /*if (image_bitmap != null)
+        if (hostel_id != -1)
         {
-            Log.i("myInfo", "It is not null");
-            ((ImageView)v.findViewById(R.id.hostelData_image)).setImageBitmap(image_bitmap);
-        }*/
+            WebService.getInstance(getActivity()).getHostelProfileImage(hostel_id, 2, new WebService.Callback<Bitmap>() {
+                @Override
+                public void callbackFunctionSuccess(Bitmap result) {
+                    ((ImageView)v.findViewById(R.id.hostelData_image)).setImageBitmap(result);
+                }
+
+                @Override
+                public void callbackFunctionFailure() {
+                    Toast.makeText(getActivity(), "Unable to Load image(s)", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
         if (hostelAddress != null)
         {
             ((TextView)v.findViewById(R.id.hostelData_hostelAddress)).setText(hostelAddress);

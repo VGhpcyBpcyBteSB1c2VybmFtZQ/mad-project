@@ -35,9 +35,9 @@
 		$sql2 = "INSERT INTO hostel_pic (pic_id, pic_res_level, hostel_id, hostel_pic) VALUES('$pic_id', '2', '$hostel_id', '$res2');";
 		$result2 = mysqli_query($conn, $sql2);
 		
-		if ($_POST['set_default'] == '1')
+		if ($_POST['set_default'] == "1")
 		{
-			$sql = "UPDATE hostel_table SET hoste_img='$pic_id' WHERE hoste_id='$hostel_id;";
+			$sql = "UPDATE hostel_table SET hostel_img = '$pic_id' WHERE hostel_id = '$hostel_id';";
 			mysqli_query($conn, $sql);
 		}
 

@@ -192,6 +192,7 @@ public class ClickListener implements  View.OnClickListener {
     public int no_rooms;
     public int no_floors;
     public String owner_email;
+    public int hostel_id;
 
     private void readMore() {
         HostelDataFragment newFragment = new HostelDataFragment();
@@ -201,6 +202,7 @@ public class ClickListener implements  View.OnClickListener {
         newFragment.hostelFloors = no_floors;
         newFragment.hostelExtras = hostelExtras;
         newFragment.ownerMail = owner_email;
+        newFragment.hostel_id = hostel_id;
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView.MyViewHolder> {
@@ -21,8 +22,9 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
     private Integer[] hostelFloors;
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
+    private int[] hostelIDs;
 
-    public CustomRecyclerView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail) {
+    public CustomRecyclerView(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, int[] hostelIDs) {
 
         this.context = context;
         this.hostelNames = hostelNames;
@@ -33,6 +35,7 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         this.hostelFloors = hostelFloors;
         this.hostelExtras = hostelExtras;
         this.hostelOwnerMail = hostelOwnerMail;
+        this.hostelIDs = hostelIDs;
 
     }
 
@@ -49,10 +52,20 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.name.setText(hostelNames[position]);
         holder.rating.setText(hostelRatings[position]);
-        //holder.image.setImageBitmap(hostelBitmaps[position]);
+        WebService.getInstance(context).getHostelProfileImage(hostelIDs[position], 1, new WebService.Callback<Bitmap>() {
+            @Override
+            public void callbackFunctionSuccess(Bitmap result) {
+                holder.image.setImageBitmap(result);
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(context, "Unable to Load image(s)", Toast.LENGTH_LONG).show();
+            }
+        });
 
         ClickListener cl = new ClickListener(context, context.getApplicationContext());
         // setting parameters for click listener //
@@ -62,6 +75,7 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         cl.no_rooms = hostelRooms[position];
         cl.no_floors = hostelFloors[position];
         cl.owner_email = hostelOwnerMail[position];
+        cl.hostel_id = hostelIDs[position];
         /////////////////////////////////////////
 
         holder.image.setOnClickListener(cl);  //setting onclick listener to read more textview

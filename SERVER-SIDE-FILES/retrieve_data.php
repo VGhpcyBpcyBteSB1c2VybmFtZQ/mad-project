@@ -98,3 +98,25 @@
 			echo json_encode($struct);
 		}
 	}
+	else if(isset($_POST['get_hostel_image']) && isset($_POST['get_hostel_image_res']))
+	{
+		$hostelid = $_POST['get_hostel_image'];
+		$image_res = $_POST['get_hostel_image_res'];
+		$imageid;
+
+		$query = "SELECT hostel_img FROM hostel_table WHERE hostel_id = $hostelid";
+		$result = mysqli_query($conn, $query);
+		if(mysqli_num_rows($result) == 1)
+		{
+			$imageid = (mysqli_fetch_assoc($result))['hostel_img'];
+			$query = "SELECT hostel_pic FROM hostel_pic WHERE hostel_id = $hostelid AND pic_res_level = $image_res AND pic_id = $imageid;";
+			$result = mysqli_query($conn, $query);
+
+			if(mysqli_num_rows($result) == 1)
+				echo (mysqli_fetch_assoc($result))['hostel_pic'];
+			else
+				echo "NULL";
+		}
+		else
+			echo "NULL";
+	}

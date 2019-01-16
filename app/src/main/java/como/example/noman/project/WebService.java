@@ -191,7 +191,6 @@ public class WebService {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("myInfo", response);
                 int result = Integer.parseInt(response);
                 _callback.callbackFunctionSuccess(result);
             }
@@ -241,7 +240,7 @@ public class WebService {
         BitmapFactory.Options bitOptions = new BitmapFactory.Options();
         bitOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeStream(inp, null, bitOptions);
-        int res1 = getSampleSize(bitOptions, 200, 200);
+        int res1 = getSampleSize(bitOptions, 250, 250);
         int res2 = getSampleSize(bitOptions, 500, 500);
         BitmapFactory.Options finalOptions = new BitmapFactory.Options();
 
@@ -261,7 +260,7 @@ public class WebService {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("myInfoImageResult", response);
+                Log.i("myInfoaddres", response);
                 boolean result = Boolean.parseBoolean(response);
                 _callback.callbackFunctionSuccess(result);
             }
@@ -291,6 +290,44 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public void getHostelProfileImage(final int _hostelID, final int _imageResLevel, final Callback<Bitmap> _callback)
+    {
+        String url = domain+"/retrieve_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("myInfoImage", response);
+                Bitmap result = null;
+                if (!response.equals("NULL"))
+                {
+                    byte[] b = Base64.decode(response, Base64.DEFAULT);
+                    result = BitmapFactory.decodeByteArray(b, 0, b.length);
+                }
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("get_hostel_image", Integer.toString(_hostelID));
+                parameter.put("get_hostel_image_res", Integer.toString(_imageResLevel));
+                return parameter;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
     public static int getSampleSize(BitmapFactory.Options _options, int _reqHeight, int _reqWidth)  //static method for getting info fir image resizing and compression
     {
         // Raw height and width of image
@@ -302,8 +339,8 @@ public class WebService {
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
-            while ((height / inSampleSize) >= _reqHeight
-                    || (width / inSampleSize) >= _reqWidth) {
+            while ((height / inSampleSize) > _reqHeight
+                    || (width / inSampleSize) > _reqWidth) {
                 inSampleSize *= 2;
             }
         }
