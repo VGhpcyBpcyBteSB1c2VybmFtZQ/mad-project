@@ -58,7 +58,8 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         WebService.getInstance(context).getHostelProfileImage(hostelIDs[position], 1, new WebService.Callback<Bitmap>() {
             @Override
             public void callbackFunctionSuccess(Bitmap result) {
-                holder.image.setImageBitmap(result);
+                if (result != null)
+                    holder.image.setImageBitmap(result);
             }
 
             @Override

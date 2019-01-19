@@ -49,7 +49,8 @@ public class HostelDataFragment extends Fragment {
             WebService.getInstance(getActivity()).getHostelProfileImage(hostel_id, 2, new WebService.Callback<Bitmap>() {
                 @Override
                 public void callbackFunctionSuccess(Bitmap result) {
-                    ((ImageView)v.findViewById(R.id.hostelData_image)).setImageBitmap(result);
+                    if (result != null)
+                        ((ImageView)v.findViewById(R.id.hostelData_image)).setImageBitmap(result);
                 }
 
                 @Override
