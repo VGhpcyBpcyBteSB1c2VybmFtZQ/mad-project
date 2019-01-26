@@ -53,7 +53,7 @@ public class WebService {
         context = _context;
         queue = Volley.newRequestQueue(context);
         //domain = "https://zoning-partitions.000webhostapp.com";
-        domain = "http://192.168.10.4/mad-proj";
+        domain = "http://192.168.10.6/mad-proj";
     }
 
     public static WebService getInstance(Activity _context)
@@ -207,6 +207,40 @@ public class WebService {
                 Map<String, String> parameter = new HashMap<String, String>();
                 parameter.put("add_hostel_data", "");
                 parameter.put("hostel_data", hostelObjJson);
+                return parameter;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(stringRequest);
+    }
+
+    public void addUser(UserObject _user, final Callback<Boolean> _callback)
+    {
+        Log.i("myInfo", "addHostel Called");
+        String url = domain+"/push_data.php";
+        final String userObjJson = (new Gson()).toJson(_user);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //SharedPreferences spref = context.getSharedPreferences("test", Activity.MODE_PRIVATE);
+                //spref.edit().putString("json", hostelObjJson).apply();
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("add_user_data", "");
+                parameter.put("user_data", userObjJson);
                 return parameter;
             }
         };
@@ -404,9 +438,9 @@ public class WebService {
         public String userName;
         public String email;
         public String password;
-        public boolean accountType; // 0 for customer 1 for admin
+        public Integer accountType; // 0 for customer 1 for admin
 
-        public UserObject(String _userName, String _email, String _password, boolean _accountType) {
+        public UserObject(String _userName, String _email, String _password, int _accountType) {
             userName = _userName;
             email = _email;
             password = _password;

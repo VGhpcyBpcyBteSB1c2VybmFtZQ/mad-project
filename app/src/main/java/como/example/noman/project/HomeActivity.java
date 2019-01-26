@@ -27,39 +27,39 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         server = WebService.getInstance(this);
-        //server.initialize_server();                                   //initializing the server
-        /*server.getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {   //getting hostel data
-            @Override
-            public void callbackFunction(WebService.HostelObjectList result) {
-                if (result.hostelsStored.size() == 0)
-                    Toast.makeText(getApplicationContext(), "No Hostels", Toast.LENGTH_LONG).show();
-            }
-        });*/
 
-        /*server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
+        /*WebService.UserObject test = new WebService.UserObject("Wisaam", "wisaam.arif.99@ucp.edu.pk", "1234", 0);
+
+        server.addUser(test, new WebService.Callback<Boolean>() {
             @Override
-            public void callbackFunction(Boolean result) {
+            public void callbackFunctionSuccess(Boolean result) {
+                if (result)
+                    Toast.makeText(getApplicationContext(), "Successfully Added User", Toast.LENGTH_LONG).show();
+                //else
+                    //Toast.makeText(getApplicationContext(), "Failed to add user", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionSuccess(Boolean result) {
                 if (result)
                     Toast.makeText(getApplicationContext(), "Verified", Toast.LENGTH_LONG).show();
                 else
                     Toast.makeText(getApplicationContext(), "Not Verified", Toast.LENGTH_LONG).show();
             }
-        });*/
 
-        /*server.getUserData("test@test.com", "1234", new WebService.Callback<WebService.userObject>() {
             @Override
-            public void callbackFunction(WebService.userObject result) {
-                if (result.userName != null)
-                    Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
+            public void callbackFunctionFailure() {
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_LONG).show();
             }
         });*/
 
-        //Creating an initial Database of Hostels if it doesn't exist
-
-        //SharedPreferences hostelPref = getSharedPreferences("hostelInfo", MODE_PRIVATE);
-        //String h = hostelPref.getString("hostels", null);
         if (false)  //set this to true to add test data to the server
         {
             String[] hostelNames = {"Paradise Hostel", "Premium Alcazaba Hostel", "El Machico Hostel", "Einstein Hostel"};
