@@ -43,3 +43,15 @@
 
 		echo json_encode(($result1 && $result2));
 	}
+	else if (isset($_POST['add_user_data']) && isset($_POST['user_data']))  //for adding hostel
+	{
+		$userObj = json_decode($_POST['user_data'], true);
+		$password = password_hash($userObj['password'], PASSWORD_DEFAULT);
+
+		$query = "INSERT INTO user_table (user_email, user_pwd, account_type) VALUES ('".$userObj['email']."', '".$password."', '".$userObj['accountType']."');";
+
+		if(mysqli_query($conn, $query))
+			echo "True";
+		else
+			echo "False";
+	}
