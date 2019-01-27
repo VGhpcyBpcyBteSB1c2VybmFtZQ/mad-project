@@ -98,8 +98,8 @@ public class ReviewFragment extends Fragment implements PopupMenu.OnMenuItemClic
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if(item.getItemId() == R.id.delete) {
-            layout.getChildAt(0).setVisibility(getView().INVISIBLE);
-
+            //layout.getChildAt(0).setVisibility(getView().INVISIBLE);
+((ViewManager)layout.getChildAt(0).getParent()).removeView(layout.getChildAt(0));
             ratingBar.setIsIndicator(false);
             return true;
         }
