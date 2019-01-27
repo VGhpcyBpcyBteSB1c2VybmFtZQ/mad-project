@@ -28,6 +28,18 @@ public class HomeActivity extends AppCompatActivity {
 
         server = WebService.getInstance(this);
 
+        /*server.getHostelReviews(3, new WebService.Callback<WebService.ReviewObjectList>() {
+            @Override
+            public void callbackFunctionSuccess(WebService.ReviewObjectList result) {
+                Toast.makeText(getApplicationContext(), Integer.toString(result.reviewsStored.size()), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+            }
+        });
+
         /*server.addHostelReview("test@test.com", 3, 4.5f, "Average, this one", new WebService.Callback<Boolean>() {
             @Override
             public void callbackFunctionSuccess(Boolean result) {

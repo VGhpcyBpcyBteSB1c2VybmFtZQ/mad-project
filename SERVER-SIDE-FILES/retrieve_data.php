@@ -123,3 +123,34 @@
 		else
 			echo "NULL";
 	}
+	else if (isset($_POST['get_hostel_reviews']))  //for fetching all reviews of a hostel
+	{
+		$hostel = $_POST['get_hostel_reviews'];
+
+		$final_result = array("reviewsStored" => array());
+
+		$query = "SELECT * FROM hostel_user_review WHERE hostel_id = '$hostel';";
+		$result = mysqli_query($conn, $query);
+		$count = mysqli_num_rows($result);
+
+		for ($var = 0; $var < $count; $var++)
+		{
+			$row = mysqli_fetch_assoc($result);
+
+			$email = $row['user_email'];
+			$sql = "SELECT user_name FROM user_table WHERE user_email = '$email';";
+			$name = mysqli_fetch_assoc(mysqli_query($conn, $sql))['user_name'];
+
+			$rev_obj = array(
+				"userName" => $name,
+				"userEmail" => $email,
+				"rating" => $row["review_rating"],
+				"comment" => $row["review_text"],
+				"hostel_id" => $row["hostel_id"]
+			);
+
+			array_push($final_result["reviewsStored"], $rev_obj);
+		}
+
+		echo json_encode($final_result);
+	}

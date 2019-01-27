@@ -117,6 +117,38 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public void getHostelReviews(final int _hostelID, final Callback<ReviewObjectList> _callback)
+    {
+        String url = domain+"/retrieve_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("hostelRev", response);
+                ReviewObjectList result = (new Gson()).fromJson(response, ReviewObjectList.class);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("get_hostel_reviews", Integer.toString(_hostelID));
+                return parameter;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
     public void verifyUser(final String _email, final String _password, final Callback<Boolean> _callback) //returns true/false in the callback function after verifying
     {
         String url = domain+"/retrieve_data.php";
@@ -517,6 +549,33 @@ public class WebService {
             password = _password;
             accountType = _accountType;
             phoneNumber = _phone;
+        }
+    }
+
+    static class ReviewObject   //object to store a user review
+    {
+        public String userName;
+        public String userEmail;
+        public String comment;
+        public float rating;
+        int hostel_id;
+
+        public ReviewObject(String _userEmail, String _userName, float _rating, int _hostelID, String _comment) {
+            userName = _userName;
+            rating = _rating;
+            hostel_id = _hostelID;
+            userEmail = _userEmail;
+            comment = _comment;
+        }
+    }
+
+    static class ReviewObjectList  //Object containing the data of multiple reviews
+    {
+        public List<ReviewObject> reviewsStored;
+
+        ReviewObjectList()
+        {
+            reviewsStored = new ArrayList<>();
         }
     }
 }
