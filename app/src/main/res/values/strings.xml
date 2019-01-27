@@ -46,6 +46,12 @@
     <string name="item_rating">Item Rating</string>
     <string name="list_heading">List Heading</string>
     <string name="item_rating_star">TODO</string>
+    <string name="comments">Comments</string>
+    <string name="comment">Comment</string>
+    <string name="submit">submit</string>
+    <string name="name">name</string>
+    <string name="rate">Rate</string>
+    <string name="comment_here">Comment here</string>
     <string-array name="cities">
         <item>Lahore</item>
         <item>Islamabad</item>
