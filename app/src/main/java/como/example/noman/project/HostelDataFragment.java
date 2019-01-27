@@ -22,6 +22,7 @@ public class HostelDataFragment extends Fragment {
     public String hostelExtras = null;
     public String hostelAddress = null;
     public String ownerMail = null;
+    public String hostel_rating;
 
     @Nullable
     @Override

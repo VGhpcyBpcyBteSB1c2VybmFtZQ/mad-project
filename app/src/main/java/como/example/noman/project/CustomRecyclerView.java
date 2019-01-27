@@ -77,6 +77,7 @@ public class CustomRecyclerView extends  RecyclerView.Adapter<CustomRecyclerView
         cl.no_floors = hostelFloors[position];
         cl.owner_email = hostelOwnerMail[position];
         cl.hostel_id = hostelIDs[position];
+        cl.hostel_rating = hostelRatings[position];
         /////////////////////////////////////////
 
         holder.image.setOnClickListener(cl);  //setting onclick listener to read more textview
