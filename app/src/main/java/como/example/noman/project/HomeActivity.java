@@ -28,6 +28,10 @@ public class HomeActivity extends AppCompatActivity {
 
         server = WebService.getInstance(this);
 
+        SharedPreferences mPrefs = this.getSharedPreferences("info", MODE_PRIVATE);
+        mPrefs.edit().putString("logged_in", "wisaam.arif.99@ucp.edu.pk").apply();  //add entry in database
+        mPrefs.edit().putString("logged_in_name", "Wisaam Arif").apply();  //add entry in database
+
         /*server.getHostelReviews(3, new WebService.Callback<WebService.ReviewObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.ReviewObjectList result) {

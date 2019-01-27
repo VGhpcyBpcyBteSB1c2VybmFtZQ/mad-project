@@ -25,10 +25,25 @@ public class ReviewFragment extends Fragment implements PopupMenu.OnMenuItemClic
     String added_comment;
     LinearLayout layout;
     boolean already_rated = false, isLoggedIn;
+    float original_rating = 0f;  //stores the users original rating
+    public static int hostelID;                 //the current hostel id for which this is open
+    public static float rated = 0;
+    String currently_loggedIn_email;                //currently logged in email
+    String currently_loggedIn_name;
 
-    public static float rated =0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        SharedPreferences mpef = getActivity().getSharedPreferences("info", Context.MODE_PRIVATE);
+        currently_loggedIn_email = mpef.getString("logged_in", null);
+        if (currently_loggedIn_email == null)
+            isLoggedIn = false;
+        else {
+            isLoggedIn = true;
+            currently_loggedIn_name = mpef.getString("logged_in_name", null);
+        }
+
         View view = inflater.inflate(R.layout.fragment_review, container, false);
 
         ratingBar = view.findViewById(R.id.ratingBar);
@@ -41,24 +56,34 @@ public class ReviewFragment extends Fragment implements PopupMenu.OnMenuItemClic
 
         layout = (LinearLayout) view.findViewById(R.id.cmt);
 
-        loadComment();
-        rating();
-        comment();
+        WebService.getInstance(getActivity()).getHostelReviews(hostelID, new WebService.Callback<WebService.ReviewObjectList>() {
+            @Override
+            public void callbackFunctionSuccess(WebService.ReviewObjectList result) {
+                for (int i = 0; i < result.reviewsStored.size(); i++)
+                {
+                    if (result.reviewsStored.get(i).userEmail.equals(currently_loggedIn_email)) {
+                        already_rated = true;
+                        original_rating = result.reviewsStored.get(i).rating;
+                    }
+
+                    String name = result.reviewsStored.get(i).userName;
+                    float rating = result.reviewsStored.get(i).rating;
+                    String comment = result.reviewsStored.get(i).comment;
+
+                    addComment(name, R.drawable.login_img, rating, comment, layout);
+                }
+                rating();
+                comment();
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         return view;
-    }
-
-    public  void loadComment(){
-        //load all comment here
-        String user_name, user_rating, user_comment;
-        int image;
-//        int length ;//total comment on the given hostel
-
-//        for (int i=0; i< length; i++)
-        {
-//            added_comment(user_name,image, user_rating, user_comment, layout);
-        }
-
     }
 
     public void addComment(String Name, int Image, float Rating, String Coment, LinearLayout parent)
@@ -115,9 +140,22 @@ public class ReviewFragment extends Fragment implements PopupMenu.OnMenuItemClic
 
                 if(!added_comment.isEmpty() )
                 {
-                    //added to database
+                    //adding comment to database
+
+                    WebService.getInstance(getActivity()).addHostelReview(currently_loggedIn_email, hostelID, rated, added_comment, new WebService.Callback<Boolean>() {
+                        @Override
+                        public void callbackFunctionSuccess(Boolean result) {
+                            Toast.makeText(getActivity(), "Review Added", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void callbackFunctionFailure() {
+                            Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                     already_rated = true;
-                    addComment("jon", R.drawable.login_img, rated, added_comment, layout);
+                    addComment(currently_loggedIn_name, R.drawable.login_img, rated, added_comment, layout);
                     comment_field.setText("");
                     comment_field.setVisibility(View.INVISIBLE);
                     comment_button.setVisibility(View.INVISIBLE);
@@ -132,28 +170,29 @@ public class ReviewFragment extends Fragment implements PopupMenu.OnMenuItemClic
 
     public void rating()
     {
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                SharedPreferences mpef = getActivity().getSharedPreferences("info", Context.MODE_PRIVATE);
-                if (mpef.getString("logged_in", null) == null)
-                    isLoggedIn = false;
-                else
-                    isLoggedIn  = true;
+        if (!already_rated) {
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                if(!isLoggedIn)
-                {
-                    Intent loginPage = new Intent(getContext(), Login.class);
-                    getActivity().startActivity(loginPage);
-                    return;
+                    if (!isLoggedIn) {
+                        Intent loginPage = new Intent(getContext(), Login.class);
+                        getActivity().startActivity(loginPage);
+                        return;
+                    }
+
+                    rated = rating;
+                    ratingBar.setIsIndicator(true);
+                    ratingBar.setRating(rating);
+                    comment_field.setVisibility(View.VISIBLE);
+                    comment_button.setVisibility(View.VISIBLE);
                 }
-
-                rated = rating;
-                ratingBar.setIsIndicator(true);
-                ratingBar.setRating(rating);
-                comment_field.setVisibility(View.VISIBLE);
-                comment_button.setVisibility(View.VISIBLE);
-            }
-        });
+            });
+        }
+        else{
+            ratingBar.setIsIndicator(true);
+            rated = original_rating;
+            ratingBar.setRating(original_rating);
+        }
     }
 }

@@ -26,6 +26,9 @@ public class HostelDataFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        ReviewFragment.hostelID = hostel_id;
+
         final View v = inflater.inflate(R.layout.hostel_data, container, false);
 
         if (hostelName != null)
