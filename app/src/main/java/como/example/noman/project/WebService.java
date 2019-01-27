@@ -484,6 +484,40 @@ public class WebService {
         return inSampleSize;
     }
 
+    public void updateHostel(final int _hostelID, HostelObject _hostel, final Callback<Boolean> _callback)
+    {
+        Log.i("myInfo", "addHostel Called");
+        String url = domain+"/push_data.php";
+        final String hostelObjJson = (new Gson()).toJson(_hostel);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //SharedPreferences spref = context.getSharedPreferences("test", Activity.MODE_PRIVATE);
+                //spref.edit().putString("json", hostelObjJson).apply();
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("update_hostel_data", Integer.toString(_hostelID));
+                parameter.put("hostel_data", hostelObjJson);
+                return parameter;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(stringRequest);
+    }
+
     // this is the Callback interface (abstract class) which is required by certain methods from the WebService class
     // you will override the callbackFunction which tells the WebService class what to do after the data is finally
     // fetched from the server. It takes as input the object containing retrieved data which will be different for each method

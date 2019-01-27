@@ -28,9 +28,26 @@ public class HomeActivity extends AppCompatActivity {
 
         server = WebService.getInstance(this);
 
-        SharedPreferences mPrefs = this.getSharedPreferences("info", MODE_PRIVATE);
+        /*SharedPreferences mPrefs = this.getSharedPreferences("info", MODE_PRIVATE);
         mPrefs.edit().putString("logged_in", "wisaam.arif.99@ucp.edu.pk").apply();  //add entry in database
         mPrefs.edit().putString("logged_in_name", "Wisaam Arif").apply();  //add entry in database
+
+        /*WebService.HostelObject hObj = new WebService.HostelObject("Paradise Hostel", "Nowhere", "Gujrawala", "There are none", 10, 1, null, 0);
+
+        server.updateHostel(1, hObj, new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionSuccess(Boolean result) {
+                if (result)
+                    Toast.makeText(getApplicationContext(), "Updated Hostel Data", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Failed to update hostel data", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+            }
+        });
 
         /*server.getHostelReviews(3, new WebService.Callback<WebService.ReviewObjectList>() {
             @Override

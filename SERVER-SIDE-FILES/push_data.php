@@ -88,3 +88,23 @@
 		else
 			echo "False";
 	}
+	else if (isset($_POST['update_hostel_data']) && isset($_POST['hostel_data']))  //for adding hostel
+	{
+		$hostelObj = json_decode($_POST['hostel_data'], true);
+		$hostelid = $_POST['update_hostel_data'];
+
+		$name = $hostelObj['hostelName'];
+		$address = $hostelObj['hostelAddress'];
+		$city = $hostelObj['hostelCity'];
+		$extras = $hostelObj['hostelExtras'];
+		$rooms = $hostelObj['no_rooms'];
+		$floors = $hostelObj['no_floors'];
+
+		$query = "UPDATE hostel_table SET hostel_name = '$name', hostel_address = '$address', hostel_city = '$city', hostel_extras = '$extras', hostel_rooms = '$rooms', hostel_floors = '$floors'
+					WHERE hostel_id = '$hostelid';";
+
+		if(mysqli_query($conn, $query))
+			echo "True";
+		else
+			echo "False";
+	}
