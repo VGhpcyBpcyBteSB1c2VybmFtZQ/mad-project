@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
 
         server = WebService.getInstance(this);
 
-        server.addHostelReview("test@test.com", 3, 4.5f, "Average, this one", new WebService.Callback<Boolean>() {
+        /*server.addHostelReview("test@test.com", 3, 4.5f, "Average, this one", new WebService.Callback<Boolean>() {
             @Override
             public void callbackFunctionSuccess(Boolean result) {
                 if (result)
