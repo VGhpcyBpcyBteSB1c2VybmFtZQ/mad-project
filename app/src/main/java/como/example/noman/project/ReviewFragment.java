@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,8 +99,9 @@ public class ReviewFragment extends Fragment implements PopupMenu.OnMenuItemClic
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if(item.getItemId() == R.id.delete) {
-            //layout.getChildAt(0).setVisibility(getView().INVISIBLE);
-((ViewManager)layout.getChildAt(0).getParent()).removeView(layout.getChildAt(0));
+//            layout.getChildAt(0).setVisibility(getView().INVISIBLE);
+//layout.getChildAt(0).
+            ((ViewManager)layout.getChildAt(0).getParent()).removeView(layout.getChildAt(0));
             ratingBar.setIsIndicator(false);
             return true;
         }
@@ -141,12 +143,12 @@ public class ReviewFragment extends Fragment implements PopupMenu.OnMenuItemClic
                 else
                     isLoggedIn  = true;
 
-                if(!isLoggedIn)
-                {
-                    Intent loginPage = new Intent(getContext(), Login.class);
-                    getActivity().startActivity(loginPage);
-                    return;
-                }
+//                if(!isLoggedIn)
+//                {
+//                    Intent loginPage = new Intent(getContext(), Login.class);
+//                    getActivity().startActivity(loginPage);
+//                    return;
+//                }
 
                 rated = rating;
                 ratingBar.setIsIndicator(true);
