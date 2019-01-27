@@ -5,7 +5,8 @@
     android:layout_marginLeft="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
             />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:orientation="vertical">
@@ -29,7 +30,7 @@
             <TextView
                 android:id="@+id/name"
                 android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"
@@ -37,7 +38,7 @@
 
             <TextView
                 android:id="@+id/user_rated"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center"
                 android:textColor="@color/colorWhite"
@@ -57,8 +58,8 @@
         android:layout_marginLeft="45dp"
         android:textSize="18dp"
         android:textColor="@color/colorWhite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="@string/comment" />
 
 </LinearLayout>
