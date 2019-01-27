@@ -1,6 +1,6 @@
 <?php
 	require 'db_conn.php';
-
+	require 'functions.php';
 
 
 	if (isset($_POST['add_hostel_data']) && isset($_POST['hostel_data']))  //for adding hostel
@@ -43,15 +43,48 @@
 
 		echo json_encode(($result1 && $result2));
 	}
-	else if (isset($_POST['add_user_data']) && isset($_POST['user_data']))  //for adding hostel
+	else if (isset($_POST['add_user_data']) && isset($_POST['user_data']))  //for adding user
 	{
 		$userObj = json_decode($_POST['user_data'], true);
 		$password = password_hash($userObj['password'], PASSWORD_DEFAULT);
 
-		$query = "INSERT INTO user_table (user_email, user_pwd, account_type) VALUES ('".$userObj['email']."', '".$password."', '".$userObj['accountType']."');";
+		$query = "INSERT INTO user_table (user_email, user_name, user_pwd, account_type, user_phone) VALUES ('".$userObj['email']."', '".$userObj['userName']."', '".$password."', '".$userObj['accountType']."', '".$userObj['phoneNumber']."');";
 
 		if(mysqli_query($conn, $query))
 			echo "True";
+		else
+			echo "False";
+	}
+	else if (isset($_POST['update_user_data']) && isset($_POST['user_data']))  //for updating user
+	{
+		$userObj = json_decode($_POST['user_data'], true);
+
+		$password = password_hash($userObj['password'], PASSWORD_DEFAULT);
+		$email = $userObj['email'];
+		$name = $userObj['userName'];
+		$phone = $userObj['phoneNumber'];
+
+		$query = "UPDATE user_table SET user_name='$name', user_pwd='$password', user_phone='$phone' WHERE user_email='$email';";
+
+		if(mysqli_query($conn, $query))
+			echo "True";
+		else
+			echo "False";
+	}
+	else if (isset($_POST['add_hostel_review']) && isset($_POST['userEmail']) && isset($_POST['hostelID']) && isset($_POST['comment']) && isset($_POST['rating']))  //for adding hostel review
+	{
+		$user = $_POST['userEmail'];
+		$hostel = $_POST['hostelID'];
+		$rating = $_POST['rating'];
+		$comment = $_POST['comment'];
+
+		$query = "INSERT INTO hostel_user_review (user_email, hostel_id, review_text, review_rating) VALUES ('$user', '$hostel', '$comment', '$rating');";
+		$result = mysqli_query($conn, $query);
+		if($result)
+		{
+			calculateReview($conn, $hostel);
+			echo "True";
+		}
 		else
 			echo "False";
 	}

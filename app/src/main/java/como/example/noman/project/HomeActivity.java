@@ -28,9 +28,24 @@ public class HomeActivity extends AppCompatActivity {
 
         server = WebService.getInstance(this);
 
-        /*WebService.UserObject test = new WebService.UserObject("Wisaam", "wisaam.arif.99@ucp.edu.pk", "1234", 0);
+        server.addHostelReview("test@test.com", 3, 4.5f, "Average, this one", new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionSuccess(Boolean result) {
+                if (result)
+                    Toast.makeText(getApplicationContext(), "Added Review", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Unable to add review", Toast.LENGTH_LONG).show();
+            }
 
-        server.addUser(test, new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /*WebService.UserObject test = new WebService.UserObject("Wisaam Arif", "wisaam.arif.99@ucp.edu.pk", "1234", 0, null);
+
+        server.updateUserData(test, new WebService.Callback<Boolean>() {
             @Override
             public void callbackFunctionSuccess(Boolean result) {
                 if (result)
@@ -45,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
+        /*server.verifyUser("test@test.com", "1234", new WebService.Callback<Boolean>() {
             @Override
             public void callbackFunctionSuccess(Boolean result) {
                 if (result)

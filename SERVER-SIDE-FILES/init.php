@@ -14,6 +14,8 @@
 
 	$sql = 'CREATE TABLE IF NOT EXISTS `user_table` (
 			  `user_email` varchar(30) NOT NULL,
+			  `user_name` varchar(30) NOT NULL,
+			  `user_phone` varchar(30) DEFAULT NULL,
 			  `user_pwd` varchar(255) NOT NULL,
 			  `account_type` boolean NOT NULL,
 			  PRIMARY KEY (`user_email`)

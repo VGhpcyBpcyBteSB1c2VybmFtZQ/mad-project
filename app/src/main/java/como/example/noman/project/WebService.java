@@ -251,6 +251,76 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public void updateUserData(UserObject _user, final Callback<Boolean> _callback)
+    {
+        Log.i("myInfo", "addHostel Called");
+        String url = domain+"/push_data.php";
+        final String userObjJson = (new Gson()).toJson(_user);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //SharedPreferences spref = context.getSharedPreferences("test", Activity.MODE_PRIVATE);
+                //spref.edit().putString("json", hostelObjJson).apply();
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("update_user_data", "");
+                parameter.put("user_data", userObjJson);
+                return parameter;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(stringRequest);
+    }
+
+    public void addHostelReview(final String _userEmail, final int _hostelID, final float _rating, final String _comment, final Callback<Boolean> _callback)
+    {
+        Log.i("myInfo", "addHostel Called");
+        String url = domain+"/push_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //SharedPreferences spref = context.getSharedPreferences("test", Activity.MODE_PRIVATE);
+                //spref.edit().putString("json", hostelObjJson).apply();
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("add_hostel_review", "");
+                parameter.put("userEmail", _userEmail);
+                parameter.put("comment", _comment);
+                parameter.put("hostelID", Integer.toString(_hostelID));
+                parameter.put("rating", Float.toString(_rating));
+                return parameter;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(stringRequest);
+    }
+
     public void addHostelImage(final int _hostelID, Uri _image, final SET_DEFAULT_IMAGE flag, final Callback<Boolean> _callback)
     {
         Log.i("myInfoImageResult", "addImageCalled");
@@ -438,13 +508,15 @@ public class WebService {
         public String userName;
         public String email;
         public String password;
+        public String phoneNumber;
         public Integer accountType; // 0 for customer 1 for admin
 
-        public UserObject(String _userName, String _email, String _password, int _accountType) {
+        public UserObject(String _userName, String _email, String _password, int _accountType, String _phone) {
             userName = _userName;
             email = _email;
             password = _password;
             accountType = _accountType;
+            phoneNumber = _phone;
         }
     }
 }

@@ -2,8 +2,8 @@
 	require 'db_conn.php';
 
 
-	/*$q = "insert into user_table (user_email, user_pwd, account_type)
-						VALUES('test@test.com', '\$2y\$10\$RxbVC2fOqkCtjr1OKciJz.M5swXs6MmiAaNsGjBHxaOwyh5j/2juK', false)";
+	/*$q = "insert into user_table (user_name, user_email, user_pwd, account_type)
+						VALUES('test', 'test@test.com', '\$2y\$10\$RxbVC2fOqkCtjr1OKciJz.M5swXs6MmiAaNsGjBHxaOwyh5j/2juK', false)";
 	mysqli_query($conn, $q);
 
 	/*$q = "insert into hostel_table (hostel_name, hostel_city, hostel_address, hostel_rooms, hostel_floors, hostel_extras, hostel_owner_email, hostel_rating)
@@ -69,7 +69,8 @@
 			if (password_verify($_POST['pwd'], $row['user_pwd']))
 			{
 				$struct = array(
-					"userName" => "",
+					"userName" => $row['user_name'],
+					"phoneNumber" => $row['user_phone'],
 					"email" => $row['user_email'],
 					"password" => $row['user_pwd'],
 					"accountType" => $row['account_type']
@@ -80,6 +81,7 @@
 			{
 				$struct = array(
 					"userName" => NULL,
+					"phoneNumber" => NULL,
 					"email" => NULL,
 					"password" => NULL,
 					"accountType" => NULL
@@ -91,6 +93,7 @@
 		{
 			$struct = array(
 				"userName" => NULL,
+				"phoneNumber" => NULL,
 				"email" => NULL,
 				"password" => NULL,
 				"accountType" => NULL
