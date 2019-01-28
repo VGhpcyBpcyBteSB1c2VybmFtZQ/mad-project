@@ -147,7 +147,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
 
-        Fragment fragment = new HomeFragment();
+        Fragment fragment = new ManageHostelFragment();
         //Fragment fragment = new AddHostel();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
