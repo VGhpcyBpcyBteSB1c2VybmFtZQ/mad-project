@@ -30,44 +30,48 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         final LayoutInflater inflaterForInner = inflater;
 
         /////////////// Getting Data for Hotels //////////////////////////////
 
-        WebService.getInstance(getActivity()).getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
-            @Override
-            public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
+        String[] city = {"Lahore", "Islamabad", "Faisalabad", "Sialkot", "Multan"};
 
-                //Toast.makeText(getActivity(), "Page Loaded", Toast.LENGTH_LONG).show();
+        for (int index = 0; index < 5; index++) {
 
-                hostelNames = new String[hl.hostelsStored.size()];
-                hostelAddress = new String[hl.hostelsStored.size()];
-                hostelRatings = new String[hl.hostelsStored.size()];
-                hostelCity = new String[hl.hostelsStored.size()];
-                hostelRooms = new Integer[hl.hostelsStored.size()];
-                hostelFloors = new Integer[hl.hostelsStored.size()];
-                hostelExtras = new String[hl.hostelsStored.size()];
-                hostelOwnerMail = new String[hl.hostelsStored.size()];
-                hostelIDs = new int[hl.hostelsStored.size()];
+            final String cityName = city[index];
+            final int i = index;
 
-                for (int i = 0; i < hl.hostelsStored.size(); i++) {
-                    hostelNames[i] = hl.hostelsStored.get(i).hostelName;
-                    hostelAddress[i] = hl.hostelsStored.get(i).hostelAddress;
-                    hostelRatings[i] = Float.toString(hl.hostelsStored.get(i).rating);
-                    hostelCity[i] = hl.hostelsStored.get(i).hostelCity;
-                    hostelRooms[i] = hl.hostelsStored.get(i).no_rooms;
-                    hostelFloors[i] = hl.hostelsStored.get(i).no_floors;
-                    hostelExtras[i] = hl.hostelsStored.get(i).hostelExtras;
-                    hostelOwnerMail[i] = hl.hostelsStored.get(i).owner_email;
-                    hostelIDs[i] = hl.hostelsStored.get(i).hostel_id;
+            WebService.getInstance(getActivity()).getHostelsByCity(city[i], new WebService.Callback<WebService.HostelObjectList>() {
+                @Override
+                public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
 
-                    ///////////////////////////////////////////////
-                }
+                    hostelNames = new String[hl.hostelsStored.size()];
+                    hostelAddress = new String[hl.hostelsStored.size()];
+                    hostelRatings = new String[hl.hostelsStored.size()];
+                    hostelCity = new String[hl.hostelsStored.size()];
+                    hostelRooms = new Integer[hl.hostelsStored.size()];
+                    hostelFloors = new Integer[hl.hostelsStored.size()];
+                    hostelExtras = new String[hl.hostelsStored.size()];
+                    hostelOwnerMail = new String[hl.hostelsStored.size()];
+                    hostelIDs = new int[hl.hostelsStored.size()];
 
-                for (int i = 0; i < 7; i++) {
+                    for (int i = 0; i < hl.hostelsStored.size(); i++) {
+                        hostelNames[i] = hl.hostelsStored.get(i).hostelName;
+                        hostelAddress[i] = hl.hostelsStored.get(i).hostelAddress;
+                        hostelRatings[i] = Float.toString(hl.hostelsStored.get(i).rating);
+                        hostelCity[i] = hl.hostelsStored.get(i).hostelCity;
+                        hostelRooms[i] = hl.hostelsStored.get(i).no_rooms;
+                        hostelFloors[i] = hl.hostelsStored.get(i).no_floors;
+                        hostelExtras[i] = hl.hostelsStored.get(i).hostelExtras;
+                        hostelOwnerMail[i] = hl.hostelsStored.get(i).owner_email;
+                        hostelIDs[i] = hl.hostelsStored.get(i).hostel_id;
+
+                        ///////////////////////////////////////////////
+                    }
+
                     ViewGroup parent = (ViewGroup) view.findViewById(R.id.home_fragment_table);
                     LinearLayout v = (LinearLayout) inflaterForInner.inflate(R.layout.table_row_home_category, parent);
                     v.getChildAt(i).setId(View.generateViewId());
@@ -85,7 +89,7 @@ public class HomeFragment extends Fragment {
                     listView = (RecyclerView) view.findViewById(id2);
 
                     //Change heading text here
-                    textView.setText("Heading " + i);
+                    textView.setText(cityName);
 
                     /////////////////// setting adapter here ////////////////////
                     CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelIDs);
@@ -94,12 +98,13 @@ public class HomeFragment extends Fragment {
                     listView.setAdapter(adapter);
                     /////////////////////////////////////////////////////////////
                 }
-            }
-            @Override
-            public void callbackFunctionFailure() {
-                Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
-            }
-        });
+
+                @Override
+                public void callbackFunctionFailure() {
+                    Toast.makeText(getContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
         return view;
     }

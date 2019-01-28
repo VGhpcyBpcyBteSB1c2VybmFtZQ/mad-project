@@ -321,6 +321,7 @@ public class ClickListener implements  View.OnClickListener {
                     @Override
                     public void callbackFunctionSuccess(Boolean result) {
                         Toast.makeText(activity, "Successfully uploaded hostel", Toast.LENGTH_LONG).show();
+                        goToHome();
                     }
 
                     @Override
@@ -335,7 +336,5 @@ public class ClickListener implements  View.OnClickListener {
                 Toast.makeText(activity, "Unable to connect", Toast.LENGTH_LONG).show();
             }
         });
-
-        goToHome();
     }
 }
