@@ -1,5 +1,6 @@
 package como.example.noman.project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,9 +12,9 @@ import android.widget.EditText;
 
 public class EditFragment extends Fragment {
 
-    EditText name, room_no, floor_no, extras, address, contact;
-    Button save_btn;
-    String hostel_name, hostel_room_no, hostel_floor_no, hostel_extras, hostel_address, hostel_contact;
+    EditText name, room_no, floor_no, extras, address;
+    Button save_btn, del_btn;
+    String hostel_name, hostel_room_no, hostel_floor_no, hostel_extras, hostel_address;
 
 
     @Override
@@ -26,8 +27,8 @@ public class EditFragment extends Fragment {
         floor_no = view.findViewById(R.id.hostelData_no_floors);
         extras = view.findViewById(R.id.hostelData_extras);
         address = view.findViewById(R.id.hostelData_hostelAddress);
-        contact = view.findViewById(R.id.hostelData_ownerContact);
         save_btn = view.findViewById(R.id.SaveButton);
+        del_btn = view.findViewById(R.id.Delete);
 
 
 
@@ -38,8 +39,24 @@ public class EditFragment extends Fragment {
             }
         });
 
+        del_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete_hostel();
+            }
+        });
 
         return view;
+    }
+
+    public void delete_hostel(){
+        switch_page();
+    }
+
+    public void switch_page()
+    {
+        Intent homePage = new Intent(getActivity(), HomeActivity.class);
+        getActivity().startActivity(homePage);
     }
 
     public void save()
@@ -49,6 +66,5 @@ public class EditFragment extends Fragment {
         hostel_floor_no = floor_no.getText().toString().trim();
         hostel_extras = extras.getText().toString().trim();
         hostel_address = address.getText().toString().trim();
-        hostel_contact = contact.getText().toString().trim();
     }
 }

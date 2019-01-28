@@ -144,36 +144,32 @@ tools:layout_editor_absoluteY="81dp">
                     android:textSize="14sp" />
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:id="@+id/lable_ownerPhone"
-                    android:layout_width="135dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="10dp"
-                    android:text="@string/hosteldata_owner_contact_email"
-                    android:textColor="@color/colorWhite" />
-
-                <EditText
-                    android:id="@+id/hostelData_ownerContact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center_vertical"
-                    android:paddingTop="10dp"
-                    android:textColor="@color/colorWhite" />
-            </TableRow>
         </TableLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:orientation="horizontal">
+
     <Button
         android:id="@+id/SaveButton"
-        android:layout_width="340dp"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
+        android:width="150dp"
+        android:background="@color/blue"
+        android:text="@string/save"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/Delete"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
@@ -181,9 +177,10 @@ tools:layout_editor_absoluteY="81dp">
         android:layout_marginBottom="8dp"
         android:width="150dp"
         android:background="@color/blue"
-        android:text="@string/save"
+        android:text="Delete"
         android:textColor="@android:color/black"
         android:textSize="14sp" />
+</LinearLayout>
 </LinearLayout>
 
 </FrameLayout>
