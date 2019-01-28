@@ -40,6 +40,18 @@ public class HomeActivity extends AppCompatActivity
 
         server = WebService.getInstance(this);
 
+        /*server.getHostelsByCity("Gujrawala", new WebService.Callback<WebService.HostelObjectList>() {
+            @Override
+            public void callbackFunctionSuccess(WebService.HostelObjectList result) {
+                Log.i("userHostels", (new Gson()).toJson(result));
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Log.i("User Hostels", "Error");
+            }
+        });
+
         /*server.getUserHostels("test@test.com", new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList result) {

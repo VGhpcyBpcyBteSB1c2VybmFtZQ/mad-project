@@ -117,6 +117,37 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public void getHostelsByCity(final String _city, final Callback<HostelObjectList> _callback)
+    {
+        String url = domain+"/retrieve_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                HostelObjectList result = (new Gson()).fromJson(response, HostelObjectList.class);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("get_city_hostel_data", _city);
+                return parameter;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
     public void getUserHostels(final String _userEmail, final Callback<HostelObjectList> _callback)
     {
         String url = domain+"/retrieve_data.php";
