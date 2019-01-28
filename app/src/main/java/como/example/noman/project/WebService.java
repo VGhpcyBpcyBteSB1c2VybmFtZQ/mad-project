@@ -53,7 +53,7 @@ public class WebService {
         context = _context;
         queue = Volley.newRequestQueue(context);
         //domain = "https://zoning-partitions.000webhostapp.com";
-        domain = "http://192.168.8.101/mad-proj";
+        domain = "http://192.168.10.4/mad-proj";
     }
 
     public static WebService getInstance(Activity _context)
@@ -319,6 +319,7 @@ public class WebService {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.i("singnup_info2", response);
                 boolean result = Boolean.parseBoolean(response);
                 _callback.callbackFunctionSuccess(result);
             }

@@ -1,6 +1,7 @@
 package como.example.noman.project;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ManageHostelFragment extends Fragment {
 
@@ -34,11 +37,15 @@ public class ManageHostelFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_manage_hostel, container, false);
         final RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_manage_hostel_recycler_view);
 
-        WebService.getInstance(getActivity()).getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
+        SharedPreferences mpef = getActivity().getSharedPreferences("info", MODE_PRIVATE);
+        String owner = mpef.getString("logged_in", null);
+
+        WebService.getInstance(getActivity()).getUserHostels(owner, new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
 
-                Toast.makeText(getActivity(), "Page Loaded", Toast.LENGTH_LONG).show();
+                if (hl.hostelsStored.size() == 0)
+                    Toast.makeText(getActivity(), "You currently have no hostels", Toast.LENGTH_LONG).show();
 
                 hostelNames = new String[hl.hostelsStored.size()];
                 hostelAddress = new String[hl.hostelsStored.size()];

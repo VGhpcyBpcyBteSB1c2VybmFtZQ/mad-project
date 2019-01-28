@@ -184,3 +184,33 @@
 
 		echo json_encode($final_result);
 	}
+	else if (isset($_POST['get_city_hostel_data']))  //for fetching all hostels data
+	{
+		$final_result = array("hostelsStored" => array());
+
+		$city = $_POST['get_city_hostel_data'];
+
+		$query = "SELECT * FROM hostel_table WHERE hostel_city = '$city';";
+		$result = mysqli_query($conn, $query);
+
+		for ($var = 0; $var < mysqli_num_rows($result); $var++)
+		{
+			$row = mysqli_fetch_assoc($result);
+			$hostel_obj = array(
+				"hostelName" => $row["hostel_name"],
+				"hostelAddress" => $row["hostel_address"],
+				"hostelCity" => $row["hostel_city"],
+				"hostelExtras" => $row["hostel_extras"],
+				"rating" => $row["hostel_rating"],
+				"no_rooms" => $row["hostel_rooms"],
+				"no_floors" => $row["hostel_floors"],
+				"owner_email" => $row["hostel_owner_email"],
+				"hostel_id" => $row["hostel_id"],
+				"hostel_img" => $row["hostel_img"]
+			);
+
+			array_push($final_result["hostelsStored"], $hostel_obj);
+		}
+
+		echo json_encode($final_result);
+	}

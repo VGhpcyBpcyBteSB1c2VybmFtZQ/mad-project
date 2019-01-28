@@ -147,45 +147,49 @@ public class ClickListener implements  View.OnClickListener {
             return;
         }
 
-        if (!SaveData(Signup.ID, UserName, Email, Password, Cnic , Phone)) {
-            Email.setError("There is already an account associated with this email.");
-        } else {
-            Toast.makeText(activity, "Account Created!", Toast.LENGTH_SHORT).show();
-            Intent homePage = new Intent(activity, HomeActivity.class);
-            activity.startActivity(homePage);
-        }
+        SaveData(Signup.ID, UserName, Email, Password, Cnic , Phone);
     }
 
-    private boolean SaveData(int ID,EditText UserName, EditText Email, EditText Password, EditText Cnic, EditText Phone) {
-        String email = Email.getText().toString().trim();
-        SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
-        String mail = mPrefs.getString(email, "");
-        if (mail != null && !mail.equals("")) {
-            return false;
-        }
-
-        String Name = UserName.getText().toString();
+    private boolean SaveData(final int ID,EditText UserName, EditText Email, EditText Password, EditText Cnic, EditText Phone) {
+        final String email = Email.getText().toString().trim();
+        final String Name = UserName.getText().toString();
         String password = Password.getText().toString();
         String cnic = Cnic.getText().toString();
         String phone = Phone.getText().toString();
 
         if(ID == 0)
         {
-            cnic = null;
-            phone = null;
+            cnic = "";
+            phone = "";
         }
 
-        Person myObject = new Person(ID, Name, email, password,cnic, phone);  //creating new person object
+        Log.i("signup_info", email+" "+Name+" "+password+" "+phone+" "+ID);
 
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        Gson gson = new Gson();
+        WebService.UserObject obj = new WebService.UserObject(Name, email, password, ID, phone);
 
-        String json = gson.toJson(myObject);
-        prefsEditor.putString(email, json);
+        WebService.getInstance(activity).addUser(obj, new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionSuccess(Boolean result) {
+                if (result)
+                {
+                    SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
+                    mPrefs.edit().putString("logged_in", email).apply();  //add entry in database
+                    mPrefs.edit().putString("logged_in_name", Name).apply();
+                    mPrefs.edit().putString("logged_in_type", Integer.toString(ID)).apply();
 
-        prefsEditor.apply();
+                    Toast.makeText(activity, "Account Created!", Toast.LENGTH_SHORT).show();
+                    Intent homePage = new Intent(activity, HomeActivity.class);
+                    activity.startActivity(homePage);
+                }
+                else
+                    Toast.makeText(activity, "There is already an account with this email!", Toast.LENGTH_SHORT).show();
+            }
 
-        mPrefs.edit().putString("logged_in", json).apply();  //add entry in database
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(activity, "Unable to connect", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return true;
     }
@@ -211,6 +215,7 @@ public class ClickListener implements  View.OnClickListener {
                         SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
                         mPrefs.edit().putString("logged_in", result.email).apply();  //add entry in database
                         mPrefs.edit().putString("logged_in_name", result.userName).apply();
+                        mPrefs.edit().putString("logged_in_type", Integer.toString(result.accountType)).apply();
                         Toast.makeText(activity, "Successfully logged in!", Toast.LENGTH_LONG).show();
                         Intent homePage = new Intent(activity, HomeActivity.class);
                         activity.startActivity(homePage);

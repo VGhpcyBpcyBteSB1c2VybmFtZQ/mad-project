@@ -40,6 +40,25 @@ public class HomeActivity extends AppCompatActivity
 
         server = WebService.getInstance(this);
 
+        /*WebService.UserObject obj = new WebService.UserObject("Wisaam", "wisaam.arif.99@gmail.com", "1234", 0, null);
+
+        WebService.getInstance(this).addUser(obj, new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionSuccess(Boolean result) {
+                if (result)
+                {
+                    Toast.makeText(getApplicationContext(), "Account Created!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "There is already an account with this email!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         /*server.getHostelsByCity("Gujrawala", new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList result) {
@@ -223,14 +242,20 @@ public class HomeActivity extends AppCompatActivity
         if(!isLoggedIn)
         {
             ((MenuItem) menu.findItem(R.id.nav_logout)).setVisible(false);
-            ((MenuItem) menu.findItem(R.id.nav_addhostel)).setVisible(false);
             ((MenuItem) menu.findItem(R.id.nav_profile)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_addhostel)).setVisible(false);
             ((MenuItem) menu.findItem(R.id.nav_managehostel)).setVisible(false);
         }
         else
         {
             ((MenuItem) menu.findItem(R.id.nav_login)).setVisible(false);
             ((MenuItem) menu.findItem(R.id.nav_signup)).setVisible(false);
+
+            int type = Integer.parseInt(mpef.getString("logged_in_type", "0"));
+            if (type == 0) {
+                ((MenuItem) menu.findItem(R.id.nav_addhostel)).setVisible(false);
+                ((MenuItem) menu.findItem(R.id.nav_managehostel)).setVisible(false);
+            }
         }
 
 
@@ -282,6 +307,7 @@ public class HomeActivity extends AppCompatActivity
             SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
             mpef.edit().putString("logged_in", null).apply();
             mpef.edit().putString("logged_in_out", null).apply();
+            mpef.edit().putString("logged_in_type", null).apply();
             isLoggedIn = false;
             Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
