@@ -94,13 +94,11 @@
 		$hostelid = $_POST['update_hostel_data'];
 
 		$name = $hostelObj['hostelName'];
-		$address = $hostelObj['hostelAddress'];
-		$city = $hostelObj['hostelCity'];
 		$extras = $hostelObj['hostelExtras'];
 		$rooms = $hostelObj['no_rooms'];
 		$floors = $hostelObj['no_floors'];
 
-		$query = "UPDATE hostel_table SET hostel_name = '$name', hostel_address = '$address', hostel_city = '$city', hostel_extras = '$extras', hostel_rooms = '$rooms', hostel_floors = '$floors'
+		$query = "UPDATE hostel_table SET hostel_name = '$name', hostel_extras = '$extras', hostel_rooms = '$rooms', hostel_floors = '$floors'
 					WHERE hostel_id = '$hostelid';";
 
 		if(mysqli_query($conn, $query))
