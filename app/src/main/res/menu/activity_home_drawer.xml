@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_login"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/login"
             android:title="@string/logIn" />
         <item
             android:id="@+id/nav_signup"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/login"
             android:title="@string/signup" />
         <item
             android:id="@+id/nav_addhostel"
@@ -22,10 +22,11 @@
             android:title="@string/manage_hostels" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/login_img"
+            android:icon="@drawable/user_img"
             android:title="@string/profile" />
         <item
             android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
             android:title="@string/logout" />
     </group>
 

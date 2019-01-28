@@ -18,12 +18,34 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
+                                      <entry key="foregroundClipArt">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="trimmed" value="true" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                       <entry key="foregroundImage">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="103" />
+                                                <entry key="scalingPercent" value="78" />
+                                                <entry key="trimmed" value="true" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="foregroundText">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -35,8 +57,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="99a6a2" />
-                                      <entry key="foregroundImage" value="C:\Users\Dell\Desktop\customIcon.png" />
+                                      <entry key="backgroundColor" value="4f97a6" />
+                                      <entry key="foregroundImage" value="C:\Users\Dell\Documents\GitHub\mad-project\app\src\main\res\drawable-nodpi\nav_header_img.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
