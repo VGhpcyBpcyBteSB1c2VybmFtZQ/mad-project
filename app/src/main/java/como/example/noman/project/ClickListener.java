@@ -160,29 +160,28 @@ public class ClickListener implements  View.OnClickListener {
             passwordText.setError("Enter your password!");
 
         else {
-            SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
-            Gson gson = new Gson();
-            String json = mPrefs.getString(mail, "none");
-            if (json != null && json.equals("none")) {
-                emailAddress.setError("Incorrect email!");
-                return;
-            }
-            if (json != null && !json.isEmpty()) {
-                Person obj = gson.fromJson(json, Person.class);
-                String password = obj.getPassword();
 
-                if (password.equals(p))   //Login if credentials are correct
-                {
-                    mPrefs.edit().putString("logged_in", json).apply();  //add entry in database
-                    Intent homePage = new Intent(activity, HomeActivity.class);
-                    activity.startActivity(homePage);
-                } else {
-                    passwordText.setError("Incorrect Password!");
+            WebService.getInstance(activity).getUserData(mail, p, new WebService.Callback<WebService.UserObject>() {
+                @Override
+                public void callbackFunctionSuccess(WebService.UserObject result) {
+                    if (result.userName != null) {
+                        SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
+                        mPrefs.edit().putString("logged_in", result.email).apply();  //add entry in database
+                        mPrefs.edit().putString("logged_in_name", result.userName).apply();
+                        Toast.makeText(activity, "Successfully logged in!", Toast.LENGTH_LONG).show();
+                        Intent homePage = new Intent(activity, HomeActivity.class);
+                        activity.startActivity(homePage);
+                    } else {
+                        Toast.makeText(activity, "Incorrect username or password", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
 
+                @Override
+                public void callbackFunctionFailure() {
+                    Toast.makeText(activity, "Unable to connect", Toast.LENGTH_LONG).show();
+                }
+            });
         }
-
     }
 
     //parameters for the function that follows

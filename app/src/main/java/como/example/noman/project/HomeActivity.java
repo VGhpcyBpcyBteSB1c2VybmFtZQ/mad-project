@@ -271,6 +271,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
             mpef.edit().putString("logged_in", null).apply();
+            mpef.edit().putString("logged_in_out", null).apply();
             isLoggedIn = false;
             Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
