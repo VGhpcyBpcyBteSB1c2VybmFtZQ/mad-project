@@ -106,3 +106,20 @@
 		else
 			echo "False";
 	}
+	else if (isset($_POST['delete_hostel_data']))  //for adding hostel
+	{
+		$hostelid = $_POST['delete_hostel_data'];
+
+		$query = "DELETE FROM hostel_pic WHERE hostel_id = '$hostelid';";
+		mysqli_query($conn, $query);
+
+		$query = "DELETE FROM hostel_user_review WHERE hostel_id = '$hostelid';";
+		mysqli_query($conn, $query);
+
+		$query = "DELETE FROM hostel_table WHERE hostel_id = '$hostelid';";
+
+		if(mysqli_query($conn, $query))
+			echo "True";
+		else
+			echo "False";
+	}

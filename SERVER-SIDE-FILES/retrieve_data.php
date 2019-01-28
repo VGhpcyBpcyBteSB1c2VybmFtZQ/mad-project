@@ -214,3 +214,34 @@
 
 		echo json_encode($final_result);
 	}
+	else if (isset($_POST['get_user_data_no_check']) && isset($_POST['email']))  //for fetching user data
+	{
+		$email = mysqli_real_escape_string($conn, ucwords(strtolower($_POST['email'])));
+		$email = str_replace(" ", "", $email);
+
+		$query = "SELECT * FROM user_table WHERE user_email = '$email'";
+		$result = mysqli_query($conn, $query);
+		if (mysqli_num_rows($result) == 1)
+		{
+			$row = mysqli_fetch_assoc($result);
+			$struct = array(
+				"userName" => $row['user_name'],
+				"phoneNumber" => $row['user_phone'],
+				"email" => $row['user_email'],
+				"password" => $row['user_pwd'],
+				"accountType" => $row['account_type']
+			);
+			echo json_encode($struct);
+		}
+		else
+		{
+			$struct = array(
+				"userName" => NULL,
+				"phoneNumber" => NULL,
+				"email" => NULL,
+				"password" => NULL,
+				"accountType" => NULL
+			);
+			echo json_encode($struct);
+		}
+	}

@@ -121,31 +121,6 @@
 
                 </TableRow>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/lable_adress"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
-                        android:text="@string/hosteldata_address"
-                        android:textColor="@color/colorWhite" />
-
-                    <EditText
-                        android:id="@+id/hostelData_hostelAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:text="@string/hosteldata_hostel_address"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-                </TableRow>
-
             </TableLayout>
 
 

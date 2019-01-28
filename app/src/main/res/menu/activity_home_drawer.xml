@@ -25,10 +25,6 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/manage_hostels" />
         <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/user_img"
-            android:title="@string/profile" />
-        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="@string/logout" />

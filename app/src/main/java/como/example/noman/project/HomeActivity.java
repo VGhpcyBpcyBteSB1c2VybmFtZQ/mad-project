@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -242,7 +243,6 @@ public class HomeActivity extends AppCompatActivity
         if(!isLoggedIn)
         {
             ((MenuItem) menu.findItem(R.id.nav_logout)).setVisible(false);
-            ((MenuItem) menu.findItem(R.id.nav_profile)).setVisible(false);
             ((MenuItem) menu.findItem(R.id.nav_addhostel)).setVisible(false);
             ((MenuItem) menu.findItem(R.id.nav_managehostel)).setVisible(false);
         }
@@ -301,8 +301,6 @@ public class HomeActivity extends AppCompatActivity
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_profile) {
-            //profile hostel page goes here
         } else if (id == R.id.nav_logout) {
             SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
             mpef.edit().putString("logged_in", null).apply();

@@ -262,6 +262,7 @@ public class ClickListener implements  View.OnClickListener {
         newFragment.hostel_room_no = Integer.toString(no_rooms);
         newFragment.hostel_floor_no = Integer.toString(no_floors);
         newFragment.hostel_extras = hostelExtras;
+        newFragment.hostelID = hostel_id;
 
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();

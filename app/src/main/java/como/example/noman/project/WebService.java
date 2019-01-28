@@ -52,8 +52,8 @@ public class WebService {
     {
         context = _context;
         queue = Volley.newRequestQueue(context);
-        //domain = "https://zoning-partitions.000webhostapp.com";
-        domain = "http://192.168.10.4/mad-proj";
+        domain = "https://zoning-partitions.000webhostapp.com";
+        //domain = "http://192.168.10.4/mad-proj";
     }
 
     public static WebService getInstance(Activity _context)
@@ -277,14 +277,46 @@ public class WebService {
         queue.add(stringRequest);
     }
 
+    public void getUserDataNoCheck(final String _email, final Callback<UserObject> _callback) //returns user data
+    {
+        String url = domain+"/retrieve_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                UserObject result = (new Gson()).fromJson(response, UserObject.class);
+                _callback.callbackFunctionSuccess(result);   //if no user was found or incorrect credentials were given then all fields of result will contain 'null'
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("get_user_data_no_check", "");
+                parameter.put("email", _email);
+                return parameter;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
     public void addHostel(HostelObject _hostel, final Callback<Integer> _callback)
     {
-        Log.i("myInfo", "addHostel Called");
         String url = domain+"/push_data.php";
         final String hostelObjJson = (new Gson()).toJson(_hostel);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.i("checkAdd", response);
                 int result = Integer.parseInt(response);
                 _callback.callbackFunctionSuccess(result);
             }
@@ -571,6 +603,39 @@ public class WebService {
                 Map<String, String> parameter = new HashMap<String, String>();
                 parameter.put("update_hostel_data", Integer.toString(_hostelID));
                 parameter.put("hostel_data", hostelObjJson);
+                return parameter;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(stringRequest);
+    }
+
+    public void deleteHostel(final int _hostelID, final Callback<Boolean> _callback)
+    {
+        Log.i("myInfo", "addHostel Called");
+        String url = domain+"/push_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("myInfodel", response);
+                boolean result = Boolean.parseBoolean(response);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //SharedPreferences spref = context.getSharedPreferences("test", Activity.MODE_PRIVATE);
+                //spref.edit().putString("json", hostelObjJson).apply();
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("delete_hostel_data", Integer.toString(_hostelID));
                 return parameter;
             }
         };

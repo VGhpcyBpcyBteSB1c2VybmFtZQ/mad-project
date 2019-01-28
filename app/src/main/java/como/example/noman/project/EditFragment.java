@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class EditFragment extends Fragment {
@@ -17,6 +18,7 @@ public class EditFragment extends Fragment {
     EditText name, room_no, floor_no, extras;
     Button save_btn, del_btn;
     public String hostel_name, hostel_room_no, hostel_floor_no, hostel_extras;
+    public int hostelID;
 
 
     @Override
@@ -31,7 +33,10 @@ public class EditFragment extends Fragment {
         save_btn = view.findViewById(R.id.SaveButton);
         del_btn = view.findViewById(R.id.Delete);
 
-
+        name.setText(hostel_name);
+        room_no.setText(hostel_room_no);
+        floor_no.setText(hostel_floor_no);
+        extras.setText(hostel_extras);
 
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +56,22 @@ public class EditFragment extends Fragment {
     }
 
     public void delete_hostel(){
-        switch_page();
+
+        WebService.getInstance(getActivity()).deleteHostel(hostelID, new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionSuccess(Boolean result) {
+                if (result)
+                    Toast.makeText(getActivity(), "Successfully deleted Hostel", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_LONG).show();
+                switch_page();
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void switch_page()
@@ -62,21 +82,27 @@ public class EditFragment extends Fragment {
 
     public void save()
     {
-        hostel_name = name.getText().toString().trim();
-        hostel_room_no = room_no.getText().toString().trim();
-        hostel_floor_no = floor_no.getText().toString().trim();
-        hostel_extras = extras.getText().toString().trim();
+        hostel_name = name.getText().toString();
+        hostel_room_no = room_no.getText().toString();
+        hostel_floor_no = floor_no.getText().toString();
+        hostel_extras = extras.getText().toString();
 
-        // Create new fragment and transaction
-//        Fragment newFragment = new HostelDataFragment();
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//
-//// Replace whatever is in the fragment_container view with this fragment,
-//// and add the transaction to the back stack if needed
-//        transaction.replace(R.id.fragment_add_hostel, newFragment);
-//        transaction.addToBackStack(null);
-//
-//// Commit the transaction
-//        transaction.commit();
+        WebService.HostelObject obj = new WebService.HostelObject(hostel_name, null, null, hostel_extras, Integer.parseInt(hostel_room_no), Integer.parseInt(hostel_floor_no), null, 0);
+
+        WebService.getInstance(getActivity()).updateHostel(hostelID, obj, new WebService.Callback<Boolean>() {
+            @Override
+            public void callbackFunctionSuccess(Boolean result) {
+                if (result)
+                    Toast.makeText(getActivity(), "Successfully Updated Hostel", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_LONG).show();
+                switch_page();
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
