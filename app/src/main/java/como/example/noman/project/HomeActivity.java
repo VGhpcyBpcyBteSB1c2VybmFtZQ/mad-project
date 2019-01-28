@@ -6,11 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,7 +25,8 @@ import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean isLoggedIn;
     static WebService server; // Global server variable should be used everywhere
@@ -28,6 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         server = WebService.getInstance(this);
 
@@ -177,13 +186,41 @@ public class HomeActivity extends AppCompatActivity {
         /////////////////////////////////////////////////////////////
 
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //////////////////////////////////////////////////////////////
+
         //check if user is logged in or not
         SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
         if (mpef.getString("logged_in", null) == null)
             isLoggedIn = false;
         else
             isLoggedIn  = true;
-        ///////////////////////////////////
+        //////////////////////////////////////////////////////////////
+
+        //checking if a user logged in to his/her account
+        Menu menu = navigationView.getMenu();
+        if(!isLoggedIn)
+        {
+            ((MenuItem) menu.findItem(R.id.nav_logout)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_addhostel)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_profile)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_managehostel)).setVisible(false);
+        }
+        else
+        {
+            ((MenuItem) menu.findItem(R.id.nav_login)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_signup)).setVisible(false);
+        }
+
 
         Fragment fragment = new HomeFragment();
         //Fragment fragment = new AddHostel();
@@ -193,49 +230,43 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-
-        if (!isLoggedIn)
-        {
-            menu.removeItem(R.id.action_logout);
-        }
-        else
-        {
-            menu.removeItem(R.id.action_login);
-            menu.removeItem(R.id.action_signup);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
+        if (id == R.id.nav_login) {
+            Intent i = new Intent(getApplicationContext(), Login.class);
+            startActivity(i);
+        } else if (id == R.id.nav_signup) {
+            Intent i = new Intent(getApplicationContext(), Signup.class);
+            startActivity(i);
+        } else if (id == R.id.nav_addhostel)
+        {
+            Fragment fragment = new AddHostel();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            fragmentTransaction.commit();
+        }
+        else if (id == R.id.nav_managehostel) {
+            //manage hostel page goes here
+        } else if (id == R.id.nav_profile) {
+            //profile hostel page goes here
+        } else if (id == R.id.nav_logout) {
             SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
             mpef.edit().putString("logged_in", null).apply();
+            isLoggedIn = false;
             Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
-            return true;
-        }
-        else if (id == R.id.action_login) {
-            Intent i = new Intent(getApplicationContext(), Login.class);
-            startActivity(i);
-            return true;
-        }
-        else if (id == R.id.action_signup) {
-            Intent i = new Intent(getApplicationContext(), Signup.class);
-            startActivity(i);
-            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
