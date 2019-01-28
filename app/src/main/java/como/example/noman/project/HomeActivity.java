@@ -121,13 +121,31 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //////////////////////////////////////////////////////////////
+
         //check if user is logged in or not
         SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
         if (mpef.getString("logged_in", null) == null)
             isLoggedIn = false;
         else
             isLoggedIn  = true;
-        ///////////////////////////////////
+        //////////////////////////////////////////////////////////////
+
+        //checking if a user logged in to his/her account
+        Menu menu = navigationView.getMenu();
+        if(!isLoggedIn)
+        {
+            ((MenuItem) menu.findItem(R.id.nav_logout)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_addhostel)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_profile)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_managehostel)).setVisible(false);
+        }
+        else
+        {
+            ((MenuItem) menu.findItem(R.id.nav_login)).setVisible(false);
+            ((MenuItem) menu.findItem(R.id.nav_signup)).setVisible(false);
+        }
+
 
         Fragment fragment = new HomeFragment();
         //Fragment fragment = new AddHostel();
@@ -166,6 +184,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
             mpef.edit().putString("logged_in", null).apply();
+            isLoggedIn = false;
             Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
