@@ -53,7 +53,7 @@ public class WebService {
         context = _context;
         queue = Volley.newRequestQueue(context);
         //domain = "https://zoning-partitions.000webhostapp.com";
-        domain = "http://192.168.10.4/mad-proj";
+        domain = "http://192.168.8.103/mad-proj";
     }
 
     public static WebService getInstance(Activity _context)
@@ -105,6 +105,37 @@ public class WebService {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parameter = new HashMap<String, String>();
                 parameter.put("get_all_hostel_data", "");
+                return parameter;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
+    public void getUserHostels(final String _userEmail, final Callback<HostelObjectList> _callback)
+    {
+        String url = domain+"/retrieve_data.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                HostelObjectList result = (new Gson()).fromJson(response, HostelObjectList.class);
+                _callback.callbackFunctionSuccess(result);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                _callback.callbackFunctionFailure();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("get_user_hostel_data", _userEmail);
                 return parameter;
             }
         };

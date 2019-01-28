@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
 import java.io.ByteArrayOutputStream;
 
 public class HomeActivity extends AppCompatActivity {
@@ -27,6 +30,18 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         server = WebService.getInstance(this);
+
+        /*server.getUserHostels("test@test.com", new WebService.Callback<WebService.HostelObjectList>() {
+            @Override
+            public void callbackFunctionSuccess(WebService.HostelObjectList result) {
+                Log.i("userHostels", (new Gson()).toJson(result));
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Log.i("User Hostels", "Error");
+            }
+        });
 
         /*SharedPreferences mPrefs = this.getSharedPreferences("info", MODE_PRIVATE);
         mPrefs.edit().putString("logged_in", "wisaam.arif.99@ucp.edu.pk").apply();  //add entry in database
