@@ -6,9 +6,15 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -34,6 +40,9 @@ public class ClickListener implements  View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId())              // add click function in this switch against the view id
         {
+            case  R.id.signup_admin_checkbox:
+                setVisibility();
+                break;
             case R.id.txt_already:
                 goToLogin();
                 break;
@@ -48,6 +57,9 @@ public class ClickListener implements  View.OnClickListener {
                 break;
             case R.id.item_image:
                 readMore();
+                break;
+            case R.id.edit_item_image:
+                gotoEditPage();
                 break;
             case R.id.signup_GoToHome:
             case R.id.goToHome:
@@ -70,6 +82,28 @@ public class ClickListener implements  View.OnClickListener {
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
 
+    private  void setVisibility()
+    {
+        CheckBox CheckBox = activity.findViewById(R.id.signup_admin_checkbox);
+        EditText Cnic = activity.findViewById(R.id.cnic);
+        EditText Phone = activity.findViewById(R.id.Phone);
+        Log.i("myInfo", "here in visibility "+Integer.toString(Signup.ID));
+        Toast.makeText(context, "An Admin can add and manage his/her own hostels", Toast.LENGTH_LONG).show();
+
+        if(CheckBox.isChecked())
+        {   Signup.ID = 1;
+            Cnic.setVisibility(View.VISIBLE);
+            Phone.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            Signup.ID = 0;
+            Cnic.setVisibility(View.GONE);
+            Phone.setVisibility(View.GONE);
+        }
+        Log.i("myInfo", "here in visibility "+Integer.toString(Signup.ID));
+    }
+
     private void goToLogin() {
         Intent intent = new Intent(activity, Login.class);
         activity.startActivity(intent);
@@ -90,6 +124,8 @@ public class ClickListener implements  View.OnClickListener {
         EditText Email = (EditText) activity.findViewById(R.id.email_id);
         EditText Password = (EditText) activity.findViewById(R.id.password);
         EditText ConfirmPassword = (EditText) activity.findViewById(R.id.confirm_password);
+        EditText Cnic = activity.findViewById(R.id.cnic);
+        EditText Phone = activity.findViewById(R.id.Phone);
 
         if (UserName.getText().toString().trim().length() == 0) {
             UserName.setError("Field cannot be left blank.");
@@ -111,7 +147,7 @@ public class ClickListener implements  View.OnClickListener {
             return;
         }
 
-        if (!SaveData(UserName, Email, Password)) {
+        if (!SaveData(Signup.ID, UserName, Email, Password, Cnic , Phone)) {
             Email.setError("There is already an account associated with this email.");
         } else {
             Toast.makeText(activity, "Account Created!", Toast.LENGTH_SHORT).show();
@@ -120,7 +156,7 @@ public class ClickListener implements  View.OnClickListener {
         }
     }
 
-    private boolean SaveData(EditText UserName, EditText Email, EditText Password) {
+    private boolean SaveData(int ID,EditText UserName, EditText Email, EditText Password, EditText Cnic, EditText Phone) {
         String email = Email.getText().toString().trim();
         SharedPreferences mPrefs = activity.getSharedPreferences("info", MODE_PRIVATE);
         String mail = mPrefs.getString(email, "");
@@ -130,9 +166,16 @@ public class ClickListener implements  View.OnClickListener {
 
         String Name = UserName.getText().toString();
         String password = Password.getText().toString();
+        String cnic = Cnic.getText().toString();
+        String phone = Phone.getText().toString();
 
+        if(ID == 0)
+        {
+            cnic = null;
+            phone = null;
+        }
 
-        Person myObject = new Person(Name, email, password);  //creating new person object
+        Person myObject = new Person(ID, Name, email, password,cnic, phone);  //creating new person object
 
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
@@ -207,6 +250,19 @@ public class ClickListener implements  View.OnClickListener {
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
+
+    private void gotoEditPage() {
+        EditFragment newFragment = new EditFragment();
+        newFragment.hostel_name = hostelName;
+        newFragment.hostel_room_no = Integer.toString(no_rooms);
+        newFragment.hostel_floor_no = Integer.toString(no_floors);
+        newFragment.hostel_extras = hostelExtras;
+
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
+    }
+
+
 
     private void addHostelToDatabase() {
 

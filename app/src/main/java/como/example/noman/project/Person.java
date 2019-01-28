@@ -4,11 +4,17 @@ public class Person {
     String UserName;
     String Email;
     String Password;
+    String Cnic;
+    String PhoneNo;
+    int AccountTypeID;
 
-    public Person(String userName, String email, String password) {
+    public Person(int id, String userName, String email, String password, String cnic, String phn) {
+        AccountTypeID = id;
         UserName = userName;
         Email = email;
         Password = password;
+        Cnic = cnic;
+        PhoneNo = phn;
     }
 
     public String getUserName() {

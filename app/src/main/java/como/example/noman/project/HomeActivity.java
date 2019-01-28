@@ -235,7 +235,6 @@ public class HomeActivity extends AppCompatActivity
 
 
         Fragment fragment = new HomeFragment();
-        //Fragment fragment = new AddHostel();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
@@ -248,10 +247,15 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_login) {
+        if (id == R.id.nav_home) {
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(i);
+        }
+        else if (id == R.id.nav_login) {
             Intent i = new Intent(getApplicationContext(), Login.class);
             startActivity(i);
-        } else if (id == R.id.nav_signup) {
+        }
+        else if (id == R.id.nav_signup) {
             Intent i = new Intent(getApplicationContext(), Signup.class);
             startActivity(i);
         } else if (id == R.id.nav_addhostel)
@@ -265,7 +269,13 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_managehostel) {
-            //manage hostel page goes here
+            Fragment fragment = new ManageHostelFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_profile) {
             //profile hostel page goes here
         } else if (id == R.id.nav_logout) {
