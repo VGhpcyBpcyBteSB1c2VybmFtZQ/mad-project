@@ -25,7 +25,7 @@ public class ManageHostelFragment extends Fragment {
     private Integer[] hostelFloors;
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
-    private Bitmap[] hostelBitmaps;
+    private int[] hostelIDs;
     ////////////////////////////////////////////////////////////
 
     @Override
@@ -36,7 +36,7 @@ public class ManageHostelFragment extends Fragment {
 
         WebService.getInstance(getActivity()).getAllHostels(new WebService.Callback<WebService.HostelObjectList>() {
             @Override
-            public void callbackFunction(WebService.HostelObjectList hl) {
+            public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
 
                 Toast.makeText(getActivity(), "Page Loaded", Toast.LENGTH_LONG).show();
 
@@ -48,7 +48,7 @@ public class ManageHostelFragment extends Fragment {
                 hostelFloors = new Integer[hl.hostelsStored.size()];
                 hostelExtras = new String[hl.hostelsStored.size()];
                 hostelOwnerMail = new String[hl.hostelsStored.size()];
-                hostelBitmaps = new Bitmap[hl.hostelsStored.size()];
+                hostelIDs = new int[hl.hostelsStored.size()];
 
                 for (int i = 0; i < hl.hostelsStored.size(); i++) {
                     hostelNames[i] = hl.hostelsStored.get(i).hostelName;
@@ -59,20 +59,26 @@ public class ManageHostelFragment extends Fragment {
                     hostelFloors[i] = hl.hostelsStored.get(i).no_floors;
                     hostelExtras[i] = hl.hostelsStored.get(i).hostelExtras;
                     hostelOwnerMail[i] = hl.hostelsStored.get(i).owner_email;
-                    hostelBitmaps[i] = hl.hostelsStored.get(i).getBitmap();
+                    hostelIDs[i] = hl.hostelsStored.get(i).hostel_id;
 
                     ///////////////////////////////////////////////
                 }
 
                 for (int i = 0; i < 7; i++) {
+                    RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_home_recycler_view);
 
                     /////////////////// setting adapter here ////////////////////
-                    CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelBitmaps);
+                    CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelIDs);
                     LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.VERTICAL, false);
                     listView.setLayoutManager(horizontalLayoutManager);
                     listView.setAdapter(adapter);
                     /////////////////////////////////////////////////////////////
                 }
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
             }
         });
         return view;
