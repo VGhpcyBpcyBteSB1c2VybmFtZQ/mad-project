@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
 
-                Toast.makeText(getActivity(), "Page Loaded", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Page Loaded", Toast.LENGTH_LONG).show();
 
                 hostelNames = new String[hl.hostelsStored.size()];
                 hostelAddress = new String[hl.hostelsStored.size()];

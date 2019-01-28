@@ -20,6 +20,7 @@ import java.io.IOException;
 public class AddHostel extends Fragment {
 
     static public Bitmap _bitmap;
+    static public Uri _uri;
 
     @Nullable
     @Override
@@ -27,6 +28,7 @@ public class AddHostel extends Fragment {
         View v = inflater.inflate(R.layout.fragment_add_hostel, container, false);
 
         _bitmap = null;
+        _uri = null;
 
         //v.findViewById(R.id.addHostel_choose_gal).setOnClickListener(new ClickListener(getActivity(), getContext()));
 
@@ -49,6 +51,7 @@ public class AddHostel extends Fragment {
             switch (requestCode){
                 case 1000:
                     Uri selectedImage = data.getData();
+                    _uri = selectedImage;
                     try {
                         if (getActivity() != null){
                             _bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);

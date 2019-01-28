@@ -236,7 +236,7 @@ public class ClickListener implements  View.OnClickListener {
             extras.setError("Field Empty");
             return;
         }
-        if (AddHostel._bitmap == null) {
+        if (AddHostel._uri == null) {
             Toast.makeText(activity, "Please Select an Image", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -247,58 +247,33 @@ public class ClickListener implements  View.OnClickListener {
         String hostelFacilities_local = extras.getText().toString();
         int rooms = Integer.parseInt(roomsE.getText().toString());
         int floors = Integer.parseInt(floorsE.getText().toString());
-        int img = -1;
+        SharedPreferences mpef = activity.getSharedPreferences("info", MODE_PRIVATE);
+        String owner = mpef.getString("logged_in", null);
 
-        SharedPreferences mpref = activity.getSharedPreferences("info", MODE_PRIVATE);
-        String personJson = mpref.getString("logged_in", null);
-        Person personObj;
-        HostelDataClass hostel;
-        if (personJson != null) {
-            personObj = (new Gson()).fromJson(personJson, Person.class);
-            SharedPreferences hostelPref = activity.getSharedPreferences("hostelInfo", MODE_PRIVATE);
-            int id = 1 + hostelPref.getInt("lastKey", 0);
-            hostelPref.edit().putInt("lastKey", id).apply();
+        WebService.HostelObject obj = new WebService.HostelObject(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, rooms, floors, owner, 0);
 
-            /////// compressing the bitmap by a factor of 50 and storing in file//////////
-            ContextWrapper cw = new ContextWrapper(context);
-            // path to /data/data/yourapp/app_data/imageDir
-            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-            // Create imageDir
-            File mypath=new File(directory,Integer.toString(id)+".jpg");
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(mypath);
-                // Use the compress method on the BitMap object to write image to the OutputStream
-                AddHostel._bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        WebService.getInstance(activity).addHostel(obj, new WebService.Callback<Integer>() {
+            @Override
+            public void callbackFunctionSuccess(Integer result) {
+                WebService.getInstance(activity).addHostelImage(result, AddHostel._uri, SET_DEFAULT_IMAGE.TRUE, new WebService.Callback<Boolean>() {
+                    @Override
+                    public void callbackFunctionSuccess(Boolean result) {
+                        Toast.makeText(activity, "Successfully uploaded hostel", Toast.LENGTH_LONG).show();
                     }
-            }
-            /////////////////////////////////////////////////////////////
 
-            hostel = new HostelDataClass(hostelName_local, hostelAddress_local, hostelCity_local, hostelFacilities_local, rooms, floors, personObj.getEmail(), img, "0", id);
-            String hostelListJson = hostelPref.getString("hostels", null);
-            if (hostelListJson != null) {
-                HostelDataList hostelListObj = (new Gson()).fromJson(hostelListJson, HostelDataList.class);
-                hostelListObj.hostelsStored.add(hostel);
-                hostelListJson = (new Gson()).toJson(hostelListObj);
-                hostelPref.edit().putString("hostels", hostelListJson).apply();
-            } else {
-                HostelDataList hostelListObj = new HostelDataList();
-                hostelListObj.hostelsStored.add(hostel);
-                hostelListJson = (new Gson()).toJson(hostelListObj);
-                hostelPref.edit().putString("hostels", hostelListJson).apply();
+                    @Override
+                    public void callbackFunctionFailure() {
+                        Toast.makeText(activity, "Unable to connect", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
-        }
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(activity, "Unable to connect", Toast.LENGTH_LONG).show();
+            }
+        });
 
-        Toast.makeText(activity, "Hostel Added", Toast.LENGTH_SHORT).show();
         goToHome();
-
     }
 }
