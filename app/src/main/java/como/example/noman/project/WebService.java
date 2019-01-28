@@ -53,7 +53,7 @@ public class WebService {
         context = _context;
         queue = Volley.newRequestQueue(context);
         //domain = "https://zoning-partitions.000webhostapp.com";
-        domain = "http://192.168.8.104/mad-proj";
+        domain = "http://192.168.8.101/mad-proj";
     }
 
     public static WebService getInstance(Activity _context)
