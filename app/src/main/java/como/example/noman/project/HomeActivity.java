@@ -222,8 +222,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
 
-        Fragment fragment = new ManageHostelFragment();
-        //Fragment fragment = new AddHostel();
+        Fragment fragment = new HomeFragment();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
@@ -258,7 +257,13 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_managehostel) {
-            //manage hostel page goes here
+            Fragment fragment = new ManageHostelFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_profile) {
             //profile hostel page goes here
         } else if (id == R.id.nav_logout) {

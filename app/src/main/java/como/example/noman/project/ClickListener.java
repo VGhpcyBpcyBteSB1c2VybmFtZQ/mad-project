@@ -54,7 +54,7 @@ public class ClickListener implements  View.OnClickListener {
                 readMore();
                 break;
             case R.id.edit_item_image:
-                readMore();
+                gotoEditPage();
                 break;
             case R.id.signup_GoToHome:
             case R.id.goToHome:
@@ -212,6 +212,17 @@ public class ClickListener implements  View.OnClickListener {
         newFragment.ownerMail = owner_email;
         newFragment.hostel_id = hostel_id;
         newFragment.hostel_rating = hostel_rating;
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
+    }
+
+    private void gotoEditPage() {
+        EditFragment newFragment = new EditFragment();
+        newFragment.hostel_name = hostelName;
+        newFragment.hostel_room_no = Integer.toString(no_rooms);
+        newFragment.hostel_floor_no = Integer.toString(no_floors);
+        newFragment.hostel_extras = hostelExtras;
+
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }

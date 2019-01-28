@@ -16,7 +16,7 @@ public class EditFragment extends Fragment {
 
     EditText name, room_no, floor_no, extras;
     Button save_btn, del_btn;
-    String hostel_name, hostel_room_no, hostel_floor_no, hostel_extras;
+    public String hostel_name, hostel_room_no, hostel_floor_no, hostel_extras;
 
 
     @Override

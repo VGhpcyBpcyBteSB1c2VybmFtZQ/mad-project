@@ -62,6 +62,8 @@
     <string name="items_floors">Items Floors</string>
     <string name="item_rooms">Item Rooms</string>
     <string name="item_address">Item Address</string>
+    <string name="login">Login</string>
+    <string name="nav_signup">Signup</string>
     <string-array name="cities">
         <item>Lahore</item>
         <item>Islamabad</item>
