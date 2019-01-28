@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         server = WebService.getInstance(this);
+        server.clearQueue();
 
         /*WebService.UserObject obj = new WebService.UserObject("Wisaam", "wisaam.arif.99@gmail.com", "1234", 0, null);
 

@@ -34,6 +34,8 @@ public class ManageHostelFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        WebService.getInstance(getActivity()).clearQueue();
+
         final View view = inflater.inflate(R.layout.fragment_manage_hostel, container, false);
         final RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_manage_hostel_recycler_view);
 

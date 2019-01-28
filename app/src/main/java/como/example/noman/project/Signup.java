@@ -12,6 +12,9 @@ public class Signup extends Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        WebService.getInstance(this).clearQueue();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

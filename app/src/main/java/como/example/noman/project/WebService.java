@@ -56,6 +56,16 @@ public class WebService {
         //domain = "http://192.168.10.4/mad-proj";
     }
 
+    public void clearQueue()
+    {
+        queue.cancelAll(new RequestQueue.RequestFilter() {
+            @Override
+            public boolean apply(Request<?> request) {
+                return true;
+            }
+        });
+    }
+
     public static WebService getInstance(Activity _context)
     {
         if (instance == null)

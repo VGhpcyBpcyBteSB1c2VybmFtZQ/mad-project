@@ -28,6 +28,8 @@ public class HostelDataFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        WebService.getInstance(getActivity()).clearQueue();
+
         ReviewFragment.hostelID = hostel_id;
 
         final View v = inflater.inflate(R.layout.hostel_data, container, false);
