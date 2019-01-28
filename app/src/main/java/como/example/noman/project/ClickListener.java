@@ -6,8 +6,12 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -47,6 +51,9 @@ public class ClickListener implements  View.OnClickListener {
                 signin();
                 break;
             case R.id.item_image:
+                readMore();
+                break;
+            case R.id.edit_item_image:
                 readMore();
                 break;
             case R.id.signup_GoToHome:
@@ -208,6 +215,8 @@ public class ClickListener implements  View.OnClickListener {
         FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
         fm.beginTransaction().addToBackStack(null).replace(R.id.frameLayout, newFragment).commit();
     }
+
+
 
     private void addHostelToDatabase() {
 

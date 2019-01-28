@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<CustomRecyclerViewForEditHostel.MyViewHolder> {
@@ -21,9 +22,9 @@ public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<Custo
     private Integer[] hostelFloors;
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
-    private Bitmap[] hostelBitmaps;
+    private int[] hostelIDs;
 
-    public CustomRecyclerViewForEditHostel(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, Bitmap[] hostelBitmaps) {
+    public CustomRecyclerViewForEditHostel(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, int[] hostelIDs) {
 
         this.context = context;
         this.hostelNames = hostelNames;
@@ -34,7 +35,7 @@ public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<Custo
         this.hostelFloors = hostelFloors;
         this.hostelExtras = hostelExtras;
         this.hostelOwnerMail = hostelOwnerMail;
-        this.hostelBitmaps = hostelBitmaps;
+        this.hostelIDs = hostelIDs;
 
     }
 
@@ -51,10 +52,25 @@ public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<Custo
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.name.setText(hostelNames[position]);
-        holder.rating.setText(hostelRatings[position]);
-        holder.image.setImageBitmap(hostelBitmaps[position]);
+        holder.address.setText(hostelAddress[position]);
+        holder.city.setText(hostelCity[position]);
+        holder.rooms.setText(Integer.toString(hostelRooms[position]));
+        holder.floors.setText(Integer.toString(hostelFloors[position]));
+        holder.extras.setText(hostelExtras[position]);
+        WebService.getInstance(context).getHostelProfileImage(hostelIDs[position], 1, new WebService.Callback<Bitmap>() {
+            @Override
+            public void callbackFunctionSuccess(Bitmap result) {
+                if (result != null)
+                    holder.image.setImageBitmap(result);
+            }
+
+            @Override
+            public void callbackFunctionFailure() {
+                Toast.makeText(context, "Unable to Load image(s)", Toast.LENGTH_LONG).show();
+            }
+        });
 
         ClickListener cl = new ClickListener(context, context.getApplicationContext());
         // setting parameters for click listener //
@@ -64,7 +80,8 @@ public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<Custo
         cl.no_rooms = hostelRooms[position];
         cl.no_floors = hostelFloors[position];
         cl.owner_email = hostelOwnerMail[position];
-        cl.image_bitmap = hostelBitmaps[position];
+        cl.hostel_id = hostelIDs[position];
+        cl.hostel_rating = hostelRatings[position];
         /////////////////////////////////////////
 
         holder.image.setOnClickListener(cl);  //setting onclick listener to read more textview
@@ -77,9 +94,13 @@ public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<Custo
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView name = null;
-        public TextView rating = null;
-        public ImageView image = null;
+        public TextView name ;
+        public TextView address;
+        public TextView city;
+        public TextView rooms;
+        public TextView floors;
+        public TextView extras;
+        public ImageView image;
 
         public MyViewHolder(View view) {
             super(view);
@@ -87,7 +108,11 @@ public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<Custo
             if(view != null)
             {
                 name = (TextView) view.findViewById(R.id.edit_item_name);
-                rating = (TextView) view.findViewById(R.id.edit_item_rating);
+                address = (TextView) view.findViewById(R.id.edit_item_address);
+                city = (TextView) view.findViewById(R.id.edit_item_city);
+                rooms = (TextView) view.findViewById(R.id.edit_item_rooms);
+                floors = (TextView) view.findViewById(R.id.edit_item_floors);
+                extras = (TextView) view.findViewById(R.id.edit_item_extras);
                 image = (ImageView) view.findViewById(R.id.edit_item_image);
             }
         }

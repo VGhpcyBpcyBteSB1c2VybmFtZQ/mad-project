@@ -17,6 +17,7 @@
             android:id="@+id/user_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tint="@color/blue"
             android:src="@drawable/login_img"
             android:layout_gravity="center_vertical"
             />

@@ -56,6 +56,12 @@
     <string name="add_hostel">Add Hostel</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
+    <string name="home">Home</string>
+    <string name="item_city">Item City</string>
+    <string name="item_extras">Item Extras</string>
+    <string name="items_floors">Items Floors</string>
+    <string name="item_rooms">Item Rooms</string>
+    <string name="item_address">Item Address</string>
     <string-array name="cities">
         <item>Lahore</item>
         <item>Islamabad</item>

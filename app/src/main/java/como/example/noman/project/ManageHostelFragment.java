@@ -65,17 +65,15 @@ public class ManageHostelFragment extends Fragment {
                 }
 
                 for (int i = 0; i < 7; i++) {
-                    RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_home_recycler_view);
 
                     /////////////////// setting adapter here ////////////////////
-                    CustomRecyclerView adapter = new CustomRecyclerView(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelIDs);
+                    CustomRecyclerViewForEditHostel adapter = new CustomRecyclerViewForEditHostel(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelIDs);
                     LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.VERTICAL, false);
                     listView.setLayoutManager(horizontalLayoutManager);
                     listView.setAdapter(adapter);
                     /////////////////////////////////////////////////////////////
                 }
             }
-
             @Override
             public void callbackFunctionFailure() {
                 Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
