@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:tint="@color/blue"
             android:src="@drawable/login_img"
+			android:tint="@color/blue"
             android:layout_gravity="center_vertical"
             />
 
