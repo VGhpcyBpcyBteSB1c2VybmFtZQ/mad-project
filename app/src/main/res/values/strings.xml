@@ -64,6 +64,25 @@
     <string name="item_address">Item Address</string>
     <string name="login">Login</string>
     <string name="nav_signup">Signup</string>
+    <string name="admin_checkBox">Admin</string>
+    <string name="user_checkBox">User</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="cnic_number">CNIC Number</string>
+    <string name="checkbox_textview">Register as Admin</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_email"><![CDATA[<email@example.com]]></string>
+    <string name="profile_phone">03111111111</string>
+    <string name="profile_password">12346</string>
+    <string name="edit_profile_name">Enter the name</string>
+    <string name="email_edittext">Enter Email</string>
+    <string name="phone_edittext">Enter Phone</string>
+    <string name="change_password">Change Password</string>
+    <string name="new_password">New Password</string>
+    <string name="profile_go_back">Go Back</string>
+    <string name="old_password">Old Password</string>
+    <string name="edit_password">Edit Password</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="profile_go_to_home">Go to Home</string>
     <string-array name="cities">
         <item>Lahore</item>
         <item>Islamabad</item>
