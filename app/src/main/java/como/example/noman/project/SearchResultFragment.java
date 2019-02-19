@@ -1,8 +1,6 @@
 package como.example.noman.project;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,13 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class ManageHostelFragment extends Fragment {
+public class SearchResultFragment extends Fragment {
 
     ////////////// Getting Data of Hostels //////////////////
     private String[] hostelNames;
@@ -31,23 +29,38 @@ public class ManageHostelFragment extends Fragment {
     private int[] hostelIDs;
     ////////////////////////////////////////////////////////////
 
+    View view;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_search_result, container, false);
 
-        WebService.getInstance(getActivity()).clearQueue();
+        final Spinner mySpinner = view.findViewById(R.id.spinner_find_hostel_fragment);
+        Button btn = view.findViewById(R.id.btn_find);
 
-        final View view = inflater.inflate(R.layout.fragment_manage_hostel, container, false);
-        final RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_manage_hostel_recycler_view);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String city = mySpinner.getSelectedItem().toString();
+                findByCity(city);
+            }
+        });
 
-        SharedPreferences mpef = getActivity().getSharedPreferences("info", MODE_PRIVATE);
-        String owner = mpef.getString("logged_in", null);
 
-        WebService.getInstance(getActivity()).getUserHostels(owner, new WebService.Callback<WebService.HostelObjectList>() {
+
+
+        return view;
+    }
+
+    public void findByCity(String city)
+    {
+        final RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_find_hostel_recycler_view);
+
+        WebService.getInstance(getActivity()).getHostelsByCity(city, new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
-
-                if (hl.hostelsStored.size() == 0)
-                    Toast.makeText(getActivity(), "You currently have no hostels", Toast.LENGTH_LONG).show();
 
                 hostelNames = new String[hl.hostelsStored.size()];
                 hostelAddress = new String[hl.hostelsStored.size()];
@@ -73,21 +86,19 @@ public class ManageHostelFragment extends Fragment {
                     ///////////////////////////////////////////////
                 }
 
-
                 /////////////////// setting adapter here ////////////////////
                 CustomRecyclerViewForEditHostel adapter = new CustomRecyclerViewForEditHostel(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelIDs);
                 LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.VERTICAL, false);
                 listView.setLayoutManager(horizontalLayoutManager);
                 listView.setAdapter(adapter);
                 /////////////////////////////////////////////////////////////
-
             }
+
             @Override
             public void callbackFunctionFailure() {
-                Toast.makeText(getActivity(), "Unable to connect", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Unable to connect", Toast.LENGTH_LONG).show();
             }
         });
-        return view;
     }
 
 }

@@ -2,14 +2,10 @@ package como.example.noman.project;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +25,7 @@ import java.io.ByteArrayOutputStream;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private boolean isLoggedIn;
+    static private boolean isLoggedIn;
     static WebService server; // Global server variable should be used everywhere
 
     @Override
@@ -38,6 +34,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
 
         server = WebService.getInstance(this);
         server.clearQueue();
@@ -266,6 +263,11 @@ public class HomeActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+    static public boolean getLoginStatus()
+    {
+        return isLoggedIn;
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -274,6 +276,7 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            getSupportActionBar().setTitle("Home");
             startActivity(i);
         }
         else if (id == R.id.nav_login) {
@@ -283,7 +286,8 @@ public class HomeActivity extends AppCompatActivity
         else if (id == R.id.nav_signup) {
             Intent i = new Intent(getApplicationContext(), Signup.class);
             startActivity(i);
-        } else if (id == R.id.nav_addhostel)
+        }
+        else if (id == R.id.nav_addhostel)
         {
             Fragment fragment = new AddHostel();
             FragmentManager fm = getSupportFragmentManager();
@@ -291,6 +295,18 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.frameLayout, fragment);
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
+            getSupportActionBar().setTitle("Add Hostel");
+            fragmentTransaction.commit();
+        }
+        else if (id == R.id.nav_find)
+        {
+            Fragment fragment = new SearchResultFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            getSupportActionBar().setTitle("Find Hostel");
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_managehostel) {
@@ -300,6 +316,7 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.frameLayout, fragment);
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
+            getSupportActionBar().setTitle("Edit your hostel");
             fragmentTransaction.commit();
         } else if (id == R.id.nav_logout) {
             SharedPreferences mpef = getSharedPreferences("info", MODE_PRIVATE);
