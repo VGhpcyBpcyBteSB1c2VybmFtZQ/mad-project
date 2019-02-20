@@ -304,6 +304,7 @@ public class HomeActivity extends AppCompatActivity
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.replace(R.id.frameLayout, fragment);
+            fragmentTransaction.addToBackStack(null);
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Add Hostel");
