@@ -42,7 +42,7 @@ public class SearchResultFragment extends Fragment {
         final Spinner mySpinner = view.findViewById(R.id.spinner_find_hostel_fragment);
         Button btn = view.findViewById(R.id.btn_find);
 
-        final ProgressBar pr = (ProgressBar) view.findViewById(R.id.progress_bar);
+        pr = (ProgressBar) view.findViewById(R.id.progress_bar);
         pr.setVisibility(view.GONE);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +52,6 @@ public class SearchResultFragment extends Fragment {
                 findByCity(city);
             }
         });
-
-
 
 
         return view;
@@ -66,6 +64,9 @@ public class SearchResultFragment extends Fragment {
         WebService.getInstance(getActivity()).getHostelsByCity(city, new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
+
+                if (hl.hostelsStored.size() == 0)
+                    Toast.makeText(getActivity(), "You currently have no hostels", Toast.LENGTH_LONG).show();
 
                 pr.setVisibility(view.GONE);
 
