@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class ManageHostelFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_manage_hostel, container, false);
         final RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_manage_hostel_recycler_view);
+        final ProgressBar prog_bar = (ProgressBar) view.findViewById(R.id.progress_bar_edit);
+        prog_bar.setVisibility(view.VISIBLE);
 
         SharedPreferences mpef = getActivity().getSharedPreferences("info", MODE_PRIVATE);
         String owner = mpef.getString("logged_in", null);
@@ -45,6 +48,8 @@ public class ManageHostelFragment extends Fragment {
         WebService.getInstance(getActivity()).getUserHostels(owner, new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
+
+                prog_bar.setVisibility(view.GONE);
 
                 if (hl.hostelsStored.size() == 0)
                     Toast.makeText(getActivity(), "You currently have no hostels", Toast.LENGTH_LONG).show();

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="130dp"
     android:layout_marginBottom="20dp">
 
 
@@ -36,51 +36,57 @@
 
         <TextView
             android:id="@+id/edit_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:text="@string/item_name"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/edit_item_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:text="@string/item_address"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/edit_item_city"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:text="@string/item_city"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/edit_item_rooms"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:text="@string/item_rooms"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/edit_item_rating"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:text="@string/item_rating"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/edit_item_floors"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:text="@string/items_floors"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/edit_item_extras"
@@ -88,7 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/item_extras"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
