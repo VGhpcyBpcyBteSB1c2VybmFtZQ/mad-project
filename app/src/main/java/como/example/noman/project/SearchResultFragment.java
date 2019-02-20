@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ public class SearchResultFragment extends Fragment {
     ////////////////////////////////////////////////////////////
 
     View view;
+    static private ProgressBar pr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,9 @@ public class SearchResultFragment extends Fragment {
 
         final Spinner mySpinner = view.findViewById(R.id.spinner_find_hostel_fragment);
         Button btn = view.findViewById(R.id.btn_find);
+
+        final ProgressBar pr = (ProgressBar) view.findViewById(R.id.progress_bar);
+        pr.setVisibility(view.GONE);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,10 +62,12 @@ public class SearchResultFragment extends Fragment {
     public void findByCity(String city)
     {
         final RecyclerView listView = (RecyclerView) view.findViewById(R.id.fragment_find_hostel_recycler_view);
-
+        pr.setVisibility(view.VISIBLE);
         WebService.getInstance(getActivity()).getHostelsByCity(city, new WebService.Callback<WebService.HostelObjectList>() {
             @Override
             public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
+
+                pr.setVisibility(view.GONE);
 
                 hostelNames = new String[hl.hostelsStored.size()];
                 hostelAddress = new String[hl.hostelsStored.size()];
