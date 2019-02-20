@@ -48,7 +48,7 @@ public class ClickListener implements  View.OnClickListener {
                 readMore();
                 break;
             case R.id.edit_item_image:
-                if(HomeActivity.getLoginStatus())
+                if(CustomRecyclerViewForEditHostel.isEditable == true)
                     gotoEditPage();
                 else
                     readMore();

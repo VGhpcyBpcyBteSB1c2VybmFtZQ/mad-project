@@ -23,6 +23,7 @@ public class CustomRecyclerViewForEditHostel extends  RecyclerView.Adapter<Custo
     private String[] hostelExtras;
     private String[] hostelOwnerMail;
     private int[] hostelIDs;
+    static public boolean isEditable;
 
     public CustomRecyclerViewForEditHostel(Activity context, String[] hostelNames, String[] hostelAddress, String[] hostelRatings, String[] hostelCity, Integer[] hostelRooms, Integer[] hostelFloors, String[] hostelExtras, String[] hostelOwnerMail, int[] hostelIDs) {
 

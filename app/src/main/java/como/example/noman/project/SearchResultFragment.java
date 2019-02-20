@@ -88,6 +88,7 @@ public class SearchResultFragment extends Fragment {
 
                 /////////////////// setting adapter here ////////////////////
                 CustomRecyclerViewForEditHostel adapter = new CustomRecyclerViewForEditHostel(getActivity(), hostelNames, hostelAddress, hostelRatings, hostelCity, hostelRooms, hostelFloors, hostelExtras, hostelOwnerMail, hostelIDs);
+                adapter.isEditable = false;
                 LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.VERTICAL, false);
                 listView.setLayoutManager(horizontalLayoutManager);
                 listView.setAdapter(adapter);

@@ -177,7 +177,6 @@
         android:buttonTint="@color/colorWhite"
         android:text="Register as an Admin"
         android:textColor="@android:color/white"
-        android:transitionName="n"
         app:layout_constraintBottom_toTopOf="@+id/create_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
