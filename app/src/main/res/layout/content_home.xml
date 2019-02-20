@@ -9,5 +9,4 @@
     android:paddingTop="60dp"
     tools:context=".HomeActivity">
 
-
 </FrameLayout>
