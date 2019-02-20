@@ -10,6 +10,7 @@
 
     <Spinner
         android:id="@+id/spinner_find_hostel_fragment"
+        android:background="@color/colorWhite"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
