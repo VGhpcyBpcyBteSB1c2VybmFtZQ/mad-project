@@ -12,12 +12,10 @@ public class Signup extends Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        WebService.getInstance(this).clearQueue();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        WebService.getInstance(this).clearQueue();
         EditText UserName = (EditText) findViewById(R.id.user_name);
         EditText Email = (EditText) findViewById(R.id.email_id);
         EditText Password = (EditText) findViewById(R.id.password);
@@ -37,8 +35,5 @@ public class Signup extends Activity
         findViewById(R.id.signup_GoToHome).setOnClickListener(new ClickListener(this, getApplicationContext()));
     }
 
-    @Override
-    public void onBackPressed() {
-    }
 }
 
