@@ -2,27 +2,16 @@ package como.example.noman.project;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.google.gson.Gson;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class ClickListener implements  View.OnClickListener {
@@ -59,7 +48,10 @@ public class ClickListener implements  View.OnClickListener {
                 readMore();
                 break;
             case R.id.edit_item_image:
-                gotoEditPage();
+                if(CustomRecyclerViewForEditHostel.isEditable == true)
+                    gotoEditPage();
+                else
+                    readMore();
                 break;
             case R.id.signup_GoToHome:
             case R.id.goToHome:

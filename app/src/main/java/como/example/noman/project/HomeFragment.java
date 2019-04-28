@@ -4,12 +4,15 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.TextView;
 
@@ -34,6 +37,10 @@ public class HomeFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         final LayoutInflater inflaterForInner = inflater;
+        final ProgressBar prog_bar = (ProgressBar) view.findViewById(R.id.progress_bar_home);
+        prog_bar.setVisibility(view.VISIBLE);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Home");
 
         /////////////// Getting Data for Hotels //////////////////////////////
 
@@ -47,6 +54,8 @@ public class HomeFragment extends Fragment {
             WebService.getInstance(getActivity()).getHostelsByCity(city[i], new WebService.Callback<WebService.HostelObjectList>() {
                 @Override
                 public void callbackFunctionSuccess(WebService.HostelObjectList hl) {
+
+                    prog_bar.setVisibility(view.GONE);
 
                     hostelNames = new String[hl.hostelsStored.size()];
                     hostelAddress = new String[hl.hostelsStored.size()];
